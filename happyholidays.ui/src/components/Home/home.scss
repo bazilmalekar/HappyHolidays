@@ -1,0 +1,8 @@
+.home {
+    @include defaultLandingSection;
+}
+
+.home * {
+    @include setZero;
+}
+
