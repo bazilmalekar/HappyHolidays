@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from "./components/Topbar/Topbar";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
     <Topbar />
     <Header />
     Awesome!
+    <Footer />
     </>
   )
 }
