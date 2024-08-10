@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HappyHolidays.Core\HappyHolidays.Core.csproj" />
+  </ItemGroup>
+
 </Project>
