@@ -48,11 +48,17 @@ namespace HappyHolidays.WebApi.Controllers
             return Ok(honeymoonPackages);
         }
 
-        [HttpGet("package/{id}")]
-        public async Task<Package> Package(int id)
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> details(int id)
         {
             var packageDetails = await _packagesRepo.GetPackageDetails(id);
-            return packageDetails;
+
+            if (packageDetails == null)
+            {
+                return NotFound("Package details not found" );
+            }
+
+            return Ok(packageDetails);
         }
     }
 }
