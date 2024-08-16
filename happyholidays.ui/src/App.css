@@ -307,4 +307,28 @@
   width: 100%;
   min-height: calc(100vh - 152px); }
 
+.int_packages {
+  width: 100%;
+  min-height: calc(100vh - 152px); }
+
+.dom_packages {
+  width: 100%;
+  min-height: calc(100vh - 152px); }
+
+.hon_package {
+  width: 100%;
+  min-height: calc(100vh - 152px); }
+
+.package_card {
+  background-color: lightgoldenrodyellow;
+  width: max-content;
+  display: inline-block;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 10px; }
+
+.package_details {
+  width: 100%;
+  min-height: calc(100vh - 152px); }
+
 /*# sourceMappingURL=App.css.map */
