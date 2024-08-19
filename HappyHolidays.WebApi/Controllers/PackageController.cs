@@ -15,6 +15,18 @@ namespace HappyHolidays.WebApi.Controllers
             _packagesRepo = packagesRepo;
         }
 
+        [HttpGet("GetPackages")]
+        public async Task<IActionResult> GetPackages()
+        {
+            var allPackages = await _packagesRepo.GetAllPackages();
+            if (allPackages == null)
+            {
+                return NotFound("No packages found");
+            }
+            return Ok(allPackages);
+        }
+
+
         [HttpGet("international")]
         public async Task<ActionResult<IEnumerable<Package>>> International()
         {

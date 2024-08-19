@@ -45,5 +45,11 @@ namespace HappyHolidays.Infrastructure.implementations
                 .FirstOrDefaultAsync(s => s.PackageId == packageId);
             return packageDetails;
         }
+
+        public async Task<IEnumerable<Package>> GetAllPackages()
+        {
+            var allPackages = await _context.Packages.ToListAsync();
+            return allPackages;
+        }
     }
 }

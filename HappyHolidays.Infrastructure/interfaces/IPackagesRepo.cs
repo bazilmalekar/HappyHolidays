@@ -16,5 +16,7 @@ namespace HappyHolidays.Infrastructure.interfaces
         Task<IEnumerable<Package>> GetHoneymoonPackages();
 
         Task<Package> GetPackageDetails(int packageId);
+
+        Task<IEnumerable<Package>> GetAllPackages();
     }
 }
