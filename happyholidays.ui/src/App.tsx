@@ -11,6 +11,9 @@ import HoneymoonComp from "./components/Honeymoon/HoneymoonComp";
 import AboutUs from "./components/AboutUs/AboutUs";
 import { Routes, Route } from "react-router-dom";
 import PackageDetails from "./components/PackageDetails/PackageDetails";
+import Admin from "./components/Admin/Admin";
+import AllPackages from "./components/Admin/AllPackages/AllPackages";
+import CreatePackage from "./components/Admin/CreatePackage/CreatePackage";
 
 const App = () => {
   return (
@@ -25,10 +28,16 @@ const App = () => {
         <Route path="/honeymoon" element={<HoneymoonComp />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/details/:id" element={<PackageDetails />} />
+
+        {/* Put the below routes in private route */}
+        <Route path="/admin" element={<Admin />}>
+          <Route index element={<AllPackages />} />
+          <Route path="create-package" element={<CreatePackage />} />
+        </Route>
       </Routes>
       <Footer />
     </>
   )
 }
 
-export default App
+export default App;

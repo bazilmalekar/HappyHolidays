@@ -1,0 +1,6 @@
+.admin {
+    @include defaultLandingSection;
+    background-color: $admin_background;
+    display: flex;
+    flex-flow: row nowrap;
+}
