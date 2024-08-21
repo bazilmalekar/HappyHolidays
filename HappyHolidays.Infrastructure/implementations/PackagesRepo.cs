@@ -1,4 +1,5 @@
 ﻿using HappyHolidays.Core;
+using HappyHolidays.Core.Dtos;
 using HappyHolidays.Infrastructure.interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -51,5 +52,79 @@ namespace HappyHolidays.Infrastructure.implementations
             var allPackages = await _context.Packages.ToListAsync();
             return allPackages;
         }
+
+        //public async Task AddPackage(PackageVM packagevm)
+        //{
+        //    var package = new Package()
+        //    {
+        //        PackageName = packagevm.PackageName,
+        //        PackageLocation = packagevm.PackageLocation,
+        //        PackageType = packagevm.PackageType,
+        //        OriginalPrice = packagevm.OriginalPrice,
+        //        ActualPrice = packagevm.ActualPrice,
+        //        Days = packagevm.Days,
+        //        Nights = packagevm.Nights
+        //    };
+
+        //    if (packagevm.PackageDetails != null)
+        //    {
+        //        var packageDetails = new PackageDetails
+        //        {
+        //            PackageDescription = packagevm.PackageDetails.PackageDescription,
+        //            ItineraryDetails = packagevm.PackageDetails.ItineraryDetails?.Select(ItenaryDetailsVM => new ItineraryDetails
+        //            {
+        //                ItineraryTitle = ItenaryDetailsVM.ItineraryTitle,
+        //                ItineraryDescriptions = ItenaryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
+        //                {
+        //                    ItenaryPoints = descVM.ItineraryPoints
+        //                }).ToList()
+        //            }).ToList()
+        //        };
+        //        package.PackageDetails = packageDetails;
+        //    }
+
+        //    _context.Packages.Add(package);
+        //    await _context.SaveChangesAsync();
+
+        //    return package;
+        //}
+
+        public async Task<Package> AddPackage(PackageVM packagevm)
+        {
+            var package = new Package
+            {
+                PackageName = packagevm.PackageName,
+                PackageLocation = packagevm.PackageLocation,
+                PackageType = packagevm.PackageType,
+                OriginalPrice = packagevm.OriginalPrice,
+                ActualPrice = packagevm.ActualPrice,
+                Days = packagevm.Days,
+                Nights = packagevm.Nights
+            };
+
+            if (packagevm.PackageDetails != null)
+            {
+                var packageDetails = new PackageDetails
+                {
+                    PackageDescription = packagevm.PackageDetails.PackageDescription,
+                    ItineraryDetails = packagevm.PackageDetails.ItineraryDetails?.Select(ItineraryDetailsVM => new ItineraryDetails
+                    {
+                        ItineraryTitle = ItineraryDetailsVM.ItineraryTitle,
+                        ItineraryDescriptions = ItineraryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
+                        {
+                            ItenaryPoints = descVM.ItineraryPoints
+                        }).ToList()
+                    }).ToList()
+                };
+                package.PackageDetails = packageDetails;
+            }
+
+            _context.Packages.Add(package);
+            await _context.SaveChangesAsync();
+
+            return package; // Return the created package
+        }
+
+
     }
 }

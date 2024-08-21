@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HappyHolidays.Core;
+using HappyHolidays.Core.Dtos;
 
 namespace HappyHolidays.Infrastructure.interfaces
 {
     public interface IPackagesRepo
     {
-        Task<IEnumerable<Package>> GetIntPackages();
+        public Task<IEnumerable<Package>> GetIntPackages();
 
-        Task<IEnumerable<Package>> GetDomPackages();
+        public Task<IEnumerable<Package>> GetDomPackages();
 
-        Task<IEnumerable<Package>> GetHoneymoonPackages();
+        public Task<IEnumerable<Package>> GetHoneymoonPackages();
 
-        Task<Package> GetPackageDetails(int packageId);
+        public Task<Package> GetPackageDetails(int packageId);
 
-        Task<IEnumerable<Package>> GetAllPackages();
+        public Task<IEnumerable<Package>> GetAllPackages();
+
+        public Task<Package> AddPackage(PackageVM packagevm);
     }
 }

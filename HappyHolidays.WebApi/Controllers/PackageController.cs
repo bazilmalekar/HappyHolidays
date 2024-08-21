@@ -1,6 +1,8 @@
 ﻿using HappyHolidays.Core;
+using HappyHolidays.Core.Dtos;
 using HappyHolidays.Infrastructure.interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace HappyHolidays.WebApi.Controllers
 {
@@ -61,7 +63,7 @@ namespace HappyHolidays.WebApi.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> details(int id)
+        public async Task<ActionResult> details(int id)
         {
             var packageDetails = await _packagesRepo.GetPackageDetails(id);
 
@@ -71,6 +73,23 @@ namespace HappyHolidays.WebApi.Controllers
             }
 
             return Ok(packageDetails);
+        }
+
+        [HttpPost("CreatePackage")]
+        public async Task<ActionResult> CreatePackage([FromBody] PackageVM packageVM)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // Add the package and get the created entity with its ID
+            var createdPackage = await _packagesRepo.AddPackage(packageVM);
+
+            // Return a 201 status code
+            return CreatedAtAction(
+                nameof(details), 
+                new { id = createdPackage.PackageId }, 
+                packageVM 
+            );
         }
     }
 }
