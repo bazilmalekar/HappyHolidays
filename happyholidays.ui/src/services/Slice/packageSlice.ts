@@ -3,6 +3,7 @@ import { fetchInternationalPackage } from "../../components/International/intern
 import { fetchDomesticPackages } from "../../components/Domestic/domesticts";
 import { fetchHoneymoonPackages } from "../../components/Honeymoon/honeymoonts";
 import { fetchPackageDetails } from "../../components/PackageDetails/packageDetailsts";
+import { getAllPackages } from "../../components/Admin/AllPackages/allpackagests";
 
 export interface PackageState {
     internationalPackages: any[];
@@ -17,6 +18,9 @@ export interface PackageState {
     packageDetails: any,
     packageDetailsStatus: "idle" | "success" | "loading" | "failed";
     packageDetailsError: string | null,
+    allPackages: any,
+    allPackagesStatus: "idle" | "success" | "loading" | "failed";
+    allPackagesError: string | null,
 }
 
 
@@ -33,6 +37,9 @@ const initialState: PackageState = {
     packageDetails: {},
     packageDetailsStatus: "idle",
     packageDetailsError: null,
+    allPackages: [],
+    allPackagesStatus: "idle",
+    allPackagesError: null
 }
 
 export const packageSlice = createSlice({
@@ -120,6 +127,27 @@ export const packageSlice = createSlice({
                     ...state,
                     packageDetailsStatus: "failed",
                     packageDetailsError: action.payload as string
+                }
+            })
+
+        // Get all packages
+        builder
+            .addCase(getAllPackages.pending, (state) => {
+                state.allPackagesStatus = "loading";
+            })
+            .addCase(getAllPackages.fulfilled, (state, action: PayloadAction<any[]>) => {
+                return {
+                    ...state,
+                    allPackagesStatus: "success",
+                    allPackages: action.payload,
+                    allPackagesError: null
+                }
+            })
+            .addCase(getAllPackages.rejected, (state, action) => {
+                return {
+                    ...state,
+                    allPackagesStatus: "failed",
+                    allPackagesError: action.payload as string
                 }
             })
     }

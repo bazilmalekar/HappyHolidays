@@ -1,0 +1,20 @@
+.allPackages * {
+    @include setZero;
+}
+
+.allPackages{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 152px);
+    overflow-y: scroll;
+}
+
+.allPackages_submenu {
+    padding: 1rem;
+    border-bottom: 1.5px solid #e7e7e7;
+}
+
+.admin_package_wrapper .admin_package_table_par{
+    
+}

@@ -1,9 +1,8 @@
 import { Outlet } from "react-router-dom";
 
 const AdminWrapper = () => {
-    return(
+    return (
         <div className="admin_wrapper">
-            <h1>Wrapper</h1>
             <Outlet />
         </div>
     );

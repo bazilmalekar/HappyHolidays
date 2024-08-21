@@ -336,6 +336,26 @@
   min-height: calc(100vh - 152px);
   background-color: #f0f0f0;
   display: flex;
-  flex-flow: row nowrap; }
+  flex-direction: row; }
+
+.admin_wrapper {
+  background-color: #fff;
+  width: 100%;
+  height: auto; }
+
+.allPackages * {
+  padding: 0;
+  margin: 0; }
+
+.allPackages {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 152px);
+  overflow-y: scroll; }
+
+.allPackages_submenu {
+  padding: 1rem;
+  border-bottom: 1.5px solid #e7e7e7; }
 
 /*# sourceMappingURL=App.css.map */
