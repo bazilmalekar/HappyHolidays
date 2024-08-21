@@ -21,5 +21,7 @@ namespace HappyHolidays.Infrastructure.interfaces
         public Task<IEnumerable<Package>> GetAllPackages();
 
         public Task<Package> AddPackage(PackageVM packagevm);
+
+        public Task<bool> RemovePackage(int packageId);
     }
 }

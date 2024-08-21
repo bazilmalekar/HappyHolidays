@@ -8,7 +8,7 @@ namespace HappyHolidays.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PackageController: ControllerBase
+    public class PackageController : ControllerBase
     {
         private readonly IPackagesRepo _packagesRepo;
 
@@ -33,7 +33,7 @@ namespace HappyHolidays.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<Package>>> International()
         {
             var IntPackages = await _packagesRepo.GetIntPackages();
-            if(IntPackages == null)
+            if (IntPackages == null)
             {
                 return NotFound("No international packages found");
             }
@@ -69,7 +69,7 @@ namespace HappyHolidays.WebApi.Controllers
 
             if (packageDetails == null)
             {
-                return NotFound("Package details not found" );
+                return NotFound("Package details not found");
             }
 
             return Ok(packageDetails);
@@ -81,15 +81,33 @@ namespace HappyHolidays.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Add the package and get the created entity with its ID
+            // returns added package and get the created entity with its ID
             var createdPackage = await _packagesRepo.AddPackage(packageVM);
 
             // Return a 201 status code
             return CreatedAtAction(
-                nameof(details), 
-                new { id = createdPackage.PackageId }, 
-                packageVM 
+                nameof(details),
+                new { id = createdPackage.PackageId },
+                packageVM
             );
+        }
+
+        [HttpDelete("DeletePackage/{id}")]
+        public async Task<IActionResult> DeletePackage(int id)
+        {
+            try
+            {
+                bool success = await _packagesRepo.RemovePackage(id);
+                if (success)
+                {
+                    return Ok(new { Message = "Package successfully deleted." });
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred."); // Internal server error
+            }
         }
     }
 }

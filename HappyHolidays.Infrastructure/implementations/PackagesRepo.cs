@@ -2,6 +2,7 @@
 using HappyHolidays.Core.Dtos;
 using HappyHolidays.Infrastructure.interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,42 +54,6 @@ namespace HappyHolidays.Infrastructure.implementations
             return allPackages;
         }
 
-        //public async Task AddPackage(PackageVM packagevm)
-        //{
-        //    var package = new Package()
-        //    {
-        //        PackageName = packagevm.PackageName,
-        //        PackageLocation = packagevm.PackageLocation,
-        //        PackageType = packagevm.PackageType,
-        //        OriginalPrice = packagevm.OriginalPrice,
-        //        ActualPrice = packagevm.ActualPrice,
-        //        Days = packagevm.Days,
-        //        Nights = packagevm.Nights
-        //    };
-
-        //    if (packagevm.PackageDetails != null)
-        //    {
-        //        var packageDetails = new PackageDetails
-        //        {
-        //            PackageDescription = packagevm.PackageDetails.PackageDescription,
-        //            ItineraryDetails = packagevm.PackageDetails.ItineraryDetails?.Select(ItenaryDetailsVM => new ItineraryDetails
-        //            {
-        //                ItineraryTitle = ItenaryDetailsVM.ItineraryTitle,
-        //                ItineraryDescriptions = ItenaryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
-        //                {
-        //                    ItenaryPoints = descVM.ItineraryPoints
-        //                }).ToList()
-        //            }).ToList()
-        //        };
-        //        package.PackageDetails = packageDetails;
-        //    }
-
-        //    _context.Packages.Add(package);
-        //    await _context.SaveChangesAsync();
-
-        //    return package;
-        //}
-
         public async Task<Package> AddPackage(PackageVM packagevm)
         {
             var package = new Package
@@ -120,11 +85,36 @@ namespace HappyHolidays.Infrastructure.implementations
             }
 
             _context.Packages.Add(package);
-            await _context.SaveChangesAsync();
+            await Save();
 
             return package; // Return the created package
         }
 
+        public async Task<bool> RemovePackage(int packageId)
+        {
+            try
+            {
+                var deleteProduct = await _context.Packages.FirstOrDefaultAsync(s => s.PackageId == packageId);
+                if (deleteProduct == null)
+                {
+                    return false;
+                }
 
+                _context.Packages.Remove(deleteProduct);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false; 
+            }
+        }
+
+
+        public async Task Save()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
