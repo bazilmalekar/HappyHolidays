@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { deletePackage, getAllPackages } from "./allpackagests";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
+import { useNavigate } from "react-router-dom";
 
 const AllPackages: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { allPackages, allPackagesStatus, allPackagesError } = useAppSelector((state: any) => state.packageSlice);
 
 
@@ -46,7 +48,7 @@ const AllPackages: React.FC = () => {
                                             <tr key={filteredElem.$id}>
                                                 <td>{filteredElem.packageName}</td>
                                                 <input type="radio" />
-                                                <button>Edit</button>
+                                                <button onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
                                                 <button onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
                                             </tr>
                                         );
@@ -77,7 +79,7 @@ const AllPackages: React.FC = () => {
                                             <tr key={filteredElem.$id}>
                                                 <td>{filteredElem.packageName}</td>
                                                 <input type="radio" />
-                                                <button>Edit</button>
+                                                <button onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
                                                 <button onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
                                             </tr>
                                         );
@@ -108,7 +110,7 @@ const AllPackages: React.FC = () => {
                                             <tr key={filteredElem.$id}>
                                                 <td>{filteredElem.packageName}</td>
                                                 <input type="radio" />
-                                                <button>Edit</button>
+                                                <button onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
                                                 <button onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
                                             </tr>
                                         );

@@ -3,6 +3,7 @@ using HappyHolidays.Core.Dtos;
 using HappyHolidays.Infrastructure.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 
 namespace HappyHolidays.WebApi.Controllers
 {
@@ -62,8 +63,8 @@ namespace HappyHolidays.WebApi.Controllers
             return Ok(honeymoonPackages);
         }
 
-        [HttpGet("details/{id}")]
-        public async Task<ActionResult> details(int id)
+        [HttpGet("Details/{id}")]
+        public async Task<ActionResult> Details(int id)
         {
             var packageDetails = await _packagesRepo.GetPackageDetails(id);
 
@@ -86,7 +87,7 @@ namespace HappyHolidays.WebApi.Controllers
 
             // Return a 201 status code
             return CreatedAtAction(
-                nameof(details),
+                nameof(Details),
                 new { id = createdPackage.PackageId },
                 packageVM
             );
@@ -108,6 +109,91 @@ namespace HappyHolidays.WebApi.Controllers
             {
                 return StatusCode(500, "An unexpected error occurred."); // Internal server error
             }
+        }
+
+
+        [HttpPut("EditPackage/{id}")]
+        public async Task<IActionResult> EditPackage(int id, [FromBody] Package package)
+        {
+            if (id != package.PackageId)
+            {
+                return BadRequest("Package ID mismatch.");
+            }
+
+            var existingPackage = await _packagesRepo.GetPackageDetails(id);
+            if (existingPackage == null)
+            {
+                return NotFound();
+            }
+
+            // Update existing package properties
+            existingPackage.PackageName = package.PackageName;
+            existingPackage.PackageLocation = package.PackageLocation;
+            existingPackage.PackageType = package.PackageType;
+            existingPackage.OriginalPrice = package.OriginalPrice;
+            existingPackage.ActualPrice = package.ActualPrice;
+            existingPackage.Days = package.Days;
+            existingPackage.Nights = package.Nights;
+
+            if (package.PackageDetails != null)
+            {
+                // Updating package details
+                existingPackage.PackageDetails.PackageDescription = package.PackageDetails.PackageDescription;
+
+                // Updateing itinerary details
+                foreach (var detail in package.PackageDetails.ItineraryDetails)
+                {
+                    var existingDetail = existingPackage.PackageDetails.ItineraryDetails.FirstOrDefault(d => d.ItineraryDetailsId == detail.ItineraryDetailsId);
+
+                    if (existingDetail != null)
+                    {
+                        existingDetail.ItineraryTitle = detail.ItineraryTitle;
+                        existingDetail.ItineraryDescriptions = detail.ItineraryDescriptions
+                            .Select(desc => new ItineraryDescription
+                            {
+                                ItineraryDescriptionId = desc.ItineraryDescriptionId,
+                                ItineraryDetailsId = desc.ItineraryDetailsId,
+                                ItineraryDetails = desc.ItineraryDetails,
+                                ItenaryPoints = desc.ItenaryPoints
+                            }).ToList();
+                    }
+                    else
+                    {
+                        existingPackage.PackageDetails.ItineraryDetails.Add(new ItineraryDetails
+                        {
+                            ItineraryDetailsId = detail.ItineraryDetailsId,
+                            PackageDetailsId = package.PackageDetails.PackageDetailsId,
+                            ItineraryTitle = detail.ItineraryTitle,
+                            ItineraryDescriptions = detail.ItineraryDescriptions
+                                .Select(desc => new ItineraryDescription
+                                {
+                                    ItineraryDescriptionId = desc.ItineraryDescriptionId,
+                                    ItineraryDetailsId = detail.ItineraryDetailsId,
+                                    ItineraryDetails = desc.ItineraryDetails,
+                                    ItenaryPoints = desc.ItenaryPoints
+                                }).ToList()
+                        });
+                    }
+                }
+            }
+
+            try
+            {
+                await _packagesRepo.EditPackage(existingPackage);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await _packagesRepo.GetPackageDetails(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(existingPackage);
         }
     }
 }

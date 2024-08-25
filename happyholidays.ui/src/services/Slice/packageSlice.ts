@@ -4,7 +4,8 @@ import { fetchDomesticPackages } from "../../components/Domestic/domesticts";
 import { fetchHoneymoonPackages } from "../../components/Honeymoon/honeymoonts";
 import { fetchPackageDetails } from "../../components/PackageDetails/packageDetailsts";
 import { deletePackage, getAllPackages } from "../../components/Admin/AllPackages/allpackagests";
-import { createPackage } from "../../components/Admin/CreatePackage/createPackagets";
+import { createPackage } from "../../components/Admin/CreateOrEditPackage/createOrEditPackagets";
+import { PackagePost } from "../../components/Admin/CreateOrEditPackage/createOrEditPackageModels";
 
 export interface PackageState {
     internationalPackages: any[];
@@ -24,7 +25,7 @@ export interface PackageState {
     allPackagesError: string | null;
     deletePackageStatus: "idle" | "success" | "loading" | "failed";
     deletePackageError: string | null;
-    createPackageDetails: any;
+    createPackageDetails: PackagePost;
     createPackageStatus: "idle" | "success" | "loading" | "failed";
     createPackageError: string | null;
 }
@@ -48,7 +49,7 @@ const initialState: PackageState = {
     allPackagesError: null,
     deletePackageStatus: "idle",
     deletePackageError: null,
-    createPackageDetails: {},
+    createPackageDetails: {} as PackagePost,
     createPackageStatus: "idle",
     createPackageError: null
 }
@@ -187,7 +188,7 @@ export const packageSlice = createSlice({
             .addCase(createPackage.pending, (state) => {
                 state.createPackageStatus = "loading";
             })
-            .addCase(createPackage.fulfilled, (state, action: PayloadAction<any>) => {
+            .addCase(createPackage.fulfilled, (state, action: PayloadAction<PackagePost>) => {
                 return {
                     ...state,
                     createPackageStatus: "success",
