@@ -1,0 +1,79 @@
+.admin_create_package * {
+    @include setZero;
+}
+
+.admin_create_package {
+    @include defaultLandingSection;
+
+    .admin_create_package_header {
+        width: 100%;
+        padding: 1rem;
+        border-bottom: 1.5px solid $admin_border_clr;
+    }
+
+    .admin_create_package_form {
+        display: flex;        
+        flex-direction: column;
+        flex-wrap: nowrap;
+        padding: 1rem;
+        width: 50%;
+        height: auto;
+        // background-color: red;
+
+        .hr {
+            content: "";
+            height: 1px !important;
+            background-color: #9c9c9c !important;
+            margin: 2rem 0;
+        }
+        .form_group {
+            // background-color: green;
+            margin-top: 1rem;
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 0.17rem;
+
+            .form_label {
+                font-weight: 600;
+            }
+
+            select {
+                width: 100%;
+                height: 2.2rem;
+                padding: 0 0.5rem;
+                border: 1.5px solid #9c9c9c;
+                border-radius: 5px;
+
+                &:focus {
+                    border: none;
+                    box-shadow: 0 0 8px 0 #63acff;
+                }
+            }
+
+            input {
+                width: 100%;
+                height: 2.2rem;
+                padding: 0 0.5rem;
+                border: 1.5px solid #9c9c9c;
+                border-radius: 5px;
+
+                &:focus {
+                    border: none;
+                    box-shadow: 0 0 8px 0 #63acff;
+                }
+            }
+
+            textarea {
+                width: 100%;
+                padding: 0.5rem;
+                border: 1.5px solid #9c9c9c;
+                border-radius: 5px;
+
+                &:focus {
+                    border: none;
+                    box-shadow: 0 0 8px 0 #63acff;
+                }
+            }
+        }
+    }
+}

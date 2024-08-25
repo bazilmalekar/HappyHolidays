@@ -1,14 +1,26 @@
 import React, { useEffect } from "react";
-import { getAllPackages } from "./allpackagests";
+import { deletePackage, getAllPackages } from "./allpackagests";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 
 const AllPackages: React.FC = () => {
     const dispatch = useAppDispatch();
     const { allPackages, allPackagesStatus, allPackagesError } = useAppSelector((state: any) => state.packageSlice);
-    // console.log(allPackages);
+
+
+    const handleDelete = async (id: number) => {
+        if (window.confirm("Are you sure you want to delete this package?")) {
+            try {
+                await dispatch(deletePackage(id)).unwrap(); // Unwrap to handle result or error
+                await dispatch(getAllPackages()).unwrap(); // Unwrap to handle result or error
+            } catch (error) {
+                console.error('Error occurred:', error);
+            }
+        }
+    };
+
     useEffect(() => {
         dispatch(getAllPackages());
-    }, [])
+    }, [dispatch])
     return (
         <section className="allPackages">
             <div className="allPackages_submenu">
@@ -28,17 +40,17 @@ const AllPackages: React.FC = () => {
 
                             {
                                 allPackages
-                                .filter((elem: any) => elem.packageType === 0)
-                                .map((filteredElem: any) => {
-                                    return (
-                                        <tr key={filteredElem.$id}>
-                                            <td>{filteredElem.packageName}</td>
-                                            <input type="radio" />
-                                            <button>Edit</button>
-                                            <button>Delete</button>
-                                        </tr>
-                                    );
-                                })
+                                    .filter((elem: any) => elem.packageType === 0)
+                                    .map((filteredElem: any) => {
+                                        return (
+                                            <tr key={filteredElem.$id}>
+                                                <td>{filteredElem.packageName}</td>
+                                                <input type="radio" />
+                                                <button>Edit</button>
+                                                <button onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
+                                            </tr>
+                                        );
+                                    })
                             }
 
                         </tbody>
@@ -59,17 +71,17 @@ const AllPackages: React.FC = () => {
 
                             {
                                 allPackages
-                                .filter((elem: any) => elem.packageType === 1)
-                                .map((filteredElem: any) => {
-                                    return (
-                                        <tr key={filteredElem.$id}>
-                                            <td>{filteredElem.packageName}</td>
-                                            <input type="radio" />
-                                            <button>Edit</button>
-                                            <button>Delete</button>
-                                        </tr>
-                                    );
-                                })
+                                    .filter((elem: any) => elem.packageType === 1)
+                                    .map((filteredElem: any) => {
+                                        return (
+                                            <tr key={filteredElem.$id}>
+                                                <td>{filteredElem.packageName}</td>
+                                                <input type="radio" />
+                                                <button>Edit</button>
+                                                <button onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
+                                            </tr>
+                                        );
+                                    })
                             }
 
                         </tbody>
@@ -95,6 +107,9 @@ const AllPackages: React.FC = () => {
                                         return (
                                             <tr key={filteredElem.$id}>
                                                 <td>{filteredElem.packageName}</td>
+                                                <input type="radio" />
+                                                <button>Edit</button>
+                                                <button onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
                                             </tr>
                                         );
                                     })

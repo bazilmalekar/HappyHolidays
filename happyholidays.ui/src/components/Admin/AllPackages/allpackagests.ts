@@ -18,3 +18,21 @@ export const getAllPackages = createAsyncThunk(
         }
     }
 );
+
+export const deletePackage = createAsyncThunk(
+    "packageSlice/deletePackage",
+    async (id: number, { rejectWithValue }) => {
+        try {
+            const response = await axios.delete(`https://localhost:7246/Package/DeletePackage/${id}`);
+            return response.data; 
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response) {
+                console.error(err.response.data || err.message);
+                return rejectWithValue(err.response?.data);
+            } else {
+                console.error('Unexpected error:', err);
+                return rejectWithValue('An unexpected error occurred');
+            }
+        }
+    }
+);

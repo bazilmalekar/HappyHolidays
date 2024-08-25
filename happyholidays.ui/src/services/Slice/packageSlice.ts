@@ -3,7 +3,8 @@ import { fetchInternationalPackage } from "../../components/International/intern
 import { fetchDomesticPackages } from "../../components/Domestic/domesticts";
 import { fetchHoneymoonPackages } from "../../components/Honeymoon/honeymoonts";
 import { fetchPackageDetails } from "../../components/PackageDetails/packageDetailsts";
-import { getAllPackages } from "../../components/Admin/AllPackages/allpackagests";
+import { deletePackage, getAllPackages } from "../../components/Admin/AllPackages/allpackagests";
+import { createPackage } from "../../components/Admin/CreatePackage/createPackagets";
 
 export interface PackageState {
     internationalPackages: any[];
@@ -12,15 +13,20 @@ export interface PackageState {
     domesticPackages: any[];
     domesticPackageStatus: "idle" | "success" | "loading" | "failed";
     domesticPackageError: string | null;
-    honeymoonPackages: any[],
+    honeymoonPackages: any[];
     honeymoonPackageStatus: "idle" | "success" | "loading" | "failed";
-    honeymoonPackageError: string | null,
-    packageDetails: any,
+    honeymoonPackageError: string | null;
+    packageDetails: any;
     packageDetailsStatus: "idle" | "success" | "loading" | "failed";
-    packageDetailsError: string | null,
-    allPackages: any,
+    packageDetailsError: string | null;
+    allPackages: any;
     allPackagesStatus: "idle" | "success" | "loading" | "failed";
-    allPackagesError: string | null,
+    allPackagesError: string | null;
+    deletePackageStatus: "idle" | "success" | "loading" | "failed";
+    deletePackageError: string | null;
+    createPackageDetails: any;
+    createPackageStatus: "idle" | "success" | "loading" | "failed";
+    createPackageError: string | null;
 }
 
 
@@ -39,7 +45,12 @@ const initialState: PackageState = {
     packageDetailsError: null,
     allPackages: [],
     allPackagesStatus: "idle",
-    allPackagesError: null
+    allPackagesError: null,
+    deletePackageStatus: "idle",
+    deletePackageError: null,
+    createPackageDetails: {},
+    createPackageStatus: "idle",
+    createPackageError: null
 }
 
 export const packageSlice = createSlice({
@@ -148,6 +159,47 @@ export const packageSlice = createSlice({
                     ...state,
                     allPackagesStatus: "failed",
                     allPackagesError: action.payload as string
+                }
+            })
+
+        // Delete Package
+        builder
+            .addCase(deletePackage.pending, (state) => {
+                state.deletePackageStatus = "loading";
+            })
+            .addCase(deletePackage.fulfilled, (state) => {
+                return {
+                    ...state,
+                    deletePackageStatus: "success",
+                    deletePackageError: null
+                }
+            })
+            .addCase(deletePackage.rejected, (state, action) => {
+                return {
+                    ...state,
+                    deletePackageStatus: "failed",
+                    deletePackageError: action.payload as string
+                }
+            })
+
+        // Add Package
+        builder
+            .addCase(createPackage.pending, (state) => {
+                state.createPackageStatus = "loading";
+            })
+            .addCase(createPackage.fulfilled, (state, action: PayloadAction<any>) => {
+                return {
+                    ...state,
+                    createPackageStatus: "success",
+                    createPackageDetails: action.payload,
+                    createPackageError: null
+                }
+            })
+            .addCase(createPackage.rejected, (state, action) => {
+                return {
+                    ...state,
+                    createPackageStatus: "failed",
+                    createPackageError: action.payload as string
                 }
             })
     }
