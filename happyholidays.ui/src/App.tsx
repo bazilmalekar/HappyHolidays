@@ -13,7 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import PackageDetails from "./components/PackageDetails/PackageDetails";
 import Admin from "./components/Admin/Admin";
 import AllPackages from "./components/Admin/AllPackages/AllPackages";
-import CreatePackage from "./components/Admin/CreatePackage/CreatePackage";
+import CreatePackage from "./components/Admin/CreateOrEditPackage/CreateOrEditPackage";
 
 const App = () => {
   return (
@@ -33,6 +33,7 @@ const App = () => {
         <Route path="/admin" element={<Admin />}>
           <Route index element={<AllPackages />} />
           <Route path="create-package" element={<CreatePackage />} />
+          <Route path="edit-package/:id" element={<CreatePackage />} />
         </Route>
       </Routes>
       <Footer />

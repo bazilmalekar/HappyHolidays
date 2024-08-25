@@ -3,7 +3,7 @@ export interface ItineraryDescriptionsGet {
     itineraryDescriptionId: number;
     itineraryDetailsId: number;
     itineraryDetails: string;
-    itenaryPoints?: string;
+    itineraryPoints?: string;
 }
 
 export interface ItineraryDetailsGet {
@@ -37,7 +37,7 @@ export interface PackageGet {
 
 // post model
 export interface ItineraryDescriptionPost {
-    itenaryPoints: string;
+    itineraryPoints: string;
 }
 
 export interface ItineraryDetailsPost {

@@ -41,12 +41,15 @@ namespace HappyHolidays.Infrastructure.implementations
 
         public async Task<Package> GetPackageDetails(int packageId)
         {
-            var packageDetails = await _context.Packages.Include(p => p.PackageDetails)
-                .ThenInclude(id => id.ItineraryDetails)
-                .ThenInclude(itd => itd.ItineraryDescriptions)
+            var packageDetails = await _context.Packages
+                .Include(p => p.PackageDetails)
+                    .ThenInclude(pd => pd.ItineraryDetails)
+                        .ThenInclude(id => id.ItineraryDescriptions)
                 .FirstOrDefaultAsync(s => s.PackageId == packageId);
+
             return packageDetails;
         }
+
 
         public async Task<IEnumerable<Package>> GetAllPackages()
         {
@@ -56,6 +59,7 @@ namespace HappyHolidays.Infrastructure.implementations
 
         public async Task<Package> AddPackage(PackageVM packagevm)
         {
+            // Create the main package entity
             var package = new Package
             {
                 PackageName = packagevm.PackageName,
@@ -67,17 +71,18 @@ namespace HappyHolidays.Infrastructure.implementations
                 Nights = packagevm.Nights
             };
 
+
             if (packagevm.PackageDetails != null)
             {
                 var packageDetails = new PackageDetails
                 {
-                    PackageDescription = packagevm.PackageDetails.PackageDescription,
-                    ItineraryDetails = packagevm.PackageDetails.ItineraryDetails?.Select(ItineraryDetailsVM => new ItineraryDetails
+                    PackageDescription = packagevm.PackageDetails.PackageDescription,            
+                    ItineraryDetails = packagevm.PackageDetails.ItineraryDetails?.Select(itineraryDetailsVM => new ItineraryDetails
                     {
-                        ItineraryTitle = ItineraryDetailsVM.ItineraryTitle,
-                        ItineraryDescriptions = ItineraryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
+                        ItineraryTitle = itineraryDetailsVM.ItineraryTitle,
+                        ItineraryDescriptions = itineraryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
                         {
-                            ItenaryPoints = descVM.ItineraryPoints
+                            ItenaryPoints = descVM.ItineraryPoints 
                         }).ToList()
                     }).ToList()
                 };
@@ -86,9 +91,9 @@ namespace HappyHolidays.Infrastructure.implementations
 
             _context.Packages.Add(package);
             await Save();
-
-            return package; // Return the created package
+            return package;
         }
+
 
         public async Task<bool> RemovePackage(int packageId)
         {
@@ -107,8 +112,14 @@ namespace HappyHolidays.Infrastructure.implementations
             }
             catch (Exception ex)
             {
-                return false; 
+                return false;
             }
+        }
+
+        public async Task EditPackage(Package package)
+        {
+            _context.Packages.Update(package);
+            await Save();
         }
 
 

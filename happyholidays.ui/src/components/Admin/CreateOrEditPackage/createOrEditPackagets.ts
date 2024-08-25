@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { PackagePost } from "./createPackageModels";
+import { PackagePost } from "./createOrEditPackageModels";
 
 export const createPackage = createAsyncThunk(
     "packageSlice/createPackage",
