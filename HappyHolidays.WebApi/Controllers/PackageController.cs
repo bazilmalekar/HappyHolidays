@@ -130,6 +130,8 @@ namespace HappyHolidays.WebApi.Controllers
             existingPackage.PackageName = package.PackageName;
             existingPackage.PackageLocation = package.PackageLocation;
             existingPackage.PackageType = package.PackageType;
+            existingPackage.IsActive = package.IsActive;
+            
             existingPackage.OriginalPrice = package.OriginalPrice;
             existingPackage.ActualPrice = package.ActualPrice;
             existingPackage.Days = package.Days;

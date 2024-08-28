@@ -4,8 +4,8 @@ import { fetchDomesticPackages } from "../../components/Domestic/domesticts";
 import { fetchHoneymoonPackages } from "../../components/Honeymoon/honeymoonts";
 import { fetchPackageDetails } from "../../components/PackageDetails/packageDetailsts";
 import { deletePackage, getAllPackages } from "../../components/Admin/AllPackages/allpackagests";
-import { createPackage } from "../../components/Admin/CreateOrEditPackage/createOrEditPackagets";
-import { PackagePost } from "../../components/Admin/CreateOrEditPackage/createOrEditPackageModels";
+import { createPackage, editPackage } from "../../components/Admin/CreateOrEditPackage/createOrEditPackagets";
+import { PackageGet, PackagePost } from "../../components/Admin/CreateOrEditPackage/createOrEditPackageModels";
 
 export interface PackageState {
     internationalPackages: any[];
@@ -28,6 +28,9 @@ export interface PackageState {
     createPackageDetails: PackagePost;
     createPackageStatus: "idle" | "success" | "loading" | "failed";
     createPackageError: string | null;
+    editPackageDetails: PackageGet;
+    editPackagePackageStatus: "idle" | "success" | "loading" | "failed";
+    editPackageError: string | null;
 }
 
 
@@ -51,13 +54,28 @@ const initialState: PackageState = {
     deletePackageError: null,
     createPackageDetails: {} as PackagePost,
     createPackageStatus: "idle",
-    createPackageError: null
+    createPackageError: null,
+    editPackageDetails: {} as PackageGet,
+    editPackagePackageStatus: "idle",
+    editPackageError: null
 }
 
 export const packageSlice = createSlice({
     name: "packageSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        resetCreatePackageStatus: (state) => {
+            state.createPackageStatus = "idle";
+            state.createPackageDetails = {} as PackagePost
+        },
+        resetEditPackageStatus: (state) => {
+            return {
+                ...state,
+                editPackagePackageStatus: "idle",
+                editPackageDetails: {} as PackageGet
+            }
+        }
+    },
     extraReducers: (builder) => {
         // International Packages
         builder
@@ -203,8 +221,30 @@ export const packageSlice = createSlice({
                     createPackageError: action.payload as string
                 }
             })
+
+
+        // Edit package
+        builder
+            .addCase(editPackage.pending, (state) => {
+                state.editPackagePackageStatus = "loading";
+            })
+            .addCase(editPackage.fulfilled, (state, action: PayloadAction<PackageGet>) => {
+                return {
+                    ...state,
+                    editPackagePackageStatus: "success",
+                    editPackageDetails: action.payload,
+                    editPackageError: null
+                }
+            })
+            .addCase(editPackage.rejected, (state, action) => {
+                return {
+                    ...state,
+                    editPackagePackageStatus: "failed",
+                    editPackageError: action.payload as string
+                }
+            })
     }
 });
 
-export const { } = packageSlice.actions;
+export const { resetCreatePackageStatus, resetEditPackageStatus } = packageSlice.actions;
 export default packageSlice.reducer;

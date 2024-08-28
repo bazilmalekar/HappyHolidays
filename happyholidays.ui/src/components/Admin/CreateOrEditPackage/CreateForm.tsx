@@ -9,8 +9,8 @@ interface Props {
     handleTextareaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     handleDayTitleChange: (dayIndex: number, title: string) => void;
     handleItineraryPointChange: (dayIndex: number, pointIndex: number, value: string) => void;
+    addItineraryDetail: () => void;
     addItineraryPoint: (index: number) => void;
-    addItineraryDetail: () => void
 }
 
 const CreateForm: React.FC<Props> = ({
@@ -21,8 +21,8 @@ const CreateForm: React.FC<Props> = ({
     handleTextareaChange,
     handleDayTitleChange,
     handleItineraryPointChange,
-    addItineraryPoint,
-    addItineraryDetail
+    addItineraryDetail,
+    addItineraryPoint
 }) => {
     return (
         <form className="admin_create_package_form" onSubmit={handleSubmit}>
@@ -38,6 +38,7 @@ const CreateForm: React.FC<Props> = ({
                 <label htmlFor="packageType" className="form_label">Package Type</label>
                 {/* add validation for empty string */}
                 <select id="packageType" name="packageType" value={formData.packageType} onChange={handleSelectChange} >
+                    {/* add validation for {select} */}
                     <option value={-1}>Select...</option>
                     <option value={0}>International</option>
                     <option value={1}>Domestic</option>
@@ -46,7 +47,7 @@ const CreateForm: React.FC<Props> = ({
             </div>
             <div className="form_group">
                 <label htmlFor="isActive" className="form_label">Is Active</label>
-                <select id="isActive" name="isActive" value={formData.isActive.toString()} onChange={handleSelectChange}>
+                <select id="isActive" name="isActive" value={formData.isActive ? "true" : "false"} onChange={handleSelectChange}>
                     <option value="true">True</option>
                     <option value="false">False</option>
                 </select>
@@ -92,7 +93,7 @@ const CreateForm: React.FC<Props> = ({
                                 <input
                                     type="text"
                                     placeholder={`Event ${descIndex + 1}`}
-                                    value={desc.itineraryPoints}
+                                    value={desc.itenaryPoints}
                                     onChange={(e) => handleItineraryPointChange(index, descIndex, e.target.value)}
                                 />
                             </div>

@@ -1,0 +1,8 @@
+.queries * {
+    @include setZero;
+}
+
+.queries {
+    @include defaultLandingSection;
+    padding: 1rem;
+}
