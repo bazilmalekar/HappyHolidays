@@ -415,4 +415,13 @@
           border: none;
           box-shadow: 0 0 8px 0 #63acff; }
 
+.queries * {
+  padding: 0;
+  margin: 0; }
+
+.queries {
+  width: 100%;
+  min-height: calc(100vh - 152px);
+  padding: 1rem; }
+
 /*# sourceMappingURL=App.css.map */

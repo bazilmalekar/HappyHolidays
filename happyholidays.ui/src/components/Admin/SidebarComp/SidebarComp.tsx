@@ -7,6 +7,7 @@ const SidebarComp = () => {
             <Menu>
                 <MenuItem component={<Link to="/admin" />}> Packages </MenuItem>
                 <MenuItem component={<Link to="/admin/create-package" />} > Create Packages </MenuItem>
+                <MenuItem component={<Link to="/admin/queries" />} > Queries </MenuItem>
             </Menu>
         </Sidebar>
     );
