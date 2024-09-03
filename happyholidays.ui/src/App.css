@@ -423,5 +423,32 @@
   width: 100%;
   min-height: calc(100vh - 152px);
   padding: 1rem; }
+  .queries .accordion .accordion_item {
+    border: 2px solid #2c74d1;
+    border-radius: 10px !important;
+    margin-top: 1rem;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -1px #a5a3a3; }
+    .queries .accordion .accordion_item .accordion_body {
+      display: flex; }
+      .queries .accordion .accordion_item .accordion_body .details {
+        flex: 1;
+        border-right: 1px solid #808080;
+        padding: 0.5rem; }
+        .queries .accordion .accordion_item .accordion_body .details .info_group {
+          margin-top: 0.5rem; }
+          .queries .accordion .accordion_item .accordion_body .details .info_group label {
+            font-weight: bold; }
+      .queries .accordion .accordion_item .accordion_body .remarks {
+        width: 30%;
+        padding: 0.5rem; }
+        .queries .accordion .accordion_item .accordion_body .remarks .info_group {
+          display: flex;
+          flex-direction: column;
+          margin-top: 0.5rem; }
+          .queries .accordion .accordion_item .accordion_body .remarks .info_group label {
+            font-weight: bold; }
+          .queries .accordion .accordion_item .accordion_body .remarks .info_group textarea {
+            padding: 0.25rem; }
 
 /*# sourceMappingURL=App.css.map */

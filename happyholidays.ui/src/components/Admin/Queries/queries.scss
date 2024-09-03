@@ -5,4 +5,51 @@
 .queries {
     @include defaultLandingSection;
     padding: 1rem;
+
+    .accordion {
+        .accordion_item {
+            border: 2px solid rgb(44, 116, 209);
+            border-radius: 10px !important;
+            margin-top: 1rem;
+            overflow: hidden;
+            box-shadow: 0 5px 15px -1px #a5a3a3;
+
+            .accordion_header {
+                // background-color: red !important;
+            }
+
+            .accordion_body {
+                display: flex;
+
+                .details {
+                    flex: 1;
+                    border-right: 1px solid #808080;
+                    padding: 0.5rem;
+
+                    .info_group {
+                        margin-top: 0.5rem;
+                        label {
+                            font-weight: bold;
+                        }
+                    }
+                }
+
+                .remarks {
+                    width: 30%;
+                    padding: 0.5rem;
+                    .info_group {
+                        display: flex;
+                        flex-direction: column;
+                        margin-top: 0.5rem;
+                        label {
+                            font-weight: bold;
+                        }
+                        textarea {
+                            padding: 0.25rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appSlice from "./Slice/appSlice";
 import packageSlice from "./Slice/packageSlice";
+import contactSlice from "./Slice/contactSlice";
 
 export const store = configureStore({
     reducer: {
         appSlice,
-        packageSlice
+        packageSlice,
+        contactSlice
     }   
 });
 
