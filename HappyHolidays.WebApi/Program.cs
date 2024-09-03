@@ -11,6 +11,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IPackagesRepo, PackagesRepo>();
+builder.Services.AddScoped<IContactUsRepo, ContactUsRepo>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

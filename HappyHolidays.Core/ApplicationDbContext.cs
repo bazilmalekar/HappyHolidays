@@ -15,5 +15,7 @@ namespace HappyHolidays.Core
         }
 
         public DbSet<Package> Packages { get; set; }
+
+        public DbSet<ContactUs> ContactUs { get; set; }
     }
 }
