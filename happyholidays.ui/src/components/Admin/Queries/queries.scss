@@ -7,12 +7,25 @@
     padding: 1rem;
 
     .accordion {
+        .accordion_item.NA {
+            border-color: $not_addressed;
+        }
+
+        .accordion_item.AA {
+            border-color: $addressed;
+        }
+
+        .accordion_item.HH {
+            border-color: $onHold;
+        }
+
         .accordion_item {
-            border: 2px solid rgb(44, 116, 209);
+            border: 2px solid;
+            // border-color: red;
             border-radius: 10px !important;
             margin-top: 1rem;
             overflow: hidden;
-            box-shadow: 0 5px 15px -1px #a5a3a3;
+            box-shadow: 0 3px 10px -1px #bdbaba;
 
             .accordion_header {
                 // background-color: red !important;

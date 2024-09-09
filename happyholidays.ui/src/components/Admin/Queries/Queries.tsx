@@ -1,18 +1,81 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
-import { getQueries } from "./queriests";
+import { deleteQuery, getExistingQuery, getQueries, handleExistingQueryRemarksChange, handleExistingQueryStatusChange, setDeleteStateIdel, setUpdateStateIdel, updateQuery } from "../../../services/Slice/contactSlice";
 import { RootState } from "../../../services/store";
 import Accordion from 'react-bootstrap/Accordion';
+import { ContactFrom } from "../../Home/ContactUsForm/contactFormInterface";
 
 const Queries: React.FC = () => {
     const dispatch = useAppDispatch();
-    const { contactData, contactDataStatus, constactDataError } = useAppSelector((state: RootState) => state.contactSlice);
-    
-    const [contacEdittDetails, setContactEditDetails] = useState(contactData);
+    const { contactData,
+        contactDataStatus,
+        constactDataError,
+        updatedContactData,
+        updatedContactStatus,
+        updateContactError,
+        deleteContactStatus,
+        deleteContactError
+    } = useAppSelector((state: RootState) => state.contactSlice);
+    const [updateContactId, setUpdateContactId] = useState<number>();
+    const [fetchUpdatedData, setFetchUpdatedData] = useState<boolean>(false); //flag to avoid continuous fetching
+    const [deleteFlag, setDeleteFlag] = useState<boolean>(false);
+
+    const handleStateChange = async (e: React.ChangeEvent<HTMLSelectElement>, id: number) => {
+        setUpdateContactId(id);
+        dispatch(handleExistingQueryStatusChange({ value: parseInt(e.target.value), id }));
+        setFetchUpdatedData(true);
+    }
+
+    const handleQueryDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {
+        e.preventDefault();
+        if (window.confirm("Are you sure you want to delete this Query?")) {
+            dispatch(deleteQuery(id));
+            setDeleteFlag(true);
+        }
+    }
+
+    const handleRemarksUpdate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {
+        e.preventDefault();
+        const [updatedRemark] = contactData.filter((elem: ContactFrom) => {
+            return elem.contactUsId === id;
+        });
+        if (updatedRemark) {
+            console.log("updated Remark", updatedRemark);
+            dispatch(updateQuery(updatedRemark));
+            console.log(updatedContactStatus);
+            
+        };
+    }
 
     useEffect(() => {
-        dispatch(getQueries())
+        if (fetchUpdatedData) {
+            const [updatedContactDetails] = contactData?.filter((elem: ContactFrom) => elem.contactUsId == updateContactId);
+            dispatch(updateQuery(updatedContactDetails));
+            setFetchUpdatedData(true);
+        }
+    }, [fetchUpdatedData]);
+
+    useEffect(() => {
+        // fetching all queries after successful update
+        if (updatedContactStatus === "success" && fetchUpdatedData) {
+            dispatch(getQueries());
+            setFetchUpdatedData(false);
+            dispatch(setUpdateStateIdel());
+        }
+    }, [fetchUpdatedData]);
+
+    useEffect(() => {
+        if (deleteContactStatus == "success" && deleteFlag) {
+            dispatch(getQueries());
+            setDeleteFlag(false);
+            dispatch(setDeleteStateIdel());
+        }
+    }, [deleteFlag, deleteContactStatus, dispatch])
+
+    useEffect(() => {
+        dispatch(getQueries());
     }, [dispatch])
+
     return (
         <div className="queries">
             <h1 className="mb-3">Queries</h1>
@@ -21,10 +84,8 @@ const Queries: React.FC = () => {
                 {
                     contactData && contactData.length &&
                     contactData.map((elem: any) => {
-                        console.log(elem);
-
                         return (
-                            <Accordion.Item eventKey={elem.contactUsId} key={elem.contactUsId} className="accordion_item">
+                            <Accordion.Item eventKey={elem.contactUsId} key={elem.contactUsId} className={`accordion_item ${elem.status == 0 && "NA" || elem.status == 1 && "AA" || elem.status == 2 && "HH"}`}>
                                 <Accordion.Header className="accordion_header">{elem.name}</Accordion.Header>
                                 <Accordion.Body className="accordion_body">
                                     <div className="details">
@@ -59,7 +120,7 @@ const Queries: React.FC = () => {
                                     </div>
                                     <div className="remarks">
                                         <div>
-                                            <button className="deletebtn btn btn-danger">Delete Query</button>
+                                            <button className="deletebtn btn btn-danger" onClick={(e) => handleQueryDelete(e, elem.contactUsId)}>Delete Query</button>
                                         </div>
                                         <form>
                                             <div className="info_group">
@@ -68,18 +129,20 @@ const Queries: React.FC = () => {
                                             </div>
                                             <div className="info_group">
                                                 <label>Remarks :</label>
-                                                <select>
-                                                    <option>Not Addressed</option>
-                                                    <option>Addressed</option>
-                                                    <option>On Hold</option>
+                                                <select onChange={(e) => {
+                                                    handleStateChange(e, elem.contactUsId)
+                                                }} name="status" value={elem.status}>
+                                                    <option value={0}>Not Addressed</option>
+                                                    <option value={1}>Addressed</option>
+                                                    <option value={2}>On Hold</option>
                                                 </select>
                                             </div>
                                         </form>
                                         <form>
                                             <div className="info_group">
                                                 <label>Remarks :</label>
-                                                <textarea rows={5} />
-                                                <button className="btn btn-primary mt-1">Update Remarks</button>
+                                                <textarea value={elem.remarks} rows={5} onChange={(e) => dispatch(handleExistingQueryRemarksChange({ value: e.target.value, id: elem.contactUsId }))} />
+                                                <button className="btn btn-primary mt-1" onClick={(e) => handleRemarksUpdate(e, elem.contactUsId)}>Update Remarks</button>
                                             </div>
                                         </form>
                                     </div>
