@@ -15,8 +15,13 @@ import Admin from "./components/Admin/Admin";
 import AllPackages from "./components/Admin/AllPackages/AllPackages";
 import CreatePackage from "./components/Admin/CreateOrEditPackage/CreateOrEditPackage";
 import Queries from "./components/Admin/Queries/Queries";
+import { useAppSelector } from "./services/hooks";
+import { RootState } from "./services/store";
+import ContactUsPopUpForm from "./components/ContactUsPopUpForm/ContactUsPopUpForm";
+import ContactUsPopUpFormIcon from "./components/ContactUsPopUpFormIcon/ContactUsPopUpFormIcon";
 
 const App = () => {
+  const { displayPopupForm } = useAppSelector((state: RootState) => state.appSlice);
   return (
     <>
       <ToastContainer />
@@ -38,6 +43,8 @@ const App = () => {
           <Route path="queries" element={<Queries />} />
         </Route>
       </Routes>
+      {displayPopupForm && <ContactUsPopUpForm />}
+      <ContactUsPopUpFormIcon />
       <Footer />
     </>
   )

@@ -1,4 +1,4 @@
-.package_card{
+.package_card {
     background-color: lightgoldenrodyellow;
     width: max-content;
     display: inline-block;
@@ -6,3 +6,27 @@
     padding: 1rem;
     border-radius: 10px;
 }
+
+// button styles start
+.custom_success_btn {
+    width: 100%;
+    background-color: $primary_one;
+    border: none;
+    outline: none;
+    padding: 0.4rem 0 !important;
+    border-radius: 5px;
+    color: $primary_neutral;
+    font-size: 1.25rem;
+    transition: all 0.1s ease-in;
+}
+
+.custom_success_btn:hover {
+    background-color: #000;
+}
+
+.required::after {
+    content: " *";
+    color: #ff0000;
+}
+
+// button styles end

@@ -570,9 +570,7 @@ const CreatePackage: React.FC = () => {
         }
 
         if (editPackagePackageStatus === "success" && editPackageDetails) {
-            navigate("/admin", { replace: true });
-            console.log(editFormData);
-            
+            navigate("/admin", { replace: true });            
             dispatch(resetEditPackageStatus())
         }
     }, [createPackageStatus, editPackagePackageStatus]);

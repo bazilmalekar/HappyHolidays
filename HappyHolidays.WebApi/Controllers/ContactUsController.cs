@@ -96,7 +96,7 @@ namespace HappyHolidays.WebApi.Controllers
                 existingContact.dateOfTravle = contactUs.dateOfTravle;
                 existingContact.Message = contactUs.Message;
                 existingContact.Remarks = contactUs.Remarks;
-
+                existingContact.Status = contactUs.Status;
                 await _contactUs.UpdateQuery(existingContact);
                 return Ok(existingContact);
             }
