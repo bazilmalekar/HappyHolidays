@@ -1,5 +1,5 @@
 .package_card {
-    background-color: lightgoldenrodyellow;
+    background-color: #fafad2;
     width: max-content;
     display: inline-block;
     margin: 1rem;
@@ -22,6 +22,32 @@
 
 .custom_success_btn:hover {
     background-color: #000;
+}
+
+.custon_edit_button {
+    border: none !important;
+    outline: none !important;
+    color: #fff;
+    background-color: #68c057;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 2.5px;
+    transition: all 0.1s ease-in;
+    &:hover {
+        background-color: darken($color: #6dd857, $amount: 20%);
+    }
+}
+
+.custon_delete_button {
+    border: none !important;
+    outline: none !important;
+    color: #fff;
+    background-color: #f54949;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 2.5px;
+    transition: all 0.1s ease-in;
+    &:hover {
+        background-color: darken($color: #f54949, $amount: 20%);
+    }
 }
 
 .required::after {
