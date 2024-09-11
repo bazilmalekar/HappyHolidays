@@ -74,6 +74,14 @@ export const packageSlice = createSlice({
                 editPackagePackageStatus: "idle",
                 editPackageDetails: {} as PackageGet
             }
+        },
+        handleIsActiveChange: (state, action: PayloadAction<{ id: number }>) => {
+            const { id } = action.payload;
+            state.allPackages = state.allPackages.map((elem: PackageGet) =>
+                elem.packageId === id
+                    ? { ...elem, isActive: !elem.isActive }
+                    : elem
+            );
         }
     },
     extraReducers: (builder) => {
@@ -246,5 +254,5 @@ export const packageSlice = createSlice({
     }
 });
 
-export const { resetCreatePackageStatus, resetEditPackageStatus } = packageSlice.actions;
+export const { resetCreatePackageStatus, resetEditPackageStatus, handleIsActiveChange } = packageSlice.actions;
 export default packageSlice.reducer;

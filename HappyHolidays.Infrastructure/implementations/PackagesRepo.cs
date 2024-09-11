@@ -46,14 +46,17 @@ namespace HappyHolidays.Infrastructure.implementations
                     .ThenInclude(pd => pd.ItineraryDetails)
                         .ThenInclude(id => id.ItineraryDescriptions)
                 .FirstOrDefaultAsync(s => s.PackageId == packageId);
-
             return packageDetails;
         }
 
 
         public async Task<IEnumerable<Package>> GetAllPackages()
         {
-            var allPackages = await _context.Packages.ToListAsync();
+            var allPackages = await _context.Packages
+                .Include(p => p.PackageDetails)
+                    .ThenInclude(pd => pd.ItineraryDetails)
+                    .ThenInclude(id => id.ItineraryDescriptions)
+                    .ToListAsync();
             return allPackages;
         }
 
@@ -76,13 +79,13 @@ namespace HappyHolidays.Infrastructure.implementations
             {
                 var packageDetails = new PackageDetails
                 {
-                    PackageDescription = packagevm.PackageDetails.PackageDescription,            
+                    PackageDescription = packagevm.PackageDetails.PackageDescription,
                     ItineraryDetails = packagevm.PackageDetails.ItineraryDetails?.Select(itineraryDetailsVM => new ItineraryDetails
                     {
                         ItineraryTitle = itineraryDetailsVM.ItineraryTitle,
                         ItineraryDescriptions = itineraryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
                         {
-                            ItenaryPoints = descVM.ItineraryPoints 
+                            ItenaryPoints = descVM.ItineraryPoints
                         }).ToList()
                     }).ToList()
                 };
