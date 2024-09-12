@@ -341,6 +341,17 @@
 .custom_success_btn:hover {
   background-color: #000; }
 
+.custon_primary_button {
+  border: none !important;
+  outline: none !important;
+  color: #fff;
+  background-color: #2264df;
+  padding: 0.25rem 0.5rem !important;
+  border-radius: 2.5px;
+  transition: all 0.1s ease-in; }
+  .custon_primary_button:hover {
+    background-color: #143c87; }
+
 .custon_edit_button {
   border: none !important;
   outline: none !important;

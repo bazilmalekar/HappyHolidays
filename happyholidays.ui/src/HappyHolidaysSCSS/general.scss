@@ -24,6 +24,19 @@
     background-color: #000;
 }
 
+.custon_primary_button {
+    border: none !important;
+    outline: none !important;
+    color: #fff;
+    background-color: #2264df;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 2.5px;
+    transition: all 0.1s ease-in;
+    &:hover {
+        background-color: darken($color: #2264df, $amount: 20%);
+    }
+}
+
 .custon_edit_button {
     border: none !important;
     outline: none !important;

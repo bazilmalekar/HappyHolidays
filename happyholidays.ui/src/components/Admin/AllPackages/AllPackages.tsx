@@ -102,7 +102,7 @@ const AllPackages: React.FC = () => {
                                                                 />
                                                             </td>
                                                             <td>
-                                                                <button className="custon_edit_button" onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
+                                                                <button className="custon_primary_button" onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
                                                                 <button className="custon_delete_button" onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
                                                             </td>
                                                         </tr>
@@ -153,7 +153,7 @@ const AllPackages: React.FC = () => {
                                                                 />
                                                             </td>
                                                             <td>
-                                                                <button className="custon_edit_button" onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
+                                                                <button className="custon_primary_button" onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
                                                                 <button className="custon_delete_button" onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
                                                             </td>
                                                         </tr>
@@ -205,7 +205,7 @@ const AllPackages: React.FC = () => {
                                                                 />
                                                             </td>
                                                             <td>
-                                                                <button className="custon_edit_button" onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
+                                                                <button className="custon_primary_button" onClick={() => navigate(`/admin/edit-package/${filteredElem.packageId}`)}>Edit</button>
                                                                 <button className="custon_delete_button" onClick={() => handleDelete(filteredElem.packageId)}>Delete</button>
                                                             </td>
                                                         </tr>
