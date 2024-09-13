@@ -8,12 +8,12 @@ import { toast } from "react-toastify";
 
 interface Props {
     formType: string;
-    mountFlag: boolean;
+    mountFlag?: boolean;
+    setMountFlag?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ContactUsForm: React.FC<Props> = ({ formType, mountFlag }) => {
+const ContactUsForm: React.FC<Props> = ({ formType, mountFlag, setMountFlag }) => {
     const dispatch = useAppDispatch();
-    const [isMounted, setIsMounted] = useState<boolean>(false);
     const { postContactData,
         postContactDataStatus,
         postConstactDataError } = useAppSelector((state: RootState) => state.contactSlice);
@@ -66,40 +66,45 @@ const ContactUsForm: React.FC<Props> = ({ formType, mountFlag }) => {
             });
         }
 
+        return () => {
+            if (setMountFlag) setMountFlag(false);
+        }
+
     }, [postContactDataStatus]);
 
     return (
         <form className="form_body" onSubmit={handleSubmit}>
             <div className="contact_form_group">
-                <label htmlFor="" className="contact_form_label required">Name</label>
-                <input type="text" className="contact_form_input" onChange={handleChange} name="name" value={contactUsFormData.name} placeholder="Your Name" />
+                {formType == "popup" && <label htmlFor="" className="contact_form_label required">Name</label>}
+                <input type="text" className="contact_form_input" onChange={handleChange} name="name" value={contactUsFormData.name} placeholder={formType === "popup" ? "Your Name" : "Name"} />
             </div>
             <div className="contact_form_group">
-                <label htmlFor="" className="contact_form_label required">Email</label>
-                <input type="text" className="contact_form_input" onChange={handleChange} name="email" value={contactUsFormData.email} placeholder="example@gmail.com" />
+                {formType == "popup" && <label htmlFor="" className="contact_form_label required">Email</label>}
+                <input type="text" className="contact_form_input" onChange={handleChange} name="email" value={contactUsFormData.email} placeholder={formType === "popup" ? "example@gmail.com" : "Email"} />
             </div>
             <div className="contact_form_group">
-                <label htmlFor="" className="contact_form_label required">Phone Number</label>
-                <input type="text" className="contact_form_input" onChange={handleChange} name="phoneNumber" value={contactUsFormData.phoneNumber} placeholder="+(xx) - xxx-xxx-xxxx" />
+                {formType == "popup" && <label htmlFor="" className="contact_form_label required">Phone Number</label>}
+                <input type="text" className="contact_form_input" onChange={handleChange} name="phoneNumber" value={contactUsFormData.phoneNumber} placeholder={formType === "popup" ? "+(xx) - xxx-xxx-xxxx" : "Phone Number"} />
             </div>
             <div className="contact_form_group">
-                <label htmlFor="" className="contact_form_label">Travel Destination</label>
+                {formType == "popup" && <label htmlFor="" className="contact_form_label">Travel Destination</label>}
                 <input type="text" className="contact_form_input" onChange={handleChange} name="travelDestination" value={contactUsFormData.travelDestination} placeholder="Destination" />
             </div>
             <div className="contact_form_group">
-                <label htmlFor="" className="contact_form_label">Number of People</label>
+                {formType == "popup" && <label htmlFor="" className="contact_form_label">Number of People</label>}
                 <input type="number" className="contact_form_input" onChange={handleChange} name="noOfPeople" value={contactUsFormData.noOfPeople ?? ""} placeholder="No of People" />
             </div>
             <div className="contact_form_group">
-                <label htmlFor="" className="contact_form_label">Travel Date</label>
+                {formType == "popup" && <label htmlFor="" className="contact_form_label">Travel Date</label>}
                 <input type="date" className="contact_form_input" onChange={handleChange} name="dateOfTravle" value={contactUsFormData.dateOfTravle} />
             </div>
             <div className="contact_form_group">
-                <label htmlFor="" className="contact_form_label required">Message</label>
-                <textarea rows={3} className="contact_form_input" onChange={handleChange} name="message" value={contactUsFormData.message} />
+                {formType == "popup" && <label htmlFor="" className="contact_form_label required">Message</label>}
+                <textarea rows={4} className="contact_form_input" onChange={handleChange} name="message" value={contactUsFormData.message} placeholder="Please add your message"/>
             </div>
             <button type="submit" className="custom_success_btn">Submit</button>
         </form>
+
     );
 }
 
