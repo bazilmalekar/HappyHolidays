@@ -33,7 +33,7 @@ const ContactUsPopUpForm: React.FC = () => {
                         <img alt="close" src="/src/assets/images/close.png" />
                     </div>
                 </div>
-                <ContactUsForm formType={formType} mountFlag={mountFlag} />
+                <ContactUsForm formType={formType} mountFlag={mountFlag} setMountFlag={setMountFlag} />
             </div>
         </div>
     );
