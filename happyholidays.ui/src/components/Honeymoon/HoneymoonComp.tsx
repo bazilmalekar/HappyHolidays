@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { fetchHoneymoonPackages } from "./honeymoonts";
 import { useNavigate } from "react-router-dom";
 import { PackageGet } from "../Admin/CreateOrEditPackage/createOrEditPackageModels";
+import Search from "../Home/Packages/Search";
 
 const HoneymoonComp: React.FC = () => {
     const navigate = useNavigate();
@@ -15,6 +16,13 @@ const HoneymoonComp: React.FC = () => {
 
     return (
         <section className="hon_package">
+            <div className="package_hero" style={{ backgroundImage: `url("/src/assets/images/Honeymoon/image1.jpg")` }}>
+                <div className="package_hero_content">
+                    <h3 className="company_name">Happy Holidays !</h3>
+                    <h2 className="package_type">Honeymoon Packages</h2>
+                </div>
+            </div>
+            <Search />
             {
                 honeymoonPackages?.map((elem: PackageGet) => (
                     elem.isActive && (

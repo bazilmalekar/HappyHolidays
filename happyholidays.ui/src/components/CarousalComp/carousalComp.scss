@@ -1,0 +1,12 @@
+.package_carousal {
+    width: 100%;
+    min-height: calc(80vh - 96px);
+
+    .package_carousal_items {
+        width: 100%;
+        height: calc(80vh - 96px);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat
+    }
+}
