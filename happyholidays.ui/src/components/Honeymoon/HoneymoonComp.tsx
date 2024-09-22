@@ -23,16 +23,31 @@ const HoneymoonComp: React.FC = () => {
                 </div>
             </div>
             <Search />
-            {
-                honeymoonPackages?.map((elem: PackageGet) => (
-                    elem.isActive && (
-                        <div className="package_card" key={elem.packageId}>
-                            <p>{elem.packageName}</p>
-                            <button onClick={() => navigate(`/details/${elem.packageId}`)}>Details</button>
-                        </div>
-                    )
-                ))
-            }
+            <div className="packate_list_par">
+                {
+                    honeymoonPackages?.map((elem: PackageGet) => (
+                        elem.isActive && (
+                            <div className="card_par" key={elem.packageId}>
+                                <div className="package_card">
+                                    <div className="card_image_container">
+
+                                    </div>
+                                    <div className="card_details_container">
+                                        <p>{elem.packageLocation}</p>
+                                        <p>{elem.packageName}</p>
+                                        <p>{elem.originalPrice}</p>
+                                        <p>{elem.actualPrice}</p>
+                                        <p>{elem.days}</p>
+                                        <p>{elem.nights}</p>
+                                        <p>{elem.packageName}</p>
+                                        <button onClick={() => navigate(`/details/${elem.packageId}`)}>Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    ))
+                }
+            </div>
         </section>
     );
 }

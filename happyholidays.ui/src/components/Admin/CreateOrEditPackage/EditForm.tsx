@@ -54,6 +54,13 @@ const EditForm: React.FC<Props> = ({
                 </select>
             </div>
             <div className="form_group">
+                <label htmlFor="isFixedDeparture" className="form_label">Fixed Departure</label>
+                <select id="isFixedDeparture" name="isFixedDeparture" value={editFormData.isFixedDeparture ? "true" : "false"} onChange={handleEditSelectChange}>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div className="form_group">
                 <label htmlFor="originalPrice" className="form_label">Original Price</label>
                 <input id="originalPrice" className="form_input" type="number" onChange={handleEditInputChange} name="originalPrice" value={editFormData.originalPrice ?? ''} placeholder="0.0" />
             </div>

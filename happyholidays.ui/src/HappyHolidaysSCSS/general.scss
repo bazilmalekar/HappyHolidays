@@ -1,11 +1,280 @@
-.package_card {
-    background-color: #fafad2;
-    width: max-content;
-    display: inline-block;
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
+.packate_list_par {
+    padding: 0 15% 1rem;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 3.5rem;
+
+    .fixed_departure,
+    .non_fixed_departure {
+        width: 100%;
+
+        .package_container {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+            width: 100%;
+
+            .card_par {
+                padding: 0.5rem;
+                width: calc(100% / 4);
+                margin-top: 0.5rem;
+
+                .package_card * {
+                    @include setZero;
+                }
+
+                .package_card {
+                    width: 100%;
+                    border-radius: 5px;
+                    overflow: hidden;
+                    background-color: #fff;
+                    box-shadow: 0 15px 25px -2px #c2c2c2;
+                    pointer-events: auto;
+                    position: relative;
+
+                    .card_image_container {
+                        height: 13rem;
+                        background-color: lightblue;
+                    }
+
+                    .card_details_container {
+                        padding: 0.5rem 1rem;
+
+                        * {
+                            margin-top: 0.1rem;
+                        }
+
+                        .package_location {
+                            color: #919191;
+                            font-size: 0.85rem;
+                        }
+
+                        .package_name {
+                            font-size: 1.25rem;
+                            font-weight: 500;
+                            font-family: "Georgia", "serif";
+                        }
+
+                        .package_duration {
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                            gap: 0.35rem;
+
+                            .package_duration_text {
+                                color: $secondary_one;
+                                font-size: 0.95rem;
+                            }
+                        }
+
+                        .package_cost {
+                            display: flex;
+                            justify-content: flex-start;
+                            gap: 1rem;
+                            align-items: center;
+
+                            .cost_text,
+                            .ap {
+                                font-weight: 500;
+                            }
+
+                            .op {
+                                text-decoration: line-through;
+                                letter-spacing: 0.5px;
+                            }
+                        }
+                    }
+
+
+                    .replace_div {
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.8);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                        transition: all 0.20s ease-out;
+
+                        .trade_mark {
+                            background-color: transparent;
+                            color: #fff !important;
+                            position: absolute;
+                            top: 5px;
+                            left: 5px;
+                        }
+
+                        .card_btn {
+                            outline: 2px solid #fff;
+                            border: none;
+                            background-color: transparent;
+                            color: #fff;
+                            padding: 0.5rem;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            text-transform: uppercase;
+                            letter-spacing: 2px;
+
+                            &:hover {
+                                color: #000;
+                                outline: none;
+                                font-weight: 500;
+                                background-color: $secondary_two;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        .replace_div {
+                            top: 0;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    // .card_par {
+    //     padding: 0.5rem;
+    //     width: calc(100% / 4);
+    //     margin-top: 0.5rem;
+    //     .package_card * {
+    //         @include setZero;
+    //     }
+
+    //     .package_card {
+    //         width: 100%;
+    //         border-radius: 5px;
+    //         overflow: hidden;
+    //         background-color: #fff;
+    //         box-shadow: 0 15px 25px -2px #c2c2c2;
+    //         pointer-events: auto;
+    //         position: relative;            
+
+    //         .card_image_container {
+    //             height: 13rem;
+    //             background-color: lightblue;
+    //         }
+
+    //         .card_details_container {
+    //             padding: 0.5rem 1rem;
+
+    //             * {
+    //                 margin-top: 0.1rem;
+    //             }
+    //             .package_location {
+    //                 color: #919191;
+    //                 font-size: 0.85rem;
+    //             }
+
+    //             .package_name {
+    //                 font-size: 1.25rem;
+    //                 font-weight: 500;
+    //                 font-family: "Georgia", "serif";
+    //             }
+
+    //             .package_duration {
+    //                 display: flex;
+    //                 justify-content: flex-start;
+    //                 align-items: center;
+    //                 flex-direction: row;
+    //                 flex-wrap: wrap;
+    //                 gap: 0.35rem;
+
+    //                 .package_duration_text {
+    //                     color: $secondary_one;
+    //                     font-size: 0.95rem;
+    //                 }
+    //             }
+
+    //             .package_cost {
+    //                 display: flex;
+    //                 justify-content: flex-start;
+    //                 gap: 1rem;
+    //                 align-items: center;
+
+    //                 .cost_text,
+    //                 .ap {
+    //                     font-weight: 500;
+    //                 }
+
+    //                 .op {
+    //                     text-decoration:line-through;
+    //                     letter-spacing: 0.5px;
+    //                 }
+    //             }
+    //         }
+
+
+    //         .replace_div {
+    //             position: absolute;
+    //             top: 100%;
+    //             left: 0;
+    //             width: 100%;
+    //             height: 100%;
+    //             background-color: rgba(0, 0, 0, 0.8);
+    //             display: flex;
+    //             justify-content: center;
+    //             align-items: center;
+    //             flex-direction: column;
+    //             transition: all 0.20s ease-out;
+
+    //             .trade_mark {
+    //                 background-color: transparent;
+    //                 color: #fff !important;
+    //                 position: absolute;
+    //                 top: 5px;
+    //                 left: 5px;
+    //             }
+
+    //             .card_btn {
+    //                 outline: 2px solid #fff;
+    //                 border: none;
+    //                 background-color: transparent;
+    //                 color: #fff;
+    //                 padding: 0.5rem;
+    //                 border-radius: 5px;
+    //                 cursor: pointer;
+    //                 text-transform: uppercase;
+    //                 letter-spacing: 2px;
+
+    //                 &:hover {
+    //                     color: #000;
+    //                     outline: none;
+    //                     font-weight: 500;
+    //                     background-color: $secondary_two;
+    //                 }
+    //             }
+    //         }
+
+    //         &:hover {
+    //             .replace_div {
+    //                 top: 0;
+    //             }
+    //         }
+    //     }
+
+    // }
+
+    .package_icon {
+        padding: 0;
+        margin: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #919191;
+    }
+
 }
+
 
 // button styles start
 .custom_success_btn {
@@ -32,6 +301,7 @@
     padding: 0.25rem 0.5rem !important;
     border-radius: 2.5px;
     transition: all 0.1s ease-in;
+
     &:hover {
         background-color: darken($color: #2264df, $amount: 20%);
     }
@@ -45,6 +315,7 @@
     padding: 0.25rem 0.5rem !important;
     border-radius: 2.5px;
     transition: all 0.1s ease-in;
+
     &:hover {
         background-color: darken($color: #6dd857, $amount: 20%);
     }
@@ -58,6 +329,7 @@
     padding: 0.25rem 0.5rem !important;
     border-radius: 2.5px;
     transition: all 0.1s ease-in;
+
     &:hover {
         background-color: darken($color: #f54949, $amount: 20%);
     }
@@ -77,7 +349,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    .package_hero_content{
+
+    .package_hero_content {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -87,15 +360,18 @@
         width: 100%;
         height: 100%;
         position: relative;
+
         .company_name {
             position: absolute;
             top: 10px;
             left: 10px;
         }
+
         .package_type {
             font-family: "Times New Roman", "serif";
             font-size: 3rem;
             position: relative;
+
             &::before {
                 content: "";
                 width: 100%;
@@ -113,10 +389,11 @@
 }
 
 @keyframes packageTypeDecoration {
-    0%{
+    0% {
         transform: scaleX(0);
     }
-    100% {        
+
+    100% {
         transform: scaleX(1);
     }
 }

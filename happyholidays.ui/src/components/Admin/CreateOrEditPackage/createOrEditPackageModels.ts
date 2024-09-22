@@ -86,6 +86,7 @@ export interface PackageGet {
   actualPrice: number;
   days: number;
   nights: number;
+  isFixedDeparture: boolean;
   packageDetails: PackageDetails;
 }
 
@@ -114,6 +115,7 @@ export interface PackagePost {
     actualPrice: number | null;
     days: number | null;
     nights: number | null;
+    isFixedDeparture: boolean;
     packageDetails: PackageDetailsPost;
 }
 

@@ -34,6 +34,9 @@ namespace HappyHolidays.Core
 
         public int? Nights { get; set; }
 
+        [Required]
+        public bool IsFixedDeparture { get; set; } = false;
+
         public PackageDetails PackageDetails { get; set; }    
     }
 

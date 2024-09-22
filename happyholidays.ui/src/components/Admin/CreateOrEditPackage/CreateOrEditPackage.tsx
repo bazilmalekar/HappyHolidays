@@ -28,6 +28,7 @@ const CreatePackage: React.FC = () => {
         actualPrice: null,
         days: null,
         nights: null,
+        isFixedDeparture: false,
         packageDetails: {
             packageDescription: "",
             itineraryDetails: [
@@ -54,6 +55,7 @@ const CreatePackage: React.FC = () => {
         actualPrice: 0,
         days: 0,
         nights: 0,
+        isFixedDeparture: false,
         packageDetails: {
             $id: "", // Add this if you need to include the $id field
             packageDetailsId: 0,
@@ -147,22 +149,22 @@ const CreatePackage: React.FC = () => {
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.currentTarget;
-    
-        setEditFormData(prev => ({
+
+        setFormData(prev => ({
             ...prev,
-            [name]: name === "isActive" ? value === "true" : Number(value)
+            [name]: name === "isActive" || name === "isFixedDeparture" ? value === "true" : Number(value)
         }));
     }
 
     const handleEditSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.currentTarget;
-    
+
         setEditFormData(prev => ({
             ...prev,
-            [name]: name === "isActive" ? value === "true" : Number(value)
+            [name]: name === "isActive" || name === "isFixedDeparture" ? value === "true" : Number(value)
         }));
     };
-    
+
 
     const addItineraryDetail = () => {
         setFormData(prev => ({
@@ -551,6 +553,7 @@ const CreatePackage: React.FC = () => {
                 actualPrice: null,
                 days: null,
                 nights: null,
+                isFixedDeparture: false,
                 packageDetails: {
                     packageDescription: "",
                     itineraryDetails: [
@@ -570,7 +573,7 @@ const CreatePackage: React.FC = () => {
         }
 
         if (editPackagePackageStatus === "success" && editPackageDetails) {
-            navigate("/admin", { replace: true });            
+            navigate("/admin", { replace: true });
             dispatch(resetEditPackageStatus())
         }
     }, [createPackageStatus, editPackagePackageStatus]);

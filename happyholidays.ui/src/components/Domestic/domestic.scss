@@ -1,3 +1,4 @@
 .dom_packages {
-    @include defaultLandingSection;    
+    @include defaultLandingSection;
+    background-color: $package_list_bg;    
 }

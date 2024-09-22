@@ -136,6 +136,7 @@ namespace HappyHolidays.WebApi.Controllers
             existingPackage.ActualPrice = package.ActualPrice;
             existingPackage.Days = package.Days;
             existingPackage.Nights = package.Nights;
+            existingPackage.IsFixedDeparture = package.IsFixedDeparture;
 
             if (package.PackageDetails != null)
             {

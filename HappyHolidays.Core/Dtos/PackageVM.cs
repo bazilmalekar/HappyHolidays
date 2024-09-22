@@ -29,6 +29,9 @@ namespace HappyHolidays.Core.Dtos
 
         public int? Nights { get; set; }
 
+        [Required]
+        public bool IsFixedDeparture { get; set; } = false;
+
         public PackageDetailsVM PackageDetails { get; set; }
     }
 

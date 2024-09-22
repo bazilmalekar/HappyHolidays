@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { fetchDomesticPackages } from "./domesticts";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PackageGet } from "../Admin/CreateOrEditPackage/createOrEditPackageModels";
 import CarousalComp from "../CarousalComp/CarousalComp";
 import Search from "../Home/Packages/Search";
@@ -11,35 +11,11 @@ const DomesticComp: React.FC = () => {
     const dispatch = useAppDispatch();
     const { domesticPackages, domesticPackageStatus, domesticPackageError } = useAppSelector((state: any) => state.packageSlice);
 
-    // const items = [
-    //     {
-    //         id: "1",
-    //         backgroundUrl: "/src/assets/images/Domestic/image1.jpg"
-    //     },
-    //     {
-    //         id: "2",
-    //         backgroundUrl: "/src/assets/images/Domestic/image2.jpg"
-    //     },
-    //     {
-    //         id: "3",
-    //         backgroundUrl: "/src/assets/images/Domestic/image3.jpg"
-    //     },
-    //     {
-    //         id: "4",
-    //         backgroundUrl: "/src/assets/images/Domestic/image4.jpg"
-    //     },
-    //     {
-    //         id: "5",
-    //         backgroundUrl: "/src/assets/images/Domestic/image5.jpg"
-    //     }
-    // ]
-
     useEffect(() => {
         dispatch(fetchDomesticPackages());
     }, []);
     return (
         <section className="dom_packages">
-            {/* <CarousalComp items={items} /> */}
             <div className="package_hero" style={{ backgroundImage: `url("/src/assets/images/Domestic/image1.jpg")` }}>
                 <div className="package_hero_content">
                     <h3 className="company_name">Happy Holidays !</h3>
@@ -47,17 +23,31 @@ const DomesticComp: React.FC = () => {
                 </div>
             </div>
             <Search />
+            <div className="packate_list_par">
+                {
+                    domesticPackages?.map((elem: PackageGet) => (
+                        elem.isActive && (
+                            <div className="card_par" key={elem.packageId}>
+                                <div className="package_card">
+                                    <div className="card_image_container">
 
-            {
-                domesticPackages?.map((elem: PackageGet) => (
-                    elem.isActive && (
-                        <div className="package_card" key={elem.packageId}>
-                            <p>{elem.packageName}</p>
-                            <button onClick={() => navigate(`/details/${elem.packageId}`)}>Details</button>
-                        </div>
-                    )
-                ))
-            }
+                                    </div>
+                                    <div className="card_details_container">
+                                        <p>{elem.packageLocation}</p>
+                                        <p>{elem.packageName}</p>
+                                        <p>{elem.originalPrice}</p>
+                                        <p>{elem.actualPrice}</p>
+                                        <p>{elem.days}</p>
+                                        <p>{elem.nights}</p>
+                                        <p>{elem.packageName}</p>
+                                        <button onClick={() => navigate(`/details/${elem.packageId}`)}>Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    ))
+                }
+            </div>
         </section>
     );
 }

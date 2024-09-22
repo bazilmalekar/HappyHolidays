@@ -71,7 +71,8 @@ namespace HappyHolidays.Infrastructure.implementations
                 OriginalPrice = packagevm.OriginalPrice,
                 ActualPrice = packagevm.ActualPrice,
                 Days = packagevm.Days,
-                Nights = packagevm.Nights
+                Nights = packagevm.Nights,
+                IsFixedDeparture = packagevm.IsFixedDeparture
             };
 
 
