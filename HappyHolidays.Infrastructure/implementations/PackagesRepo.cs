@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace HappyHolidays.Infrastructure.implementations
 {
     public class PackagesRepo : IPackagesRepo
@@ -91,6 +92,16 @@ namespace HappyHolidays.Infrastructure.implementations
                     }).ToList()
                 };
                 package.PackageDetails = packageDetails;
+            }
+
+            if (packagevm.CardThumbNailImage != null && packagevm.CardThumbNailImage.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await packagevm.CardThumbNailImage.CopyToAsync(memoryStream);
+                    var imageBytes = memoryStream.ToArray();
+                    package.CardThumbNailImage = Convert.ToBase64String(imageBytes);  
+                }
             }
 
             _context.Packages.Add(package);

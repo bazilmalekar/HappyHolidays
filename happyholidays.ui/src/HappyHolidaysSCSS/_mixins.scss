@@ -2,6 +2,10 @@
     padding: 0 15% !important;
 }
 
+@mixin custom_tight_container {
+    padding: 0 22.5% !important;
+}
+
 @mixin defaultLandingSection {
     width: 100%;
     min-height: calc(100vh - 152px);

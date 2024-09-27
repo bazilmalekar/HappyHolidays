@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace HappyHolidays.Core
 {
@@ -36,6 +37,8 @@ namespace HappyHolidays.Core
 
         [Required]
         public bool IsFixedDeparture { get; set; } = false;
+
+        public string? CardThumbNailImage { get; set; }
 
         public PackageDetails PackageDetails { get; set; }    
     }
