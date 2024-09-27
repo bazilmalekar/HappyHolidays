@@ -16,6 +16,15 @@ namespace HappyHolidays.Core
 
         public DbSet<Package> Packages { get; set; }
 
+        public DbSet<PackageDetails> PackageDetails { get; set; }
+
+        public DbSet<ItineraryDetails> ItineraryDetails { get; set; }
+
+        public DbSet<ItineraryDescription> ItineraryDescription { get; set; }
+
         public DbSet<ContactUs> ContactUs { get; set; }
+
+
+        
     }
 }

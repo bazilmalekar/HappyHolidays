@@ -4,6 +4,7 @@ using HappyHolidays.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HappyHolidays.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240922075822_PackageRev2")]
+    partial class PackageRev2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,9 +130,6 @@ namespace HappyHolidays.Core.Migrations
 
                     b.Property<decimal?>("ActualPrice")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CardThumbNailImage")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Days")
                         .HasColumnType("int");

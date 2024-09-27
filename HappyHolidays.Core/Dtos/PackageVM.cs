@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace HappyHolidays.Core.Dtos
 {
@@ -31,6 +33,8 @@ namespace HappyHolidays.Core.Dtos
 
         [Required]
         public bool IsFixedDeparture { get; set; } = false;
+
+        public IFormFile? CardThumbNailImage { get; set; }
 
         public PackageDetailsVM PackageDetails { get; set; }
     }
