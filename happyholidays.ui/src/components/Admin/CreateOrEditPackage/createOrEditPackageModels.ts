@@ -88,6 +88,7 @@ export interface PackageGet {
   nights: number;
   isFixedDeparture: boolean;
   packageDetails: PackageDetails;
+  cardThumbNailImage: string;
 }
 
 

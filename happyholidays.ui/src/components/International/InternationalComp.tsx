@@ -8,11 +8,13 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import TodayIcon from '@mui/icons-material/Today';
 import PriceConverter from "../../Hooks/PriceConverter";
+import { RootState } from "../../services/store";
 
 const InternationalComp: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { internationalPackages, internationalPackageStatus, internationalPackageError } = useAppSelector((state: any) => state.packageSlice);
+    const { internationalPackages, internationalPackageStatus, internationalPackageError } = useAppSelector((state: RootState) => state.packageSlice);
+    console.log(internationalPackages);
 
     useEffect(() => {
         dispatch(fetchInternationalPackage());
@@ -46,7 +48,7 @@ const InternationalComp: React.FC = () => {
                                                     <div className="card_par" key={elem.packageId}>
                                                         <div className="package_card">
                                                             <div className="card_image_container">
-
+                                                                <img src={`${elem.cardThumbNailImage}`} alt="Card Image" />
                                                             </div>
                                                             <div className="card_details_container">
                                                                 {
@@ -100,7 +102,7 @@ const InternationalComp: React.FC = () => {
                                                     <div className="card_par" key={elem.packageId}>
                                                         <div className="package_card">
                                                             <div className="card_image_container">
-
+                                                                <img src={`${elem.cardThumbNailImage}`} alt="Card Image" />
                                                             </div>
                                                             <div className="card_details_container">
                                                                 {

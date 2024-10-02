@@ -1,8 +1,10 @@
 ﻿using HappyHolidays.Core;
 using HappyHolidays.Core.Dtos;
 using HappyHolidays.Infrastructure.interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,23 +23,70 @@ namespace HappyHolidays.Infrastructure.implementations
             _context = context;
         }
 
-        public async Task<IEnumerable<Package>> GetIntPackages()
+        public async Task<IEnumerable<PackageGetVM>> GetIntPackages()
         {
-            //var intpackages = await _context.Packages.Where(s => s.PackageType == PackageTypes.International).ToListAsync();
             var internationalPackages = await _context.Packages.Where(p => p.PackageType == PackageTypes.International).ToListAsync();
-            return internationalPackages;
+            var intConvertedPackages = internationalPackages.Select(pkg => new PackageGetVM
+            {
+                PackageId = pkg.PackageId,
+                PackageName = pkg.PackageName,
+                PackageLocation = pkg.PackageLocation,
+                PackageType = pkg.PackageType,
+                IsActive = pkg.IsActive,
+                OriginalPrice = pkg.OriginalPrice,
+                ActualPrice = pkg.ActualPrice,
+                Days = pkg.Days,
+                Nights = pkg.Nights,
+                IsFixedDeparture = pkg.IsFixedDeparture,
+                CardThumbNailImage = pkg.CardThumbNailImage != null
+            ? $"data:image/jpeg;base64,{Convert.ToBase64String(pkg.CardThumbNailImage)}"
+            : null
+            }).ToList();
+            return intConvertedPackages;
         }
 
-        public async Task<IEnumerable<Package>> GetDomPackages()
+        public async Task<IEnumerable<PackageGetVM>> GetDomPackages()
         {
             var domPackages = await _context.Packages.Where(s => s.PackageType == PackageTypes.Domestic).ToListAsync();
-            return domPackages;
+            var domConvertedPackages = domPackages.Select(pkg => new PackageGetVM
+            {
+                PackageId = pkg.PackageId,
+                PackageName = pkg.PackageName,
+                PackageLocation = pkg.PackageLocation,
+                PackageType = pkg.PackageType,
+                IsActive = pkg.IsActive,
+                OriginalPrice = pkg.OriginalPrice,
+                ActualPrice = pkg.ActualPrice,
+                Days = pkg.Days,
+                Nights = pkg.Nights,
+                IsFixedDeparture = pkg.IsFixedDeparture,
+                CardThumbNailImage = pkg.CardThumbNailImage != null
+            ? $"data:image/jpeg;base64,{Convert.ToBase64String(pkg.CardThumbNailImage)}"
+            : null
+            }).ToList();
+            return domConvertedPackages;
         }
 
-        public async Task<IEnumerable<Package>> GetHoneymoonPackages()
+        public async Task<IEnumerable<PackageGetVM>> GetHoneymoonPackages()
         {
             var honeymoonPackages = await _context.Packages.Where(s => s.PackageType == PackageTypes.Honeymoon).ToListAsync();
-            return honeymoonPackages;
+            var honeymoonConvertedPackages = honeymoonPackages.Select(pkg => new PackageGetVM
+            {
+                PackageId = pkg.PackageId,
+                PackageName = pkg.PackageName,
+                PackageLocation = pkg.PackageLocation,
+                PackageType = pkg.PackageType,
+                IsActive = pkg.IsActive,
+                OriginalPrice = pkg.OriginalPrice,
+                ActualPrice = pkg.ActualPrice,
+                Days = pkg.Days,
+                Nights = pkg.Nights,
+                IsFixedDeparture = pkg.IsFixedDeparture,
+                CardThumbNailImage = pkg.CardThumbNailImage != null
+            ? $"data:image/jpeg;base64,{Convert.ToBase64String(pkg.CardThumbNailImage)}"
+            : null
+            }).ToList();
+            return honeymoonConvertedPackages;
         }
 
         public async Task<Package> GetPackageDetails(int packageId)
@@ -63,6 +112,9 @@ namespace HappyHolidays.Infrastructure.implementations
 
         public async Task<Package> AddPackage(PackageVM packagevm)
         {
+
+            int passCount = 0;
+            int errorCount = 0;
             // Create the main package entity
             var package = new Package
             {
@@ -94,13 +146,12 @@ namespace HappyHolidays.Infrastructure.implementations
                 package.PackageDetails = packageDetails;
             }
 
-            if (packagevm.CardThumbNailImage != null && packagevm.CardThumbNailImage.Length > 0)
+            if (packagevm.CardThumbNailImage != null)
             {
-                using (var memoryStream = new MemoryStream())
+                using(MemoryStream stream = new MemoryStream())
                 {
-                    await packagevm.CardThumbNailImage.CopyToAsync(memoryStream);
-                    var imageBytes = memoryStream.ToArray();
-                    package.CardThumbNailImage = Convert.ToBase64String(imageBytes);  
+                    await packagevm.CardThumbNailImage.CopyToAsync(stream);
+                    package.CardThumbNailImage = stream.ToArray();
                 }
             }
 
