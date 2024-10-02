@@ -3,6 +3,7 @@ import Hero from "./Hero/Hero";
 import Packages from "./Packages/Packages";
 import ContactUsSection from "./ContactUsSection/ContactUsSection";
 import Services from "./Services/Services";
+import Testimonial from "./Testimonial/Testimonial";
 
 const Home: React.FC = () => {
     return (
@@ -10,6 +11,7 @@ const Home: React.FC = () => {
             <Hero />
             <Packages />
             <Services />
+            <Testimonial />
             <ContactUsSection />
         </section>
     );

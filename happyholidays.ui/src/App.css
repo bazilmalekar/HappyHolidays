@@ -367,6 +367,12 @@
           .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_image_container {
             height: 13rem;
             background-color: lightblue; }
+            .packate_list_par .fixed_departure .package_container .card_par .package_card .card_image_container img,
+            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_image_container img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              object-position: center; }
           .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container,
           .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container {
             padding: 0.5rem 1rem; }
@@ -963,5 +969,45 @@
         object-position: center; }
     .services .service_container .service_description {
       padding: 1rem; }
+
+.testimonail * {
+  padding: 0;
+  margin: 0; }
+
+.user_testimonail {
+  background-color: #f7f7f7;
+  padding: 2rem 22.5%;
+  text-align: center; }
+  .user_testimonail .user_testimonal_card_par_wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; }
+    .user_testimonail .user_testimonal_card_par_wrapper .testimonal_card_wrapper {
+      width: calc( 100% / 3);
+      padding: 1rem; }
+      .user_testimonail .user_testimonal_card_par_wrapper .testimonal_card_wrapper .testimonal_card {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px; }
+        .user_testimonail .user_testimonal_card_par_wrapper .testimonal_card_wrapper .testimonal_card:hover .testimonal_card_image_wrapper img {
+          transition: all 0.1s ease-in;
+          transform: scale(1.1); }
+        .user_testimonail .user_testimonal_card_par_wrapper .testimonal_card_wrapper .testimonal_card .testimonal_card_image_wrapper {
+          width: 35%;
+          height: 35%;
+          margin: 0rem auto; }
+          .user_testimonail .user_testimonal_card_par_wrapper .testimonal_card_wrapper .testimonal_card .testimonal_card_image_wrapper img {
+            width: 100%;
+            height: 100%;
+            object-position: center;
+            object-fit: contain; }
+        .user_testimonail .user_testimonal_card_par_wrapper .testimonal_card_wrapper .testimonal_card .testimonial_description {
+          color: #585858; }
 
 /*# sourceMappingURL=App.css.map */

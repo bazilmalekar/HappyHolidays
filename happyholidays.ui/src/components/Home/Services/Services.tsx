@@ -3,7 +3,7 @@ import React from "react"
 const Services: React.FC = () => {
     return (
         <section className="services">
-            <h1 className="service_header">Our Services</h1>
+            <h1 className="service_header">Services</h1>
             <div className="service_container">
                 <div className="service_aside_image">
                     <img src="/src/assets/services/holidays.png" alt="Package Icon" />

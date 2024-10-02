@@ -32,7 +32,7 @@ namespace HappyHolidays.WebApi.Controllers
 
 
         [HttpGet("international")]
-        public async Task<ActionResult<IEnumerable<Package>>> International()
+        public async Task<ActionResult<IEnumerable<PackageGetVM>>> International()
         {
             var IntPackages = await _packagesRepo.GetIntPackages();
             if (IntPackages == null)
@@ -43,7 +43,7 @@ namespace HappyHolidays.WebApi.Controllers
         }
 
         [HttpGet("domestic")]
-        public async Task<ActionResult<IEnumerable<Package>>> Domestic()
+        public async Task<ActionResult<IEnumerable<PackageGetVM>>> Domestic()
         {
             var DomPackages = await _packagesRepo.GetDomPackages();
             if (DomPackages == null)
@@ -54,7 +54,7 @@ namespace HappyHolidays.WebApi.Controllers
         }
 
         [HttpGet("honeymoon")]
-        public async Task<ActionResult<IEnumerable<Package>>> Honeymoon()
+        public async Task<ActionResult<IEnumerable<PackageGetVM>>> Honeymoon()
         {
             var honeymoonPackages = await _packagesRepo.GetHoneymoonPackages();
             if (honeymoonPackages == null)
@@ -78,7 +78,7 @@ namespace HappyHolidays.WebApi.Controllers
         }
 
         [HttpPost("CreatePackage")]
-        public async Task<ActionResult> CreatePackage([FromBody] PackageVM packageVM)
+        public async Task<ActionResult> CreatePackage(PackageVM packageVM)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -132,7 +132,7 @@ namespace HappyHolidays.WebApi.Controllers
             existingPackage.PackageLocation = package.PackageLocation;
             existingPackage.PackageType = package.PackageType;
             existingPackage.IsActive = package.IsActive;
-            
+
             existingPackage.OriginalPrice = package.OriginalPrice;
             existingPackage.ActualPrice = package.ActualPrice;
             existingPackage.Days = package.Days;
