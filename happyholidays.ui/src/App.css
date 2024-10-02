@@ -166,7 +166,7 @@
   position: relative;
   background-image: url("/src/assets/images/packagesbg.jpg");
   background-size: contain;
-  padding-bottom: 1rem; }
+  padding: 3rem 0; }
 
 .packages::before {
   content: "";
