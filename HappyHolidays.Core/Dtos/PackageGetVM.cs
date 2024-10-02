@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
-namespace HappyHolidays.Core
+namespace HappyHolidays.Core.Dtos
 {
-    public class Package
+    public class PackageGetVM
     {
         [Key]
         public int PackageId { get; set; }
@@ -38,15 +38,6 @@ namespace HappyHolidays.Core
         [Required]
         public bool IsFixedDeparture { get; set; } = false;
 
-        public byte[]? CardThumbNailImage { get; set; }
-
-        public PackageDetails PackageDetails { get; set; }    
-    }
-
-    public enum PackageTypes
-    {
-        International = 0,
-        Domestic = 1,
-        Honeymoon = 2
+        public string? CardThumbNailImage { get; set; }
     }
 }

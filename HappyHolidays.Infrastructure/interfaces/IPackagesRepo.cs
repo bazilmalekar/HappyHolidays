@@ -5,16 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using HappyHolidays.Core;
 using HappyHolidays.Core.Dtos;
+using Microsoft.AspNetCore.Http;
 
 namespace HappyHolidays.Infrastructure.interfaces
 {
     public interface IPackagesRepo
     {
-        public Task<IEnumerable<Package>> GetIntPackages();
+        public Task<IEnumerable<PackageGetVM>> GetIntPackages();
 
-        public Task<IEnumerable<Package>> GetDomPackages();
+        public Task<IEnumerable<PackageGetVM>> GetDomPackages();
 
-        public Task<IEnumerable<Package>> GetHoneymoonPackages();
+        public Task<IEnumerable<PackageGetVM>> GetHoneymoonPackages();
 
         public Task<Package> GetPackageDetails(int packageId);
 
