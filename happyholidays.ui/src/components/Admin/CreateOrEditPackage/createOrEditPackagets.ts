@@ -6,7 +6,11 @@ export const createPackage = createAsyncThunk(
     "packageSlice/createPackage",
     async (value: PackagePost, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`https://localhost:7246/Package/CreatePackage`, value);
+            const response = await axios.post(`https://localhost:7246/Package/CreatePackage`, value, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
             // return response.status
             return response.data;
         } catch (err) {

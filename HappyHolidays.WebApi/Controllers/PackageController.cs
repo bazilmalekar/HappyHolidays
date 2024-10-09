@@ -78,6 +78,7 @@ namespace HappyHolidays.WebApi.Controllers
         }
 
         [HttpPost("CreatePackage")]
+        [Consumes("multipart/form-data")]
         public async Task<ActionResult> CreatePackage(PackageVM packageVM)
         {
             if (!ModelState.IsValid)
@@ -116,88 +117,90 @@ namespace HappyHolidays.WebApi.Controllers
         [HttpPut("EditPackage/{id}")]
         public async Task<IActionResult> EditPackage(int id, [FromBody] Package package)
         {
-            if (id != package.PackageId)
-            {
-                return BadRequest("Package ID mismatch.");
-            }
+            //if (id != package.PackageId)
+            //{
+            //    return BadRequest("Package ID mismatch.");
+            //}
 
-            var existingPackage = await _packagesRepo.GetPackageDetails(id);
-            if (existingPackage == null)
-            {
-                return NotFound();
-            }
+            //var existingPackage = await _packagesRepo.GetPackageDetails(id);
+            //if (existingPackage == null)
+            //{
+            //    return NotFound();
+            //}
 
-            // Update existing package properties
-            existingPackage.PackageName = package.PackageName;
-            existingPackage.PackageLocation = package.PackageLocation;
-            existingPackage.PackageType = package.PackageType;
-            existingPackage.IsActive = package.IsActive;
+            //// Update existing package properties
+            //existingPackage.PackageName = package.PackageName;
+            //existingPackage.PackageLocation = package.PackageLocation;
+            //existingPackage.PackageType = package.PackageType;
+            //existingPackage.IsActive = package.IsActive;
 
-            existingPackage.OriginalPrice = package.OriginalPrice;
-            existingPackage.ActualPrice = package.ActualPrice;
-            existingPackage.Days = package.Days;
-            existingPackage.Nights = package.Nights;
-            existingPackage.IsFixedDeparture = package.IsFixedDeparture;
+            //existingPackage.OriginalPrice = package.OriginalPrice;
+            //existingPackage.ActualPrice = package.ActualPrice;
+            //existingPackage.Days = package.Days;
+            //existingPackage.Nights = package.Nights;
+            //existingPackage.IsFixedDeparture = package.IsFixedDeparture;
 
-            if (package.PackageDetails != null)
-            {
-                // Updating package details
-                existingPackage.PackageDetails.PackageDescription = package.PackageDetails.PackageDescription;
+            //if (package.PackageDetails != null)
+            //{
+            //    // Updating package details
+            //    existingPackage.PackageDetails.PackageDescription = package.PackageDetails.PackageDescription;
 
-                // Updateing itinerary details
-                foreach (var detail in package.PackageDetails.ItineraryDetails)
-                {
-                    var existingDetail = existingPackage.PackageDetails.ItineraryDetails.FirstOrDefault(d => d.ItineraryDetailsId == detail.ItineraryDetailsId);
+            //    // Updateing itinerary details
+            //    foreach (var detail in package.PackageDetails.ItineraryDetails)
+            //    {
+            //        var existingDetail = existingPackage.PackageDetails.ItineraryDetails.FirstOrDefault(d => d.ItineraryDetailsId == detail.ItineraryDetailsId);
 
-                    if (existingDetail != null)
-                    {
-                        existingDetail.ItineraryTitle = detail.ItineraryTitle;
-                        existingDetail.ItineraryDescriptions = detail.ItineraryDescriptions
-                            .Select(desc => new ItineraryDescription
-                            {
-                                ItineraryDescriptionId = desc.ItineraryDescriptionId,
-                                ItineraryDetailsId = desc.ItineraryDetailsId,
-                                ItineraryDetails = desc.ItineraryDetails,
-                                ItenaryPoints = desc.ItenaryPoints
-                            }).ToList();
-                    }
-                    else
-                    {
-                        existingPackage.PackageDetails.ItineraryDetails.Add(new ItineraryDetails
-                        {
-                            ItineraryDetailsId = detail.ItineraryDetailsId,
-                            PackageDetailsId = package.PackageDetails.PackageDetailsId,
-                            ItineraryTitle = detail.ItineraryTitle,
-                            ItineraryDescriptions = detail.ItineraryDescriptions
-                                .Select(desc => new ItineraryDescription
-                                {
-                                    ItineraryDescriptionId = desc.ItineraryDescriptionId,
-                                    ItineraryDetailsId = detail.ItineraryDetailsId,
-                                    ItineraryDetails = desc.ItineraryDetails,
-                                    ItenaryPoints = desc.ItenaryPoints
-                                }).ToList()
-                        });
-                    }
-                }
-            }
+            //        if (existingDetail != null)
+            //        {
+            //            existingDetail.ItineraryTitle = detail.ItineraryTitle;
+            //            existingDetail.ItineraryDescriptions = detail.ItineraryDescriptions
+            //                .Select(desc => new ItineraryDescription
+            //                {
+            //                    ItineraryDescriptionId = desc.ItineraryDescriptionId,
+            //                    ItineraryDetailsId = desc.ItineraryDetailsId,
+            //                    ItineraryDetails = desc.ItineraryDetails,
+            //                    ItenaryPoints = desc.ItenaryPoints
+            //                }).ToList();
+            //        }
+            //        else
+            //        {
+            //            existingPackage.PackageDetails.ItineraryDetails.Add(new ItineraryDetails
+            //            {
+            //                ItineraryDetailsId = detail.ItineraryDetailsId,
+            //                PackageDetailsId = package.PackageDetails.PackageDetailsId,
+            //                ItineraryTitle = detail.ItineraryTitle,
+            //                ItineraryDescriptions = detail.ItineraryDescriptions
+            //                    .Select(desc => new ItineraryDescription
+            //                    {
+            //                        ItineraryDescriptionId = desc.ItineraryDescriptionId,
+            //                        ItineraryDetailsId = detail.ItineraryDetailsId,
+            //                        ItineraryDetails = desc.ItineraryDetails,
+            //                        ItenaryPoints = desc.ItenaryPoints
+            //                    }).ToList()
+            //            });
+            //        }
+            //    }
+            //}
 
-            try
-            {
-                await _packagesRepo.EditPackage(existingPackage);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (await _packagesRepo.GetPackageDetails(id) == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //try
+            //{
+            //    await _packagesRepo.EditPackage(existingPackage);
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (await _packagesRepo.GetPackageDetails(id) == null)
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
 
-            return Ok(existingPackage);
+            //return Ok(existingPackage);
+            return Ok();
+
         }
     }
 }

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { RootState } from "../../../services/store";
 import EditForm from "./EditForm";
 import CreateForm from "./CreateForm";
-import { fetchPackageDetails } from "../../PackageDetails/packageDetailsts";
+import { fetchPackageDetails } from "../../../services/Slice/packageSlice";
 import { useNavigate } from "react-router-dom";
 import { resetCreatePackageStatus, resetEditPackageStatus } from "../../../services/Slice/packageSlice";
 

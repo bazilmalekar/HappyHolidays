@@ -1,3 +1,230 @@
 .package_details {
     @include defaultLandingSection;
+    background-color: $package_list_bg;
+
+    .title_location * {
+        @include setZero;
+    }
+
+    .title_location {
+        width: 70%;
+        margin: 0.5rem auto;
+        border-radius: 2.5px;
+        padding: 1rem 0 0;
+
+        .title_name {
+            color: #000;
+            font-family: "Times New Roman", "Sarif";
+            font-size: 2rem;
+        }
+
+        .location_details {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+            color: darken(#919191, 5%);
+
+            .package_icon {
+                width: 1.2rem;
+            }
+        }
+    }
+
+    .package_description_wrapper {
+        @include setZero;
+    }
+
+    .package_description_wrapper {
+        width: 100%;
+        padding: 0.8rem 15% 1rem;
+
+        .package_description {
+            background-color: #fff;
+            width: 71.5%;
+            border: 1px solid #e2e2e2;
+            border-radius: 2px;
+
+            .package_description_header {
+                width: 100%;
+                background-color: $secondary_two;
+                padding: 0.75rem 1rem;
+
+                h4 {
+                    padding: 0;
+                    margin: 0;
+                    font-family: "Times New Roman", "Sarif";
+                }
+            }
+
+            .package_description_body {
+                padding: 1rem;
+            }
+        }
+    }
+
+    .itinerary_details_header_wrapper {
+        padding: 0 15%;
+
+        .itinerary_details_header {
+            width: 71.5%;
+            background-color: $secondary_two;
+            padding: 0.75rem 1rem;
+
+            h4 {
+                padding: 0;
+                margin: 0;
+                font-family: "Times New Roman", "Sarif";
+            }
+        }
+    }
+
+    .details_wrapper {
+        width: 100%;
+        padding: 0.8rem 15% 1rem;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        border-radius: 2px;
+
+        .images_wrapper {
+            width: 70%;
+        }
+
+        .package_cost_wrapper * {
+            @include setZero;
+        }
+
+        .package_cost_wrapper {
+            border: 1px solid #e2e2e2;
+            width: 27.5%;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            position: sticky;
+            top: 150px;
+
+            .package_title_location {
+                text-align: center;
+
+                .p_title {
+                    font-family: "Times New Roman", "Sarif";
+                }
+
+                .location_details {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    gap: 0.25rem;
+                    margin-top: 0.5rem;
+                    color: #919191;
+
+                    .package_icon {
+                        width: 1.2rem;
+                    }
+                }
+            }
+
+            .package_cost {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 1rem;
+
+                .op {
+                    margin-top: 0.5rem;
+                    color: #808080;
+                    text-decoration: line-through;
+                }
+
+                .ap {
+                    font-weight: 500;
+                    font-size: 2rem;
+                    color: $secondary_one;
+                }
+            }
+
+            .package_duration {
+                margin-top: 0.5rem;
+                text-align: center;
+
+                .duration_details {
+                    width: 100%;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.35rem;
+                    margin-top: 0.25rem;
+                }
+            }
+
+            .contact {
+                text-align: center;
+                font-family: "Times New Roman", "Sarif";
+            }
+
+            .contact_details {
+                display: flex;
+                flex-flow: column nowrap;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                margin-top: 0.5rem;
+                text-align: center;
+
+                .contact_info_text_wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.25rem;
+
+                    .contact_info_text_icon_wrapper {
+                        background-color: #f0f0f0;
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        border-radius: 50rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+
+            .itinerary_download {
+                text-align: center;
+                margin-top: 1rem;
+
+                .itinerary_download_btn {
+                    border: none;
+                    outline: none;
+                    padding: 0.25rem 0.5rem;
+                    color: #fff;
+                    background-color: #2264df;
+                    transition: 0.25s ease-in-out;
+                    width: 100%;
+                    border-radius: 5px;
+
+                    &:hover {
+                        background-color: darken($color: #2264df, $amount: 10%);
+                    }
+                }
+            }
+
+        }
+    }
+
+    .itinerary_details {
+        padding: 0 15% 1rem;
+        width: 80%;
+    }
 }

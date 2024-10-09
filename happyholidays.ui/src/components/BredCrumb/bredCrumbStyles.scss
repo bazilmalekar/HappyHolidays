@@ -1,0 +1,27 @@
+.bread_crumb * {
+    @include setZero;
+}
+
+.bread_crumb {
+    padding: 1rem 15%;
+    border-bottom: 1px solid #e2e2e2;
+
+    ul {
+        display: flex;
+        flex-flow: row wrap;
+
+        li {
+            list-style: none;
+            margin-left: 0.15rem;
+
+            a {
+                text-decoration: none;
+                font-size: 1.2rem;
+            }
+
+            span {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}

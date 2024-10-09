@@ -33,7 +33,9 @@ const App = () => {
         <Route path="/domestic" element={<DomesticComp />} />
         <Route path="/honeymoon" element={<HoneymoonComp />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/details/:id" element={<PackageDetails />} />
+        <Route path="/international/details/:id" element={<PackageDetails />} />
+        <Route path="/domestic/details/:id" element={<PackageDetails />} />
+        <Route path="/honeymoon/details/:id" element={<PackageDetails />} />
 
         {/* Put the below routes in private route */}
         <Route path="/admin" element={<Admin />}>
