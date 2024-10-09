@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchInternationalPackage } from "../../components/International/internationalts";
 import { fetchDomesticPackages } from "../../components/Domestic/domesticts";
 import { fetchHoneymoonPackages } from "../../components/Honeymoon/honeymoonts";
-import { fetchPackageDetails } from "../../components/PackageDetails/packageDetailsts";
 import { deletePackage, getAllPackages } from "../../components/Admin/AllPackages/allpackagests";
 import { createPackage, editPackage } from "../../components/Admin/CreateOrEditPackage/createOrEditPackagets";
 import { PackageGet, PackagePost } from "../../components/Admin/CreateOrEditPackage/createOrEditPackageModels";
+import axios from "axios";
 
 export interface PackageState {
     internationalPackages: any[];
@@ -59,6 +59,24 @@ const initialState: PackageState = {
     editPackagePackageStatus: "idle",
     editPackageError: null
 }
+
+export const fetchPackageDetails = createAsyncThunk(
+    "packageSlice/fetchPackageDetails",
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`https://localhost:7246/Package/details/${id}`);  
+            return response.data;
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response) {
+                console.error(err.response.data || err.message);
+                return rejectWithValue(err.response?.data);
+            } else {
+                console.error('Unexpected error:', err);
+                return rejectWithValue('An unexpected error occurred');
+            }
+        }
+    }
+);
 
 export const packageSlice = createSlice({
     name: "packageSlice",

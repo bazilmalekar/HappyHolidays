@@ -2,6 +2,7 @@
 using HappyHolidays.Core.Dtos;
 using HappyHolidays.Infrastructure.interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Refit;
@@ -89,15 +90,52 @@ namespace HappyHolidays.Infrastructure.implementations
             return honeymoonConvertedPackages;
         }
 
-        public async Task<Package> GetPackageDetails(int packageId)
+        public async Task<PackageDetailsGetVM> GetPackageDetails(int packageId)
+{
+    var packageDetails = await _context.Packages
+        .Include(p => p.PackageDetails)
+            .ThenInclude(pd => pd.ItineraryDetails)
+                .ThenInclude(id => id.ItineraryDescriptions)
+        .FirstOrDefaultAsync(s => s.PackageId == packageId);
+
+    // Check if packageDetails is null
+    if (packageDetails == null)
+        return null; // or handle it as you prefer
+
+    // Map to PackageDetailsGetVM
+    var packageDetailsVM = new PackageDetailsGetVM
+    {
+        PackageName = packageDetails.PackageName,
+        PackageLocation = packageDetails.PackageLocation,
+        PackageType = packageDetails.PackageType,
+        IsActive = packageDetails.IsActive,
+        OriginalPrice = packageDetails.OriginalPrice,
+        ActualPrice = packageDetails.ActualPrice,
+        Days = packageDetails.Days,
+        Nights = packageDetails.Nights,
+        IsFixedDeparture = packageDetails.IsFixedDeparture,
+        CardThumbNailImage = packageDetails.CardThumbNailImage != null
+            ? $"data:image/jpeg;base64,{Convert.ToBase64String(packageDetails.CardThumbNailImage)}"
+            : null,
+        PackageDetails = new GetPackageDetailsVM
         {
-            var packageDetails = await _context.Packages
-                .Include(p => p.PackageDetails)
-                    .ThenInclude(pd => pd.ItineraryDetails)
-                        .ThenInclude(id => id.ItineraryDescriptions)
-                .FirstOrDefaultAsync(s => s.PackageId == packageId);
-            return packageDetails;
+            PackageDescription = packageDetails.PackageDetails?.PackageDescription,
+            PackageImages = packageDetails.PackageDetails?.PackageImages?.Select(img => 
+                $"data:image/jpeg;base64,{Convert.ToBase64String(img)}").ToList(),
+            ItineraryDetails = packageDetails.PackageDetails?.ItineraryDetails?.Select(itinerary => new GetItineraryDetailsVM
+            {
+                ItineraryTitle = itinerary.ItineraryTitle,
+                ItineraryDescriptions = itinerary.ItineraryDescriptions?.Select(desc => new GetItineraryDescriptionVM
+                {
+                    ItineraryPoints = desc.ItenaryPoints
+                }).ToList()
+            }).ToList()
         }
+    };
+
+    return packageDetailsVM;
+}
+
 
 
         public async Task<IEnumerable<Package>> GetAllPackages()
@@ -112,9 +150,6 @@ namespace HappyHolidays.Infrastructure.implementations
 
         public async Task<Package> AddPackage(PackageVM packagevm)
         {
-
-            int passCount = 0;
-            int errorCount = 0;
             // Create the main package entity
             var package = new Package
             {
@@ -125,10 +160,11 @@ namespace HappyHolidays.Infrastructure.implementations
                 ActualPrice = packagevm.ActualPrice,
                 Days = packagevm.Days,
                 Nights = packagevm.Nights,
-                IsFixedDeparture = packagevm.IsFixedDeparture
+                IsFixedDeparture = packagevm.IsFixedDeparture,
+                IsActive = packagevm.IsActive // Don't forget to map IsActive
             };
 
-
+            // Handling package details
             if (packagevm.PackageDetails != null)
             {
                 var packageDetails = new PackageDetails
@@ -136,29 +172,53 @@ namespace HappyHolidays.Infrastructure.implementations
                     PackageDescription = packagevm.PackageDetails.PackageDescription,
                     ItineraryDetails = packagevm.PackageDetails.ItineraryDetails?.Select(itineraryDetailsVM => new ItineraryDetails
                     {
-                        ItineraryTitle = itineraryDetailsVM.ItineraryTitle,
+                        ItineraryTitle = itineraryDetailsVM.ItineraryTitle, // Maps "itineraryTitle"
                         ItineraryDescriptions = itineraryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
                         {
-                            ItenaryPoints = descVM.ItineraryPoints
+                            ItenaryPoints = descVM.ItenaryPoints // Maps "itineraryPoints"
                         }).ToList()
                     }).ToList()
                 };
+
+                // Handling package images
+                if (packagevm.PackageDetails.PackageImages != null)
+                {
+                    packageDetails.PackageImages = new List<byte[]>();
+
+                    foreach (var file in packagevm.PackageDetails.PackageImages)
+                    {
+                        if (file.Length > 0) // Check if the file is valid
+                        {
+                            using (var stream = new MemoryStream())
+                            {
+                                await file.CopyToAsync(stream);
+                                packageDetails.PackageImages.Add(stream.ToArray());
+                            }
+                        }
+                    }
+                }
+
                 package.PackageDetails = packageDetails;
             }
 
+            // Handling card thumbnail image
             if (packagevm.CardThumbNailImage != null)
             {
-                using(MemoryStream stream = new MemoryStream())
+                using (MemoryStream stream = new MemoryStream())
                 {
                     await packagevm.CardThumbNailImage.CopyToAsync(stream);
                     package.CardThumbNailImage = stream.ToArray();
                 }
             }
 
+            // Adding the package entity to the context
             _context.Packages.Add(package);
-            await Save();
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
             return package;
         }
+
 
 
         public async Task<bool> RemovePackage(int packageId)

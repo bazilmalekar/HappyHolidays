@@ -9,23 +9,37 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import TodayIcon from '@mui/icons-material/Today';
 import PriceConverter from "../../Hooks/PriceConverter";
 import { RootState } from "../../services/store";
+import CarousalComp from "../CarousalComp/CarousalComp";
+import ContactUsSection from "../Home/ContactUsSection/ContactUsSection";
 
 const InternationalComp: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { internationalPackages, internationalPackageStatus, internationalPackageError } = useAppSelector((state: RootState) => state.packageSlice);
-    console.log(internationalPackages);
+
+    const items = [
+        {
+            id: "1",
+            backgroundUrl: "/src/assets/videos/int1.mp4"
+        },
+        {
+            id: "2",
+            backgroundUrl: "/src/assets/videos/int2.mp4"
+        }
+    ]
 
     useEffect(() => {
         dispatch(fetchInternationalPackage());
     }, []);
     return (
         <section className="int_packages">
-            <div className="package_hero" style={{ backgroundImage: `url("/src/assets/images/International/image1.jpg")` }}>
-                <div className="package_hero_content">
+            {/* <div className="package_hero" style={{ backgroundImage: `url("/src/assets/images/International/image1.jpg")` }}> */}
+            <div className="package_hero">
+                <CarousalComp items={items} />
+                {/* <div className="package_hero_content">
                     <h3 className="company_name">Happy Holidays !</h3>
                     <h2 className="package_type">International Packages</h2>
-                </div>
+                </div> */}
             </div>
             <Search />
             <div className="packate_list_par">
@@ -81,7 +95,7 @@ const InternationalComp: React.FC = () => {
                                                             </div>
                                                             <div className="replace_div">
                                                                 <h6 className="trade_mark">Happy Holidays !</h6>
-                                                                <button className="card_btn" onClick={() => navigate(`/details/${elem.packageId}`)}>View Details</button>
+                                                                <button className="card_btn" onClick={() => navigate(`/international/details/${elem.packageId}`)}>View Details</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -135,7 +149,7 @@ const InternationalComp: React.FC = () => {
                                                             </div>
                                                             <div className="replace_div">
                                                                 <h6 className="trade_mark">Happy Holidays !</h6>
-                                                                <button className="card_btn" onClick={() => navigate(`/details/${elem.packageId}`)}>View Details</button>
+                                                                <button className="card_btn" onClick={() => navigate(`/international/details/${elem.packageId}`)}>View Details</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -149,6 +163,7 @@ const InternationalComp: React.FC = () => {
                     )
                 }
             </div>
+            <ContactUsSection />
         </section>
     );
 }

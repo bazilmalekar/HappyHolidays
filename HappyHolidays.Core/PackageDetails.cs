@@ -19,6 +19,8 @@ namespace HappyHolidays.Core
 
         public string? PackageDescription { get; set; }
 
+        public List<byte[]>? PackageImages { get; set; }
+
         public List<ItineraryDetails>?  ItineraryDetails { get; set; }
     }
 }

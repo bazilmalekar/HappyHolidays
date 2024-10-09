@@ -395,6 +395,70 @@
     }
 }
 
+.divider {
+    content: "";
+    background-color: #e0e0e0;
+    height: 0.122rem;
+    width: 100%;
+    margin: 1rem 0 !important;
+}
+
+
+// accordian styles
+.custom_details_accordian {
+    .custom_details_accordian_item {
+        background-color: #fff !important;
+        margin-top: 1rem;
+        overflow: hidden;
+
+        .custom_details_accordian_header .accordion-button {
+            background-color: #fff !important;
+            outline: none !important;
+            border: none;
+            border-bottom: 1px solid #f0f0f0 !important;
+        }
+
+        .custom_details_accordian_header {
+            position: relative;
+        }
+
+        .custom_details_accordian_header .accordion-button::before {
+            content: "";
+            width: 0.5%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: $primary_one !important;
+        }
+
+        .custom_details_accordian_header .accordion-button:hover::before {
+            background-color: $primary_one !important;
+            z-index: 1 !important;
+        }
+
+        .custom_details_accordian_header .accordion-button:focus {
+            box-shadow: none !important;
+        }
+
+        .custom_details_accordian_body {
+            position: relative;
+
+            &::before {
+                content: "";
+                width: 0.5%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                background-color: $primary_one !important;
+            }
+        }
+    }
+}
+
 @keyframes packageTypeDecoration {
     0% {
         transform: scaleX(0);

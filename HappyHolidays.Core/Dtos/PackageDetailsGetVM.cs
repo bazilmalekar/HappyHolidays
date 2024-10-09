@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace HappyHolidays.Core.Dtos
 {
-    public class PackageVM
+    public class PackageDetailsGetVM
     {
         [Required]
         [StringLength(100)]
@@ -34,29 +34,29 @@ namespace HappyHolidays.Core.Dtos
         [Required]
         public bool IsFixedDeparture { get; set; } = false;
 
-        public IFormFile? CardThumbNailImage { get; set; }
+        public string? CardThumbNailImage { get; set; }
 
-        public PackageDetailsVM PackageDetails { get; set; }
+        public GetPackageDetailsVM PackageDetails { get; set; }
     }
 
-    public class PackageDetailsVM
+    public class GetPackageDetailsVM
     {
         public string? PackageDescription { get; set; }
 
-        public List<IFormFile>? PackageImages { get; set; }
+        public List<string>? PackageImages { get; set; }
 
-        public List<ItineraryDetailsVM>? ItineraryDetails { get; set; }
+        public List<GetItineraryDetailsVM>? ItineraryDetails { get; set; }
     }
 
-    public class ItineraryDetailsVM
+    public class GetItineraryDetailsVM
     {
         public string? ItineraryTitle { get; set; }
 
-        public List<ItineraryDescriptionVM>? ItineraryDescriptions { get; set; }
+        public List<GetItineraryDescriptionVM>? ItineraryDescriptions { get; set; }
     }
 
-    public class ItineraryDescriptionVM
+    public class GetItineraryDescriptionVM
     {
-        public string? ItenaryPoints { get; set; }
+        public string? ItineraryPoints { get; set; }
     }
 }
