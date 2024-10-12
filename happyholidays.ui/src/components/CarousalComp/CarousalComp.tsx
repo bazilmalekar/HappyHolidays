@@ -33,6 +33,7 @@ const CarousalComp: React.FC<Props> = ({ items }) => {
             animation="fade"
             interval={5000}
             height="100%"
+            
             onChange={(currentIndex) => setActiveId(currentIndex!)}
         >
             {

@@ -1,5 +1,7 @@
 const slugToTitleDictionary: Record<string, string> = {
     "international": "International Packages",
+    "domestic": "Domestic Packages",
+    "honeymoon": "Honeymoon Packages",
     "details": "Package Details"
 };
 
