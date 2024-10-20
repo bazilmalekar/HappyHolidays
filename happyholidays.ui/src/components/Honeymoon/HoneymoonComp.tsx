@@ -17,11 +17,11 @@ const HoneymoonComp: React.FC = () => {
     const items = [
         {
             id: "1",
-            backgroundUrl: "/src/assets/videos/int1.mp4"
+            backgroundUrl: "/src/assets/videos/hh1.mp4"
         },
         {
             id: "2",
-            backgroundUrl: "/src/assets/videos/int2.mp4"
+            backgroundUrl: "/src/assets/videos/hh2.mp4"
         }
     ]
 
