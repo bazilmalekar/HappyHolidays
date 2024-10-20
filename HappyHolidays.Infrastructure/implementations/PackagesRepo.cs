@@ -91,50 +91,50 @@ namespace HappyHolidays.Infrastructure.implementations
         }
 
         public async Task<PackageDetailsGetVM> GetPackageDetails(int packageId)
-{
-    var packageDetails = await _context.Packages
-        .Include(p => p.PackageDetails)
-            .ThenInclude(pd => pd.ItineraryDetails)
-                .ThenInclude(id => id.ItineraryDescriptions)
-        .FirstOrDefaultAsync(s => s.PackageId == packageId);
-
-    // Check if packageDetails is null
-    if (packageDetails == null)
-        return null; // or handle it as you prefer
-
-    // Map to PackageDetailsGetVM
-    var packageDetailsVM = new PackageDetailsGetVM
-    {
-        PackageName = packageDetails.PackageName,
-        PackageLocation = packageDetails.PackageLocation,
-        PackageType = packageDetails.PackageType,
-        IsActive = packageDetails.IsActive,
-        OriginalPrice = packageDetails.OriginalPrice,
-        ActualPrice = packageDetails.ActualPrice,
-        Days = packageDetails.Days,
-        Nights = packageDetails.Nights,
-        IsFixedDeparture = packageDetails.IsFixedDeparture,
-        CardThumbNailImage = packageDetails.CardThumbNailImage != null
-            ? $"data:image/jpeg;base64,{Convert.ToBase64String(packageDetails.CardThumbNailImage)}"
-            : null,
-        PackageDetails = new GetPackageDetailsVM
         {
-            PackageDescription = packageDetails.PackageDetails?.PackageDescription,
-            PackageImages = packageDetails.PackageDetails?.PackageImages?.Select(img => 
-                $"data:image/jpeg;base64,{Convert.ToBase64String(img)}").ToList(),
-            ItineraryDetails = packageDetails.PackageDetails?.ItineraryDetails?.Select(itinerary => new GetItineraryDetailsVM
-            {
-                ItineraryTitle = itinerary.ItineraryTitle,
-                ItineraryDescriptions = itinerary.ItineraryDescriptions?.Select(desc => new GetItineraryDescriptionVM
-                {
-                    ItineraryPoints = desc.ItenaryPoints
-                }).ToList()
-            }).ToList()
-        }
-    };
+            var packageDetails = await _context.Packages
+                .Include(p => p.PackageDetails)
+                    .ThenInclude(pd => pd.ItineraryDetails)
+                        .ThenInclude(id => id.ItineraryDescriptions)
+                .FirstOrDefaultAsync(s => s.PackageId == packageId);
 
-    return packageDetailsVM;
-}
+            // Check if packageDetails is null
+            if (packageDetails == null)
+                return null; // or handle it as you prefer
+
+            // Map to PackageDetailsGetVM
+            var packageDetailsVM = new PackageDetailsGetVM
+            {
+                PackageName = packageDetails.PackageName,
+                PackageLocation = packageDetails.PackageLocation,
+                PackageType = packageDetails.PackageType,
+                IsActive = packageDetails.IsActive,
+                OriginalPrice = packageDetails.OriginalPrice,
+                ActualPrice = packageDetails.ActualPrice,
+                Days = packageDetails.Days,
+                Nights = packageDetails.Nights,
+                IsFixedDeparture = packageDetails.IsFixedDeparture,
+                CardThumbNailImage = packageDetails.CardThumbNailImage != null
+                    ? $"data:image/jpeg;base64,{Convert.ToBase64String(packageDetails.CardThumbNailImage)}"
+                    : null,
+                PackageDetails = new GetPackageDetailsVM
+                {
+                    PackageDescription = packageDetails.PackageDetails?.PackageDescription,
+                    PackageImages = packageDetails.PackageDetails?.PackageImages?.Select(img =>
+                        $"data:image/jpeg;base64,{Convert.ToBase64String(img)}").ToList(),
+                    ItineraryDetails = packageDetails.PackageDetails?.ItineraryDetails?.Select(itinerary => new GetItineraryDetailsVM
+                    {
+                        ItineraryTitle = itinerary.ItineraryTitle,
+                        ItineraryDescriptions = itinerary.ItineraryDescriptions?.Select(desc => new GetItineraryDescriptionVM
+                        {
+                            ItineraryPoints = desc.ItenaryPoints
+                        }).ToList()
+                    }).ToList()
+                }
+            };
+
+            return packageDetailsVM;
+        }
 
 
 
@@ -242,7 +242,7 @@ namespace HappyHolidays.Infrastructure.implementations
             }
         }
 
-        public async Task EditPackage(Package package)
+        public async Task EditPackage(PackageVM package)
         {
             _context.Packages.Update(package);
             await Save();
