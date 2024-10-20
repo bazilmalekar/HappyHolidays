@@ -29,8 +29,10 @@ const CreatePackage: React.FC = () => {
         days: null,
         nights: null,
         isFixedDeparture: false,
+        cardThumbNailImage: null,
         packageDetails: {
             packageDescription: "",
+            packageImages: [],
             itineraryDetails: [
                 {
                     itineraryTitle: "",
@@ -522,7 +524,141 @@ const CreatePackage: React.FC = () => {
         });
     };
 
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            const imageName = file.name;
 
+            const reader = new FileReader();
+            reader.readAsDataURL(file); // Read file as Data URL (base64)
+
+            reader.onload = () => {
+                if (reader.result && typeof reader.result === "string") {
+                    const img = new Image();
+                    img.src = reader.result; // Set image src to the base64 string
+
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+
+                        // Seting desired resolution
+                        const targetWidth = 400;
+                        const targetHeight = 290;
+                        canvas.width = targetWidth;
+                        canvas.height = targetHeight;
+
+                        const ctx = canvas.getContext("2d");
+
+                        // Center the image on the canvas/ If you want to apply ratio
+                        //                     ctx?.drawImage(
+                        //                         img,
+                        //                         (maxSize - img.width) / 2,
+                        //                         (maxSize - img.height) / 2
+                        //                     );
+
+                        // Drawing the image with required dimention
+                        ctx?.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+                        //Converting canvas to blob
+                        canvas.toBlob(
+                            (blob) => {
+                                if (blob) {
+                                    const resizedFile = new File([blob], imageName, {
+                                        type: "image/png",
+                                        lastModified: Date.now(),
+                                    });
+
+                                    console.log(resizedFile);
+
+                                    // Update formData state with the new resized file
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        cardThumbNailImage: resizedFile,
+                                    }));
+                                }
+                            },
+                            "image/jpeg",
+                            0.8 // Quality of JPEG compression (0-1)
+                        );
+                    };
+                }
+            };
+        }
+    };
+
+    const handlePackageImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const files = Array.from(e.target.files);
+            let packageImagesArray: File[] = [];
+
+            // Create an array of promises for each file
+            const fileProcessingPromises = files.map((file) => {
+                return new Promise<void>((resolve, reject) => {
+                    const imageName = file.name;
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.onload = () => {
+                        if (reader.result && typeof reader.result === "string") {
+                            const img = new Image();
+                            img.src = reader.result;
+
+                            img.onload = () => {
+                                const canvas = document.createElement("canvas");
+                                const targetWidth = 600;
+                                const targetHeight = 250;
+                                canvas.width = targetWidth;
+                                canvas.height = targetHeight;
+
+                                const ctx = canvas.getContext("2d");
+                                ctx?.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+                                canvas.toBlob((blob) => {
+                                    if (blob) {
+                                        const resizedFile = new File([blob], imageName, {
+                                            type: "image/png",
+                                            lastModified: Date.now(),
+                                        });
+                                        packageImagesArray.push(resizedFile); 
+                                        resolve(); // Resolveing the promise after the file is processed
+                                    } else {
+                                        reject(new Error("Failed to create blob"));
+                                    }
+                                });
+                            };
+                        }
+                    };
+
+                    reader.onerror = () => {
+                        reject(new Error("File reading has failed."));
+                    };
+                });
+            });
+
+            // Waiting for all file processing to complete before updating the form data
+            Promise.all(fileProcessingPromises)
+                .then(() => {
+                    // All files have been processed
+                    console.log("All files have been processed!");
+
+                    // updating form data
+                    setFormData((prev) => {
+                        const updatedFormData = {
+                            ...prev,
+                            packageDetails: {
+                                ...prev.packageDetails,
+                                packageImages: [...prev.packageDetails.packageImages, ...packageImagesArray], // Append resized files
+                            },
+                        };
+                        return updatedFormData; // To return updated formdata to state
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error processing files:", error);
+                });
+            console.log("final", formData);
+
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -554,8 +690,10 @@ const CreatePackage: React.FC = () => {
                 days: null,
                 nights: null,
                 isFixedDeparture: false,
+                cardThumbNailImage: null,
                 packageDetails: {
                     packageDescription: "",
+                    packageImages: [],
                     itineraryDetails: [
                         {
                             itineraryTitle: "",
@@ -617,6 +755,8 @@ const CreatePackage: React.FC = () => {
                         handleItineraryPointChange={handleItineraryPointChange}
                         addItineraryDetail={addItineraryDetail}
                         addItineraryPoint={addItineraryPoint}
+                        handleImageUpload={handleImageUpload}
+                        handlePackageImageUpload={handlePackageImageUpload}
                     />
             }
         </section>

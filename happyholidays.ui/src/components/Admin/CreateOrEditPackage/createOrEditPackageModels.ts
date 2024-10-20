@@ -104,6 +104,7 @@ export interface ItineraryDetailsPost {
 
 export interface PackageDetailsPost {
     packageDescription: string;
+    packageImages: File[];
     itineraryDetails: ItineraryDetailsPost[];
 }
 
@@ -118,5 +119,6 @@ export interface PackagePost {
     nights: number | null;
     isFixedDeparture: boolean;
     packageDetails: PackageDetailsPost;
+    cardThumbNailImage: File | null;
 }
 

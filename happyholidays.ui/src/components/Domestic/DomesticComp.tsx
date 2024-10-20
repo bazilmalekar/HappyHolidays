@@ -17,11 +17,11 @@ const DomesticComp: React.FC = () => {
     const items = [
         {
             id: "1",
-            backgroundUrl: "/src/assets/videos/int1.mp4"
+            backgroundUrl: "/src/assets/videos/dom1.mp4"
         },
         {
             id: "2",
-            backgroundUrl: "/src/assets/videos/int2.mp4"
+            backgroundUrl: "/src/assets/videos/dom2.mp4"
         }
     ]
 
