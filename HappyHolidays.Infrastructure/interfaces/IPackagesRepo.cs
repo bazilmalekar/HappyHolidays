@@ -25,6 +25,6 @@ namespace HappyHolidays.Infrastructure.interfaces
 
         public Task<bool> RemovePackage(int packageId);
 
-        public Task EditPackage(Package package);
+        public Task EditPackage(PackageVM package);
     }
 }

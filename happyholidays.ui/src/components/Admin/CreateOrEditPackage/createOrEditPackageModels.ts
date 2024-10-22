@@ -69,6 +69,7 @@ export interface PackageDetails {
   package: Reference;
   packageDescription: string;
   itineraryDetails: ItineraryDetailsCollection;
+  packageImages: File[];
 }
 
 export interface Reference {

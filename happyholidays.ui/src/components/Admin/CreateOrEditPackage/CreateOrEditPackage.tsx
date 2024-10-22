@@ -45,9 +45,9 @@ const CreatePackage: React.FC = () => {
             ]
         }
     });
-
+    
     const [editFormData, setEditFormData] = useState<PackageGet>({
-        $id: "", // Add this if you need to include the $id field
+        $id: "",
         packageId: 0,
         packageName: "",
         packageLocation: "",
@@ -58,36 +58,38 @@ const CreatePackage: React.FC = () => {
         days: 0,
         nights: 0,
         isFixedDeparture: false,
+        cardThumbNailImage: "", 
         packageDetails: {
-            $id: "", // Add this if you need to include the $id field
+            $id: "",
             packageDetailsId: 0,
             packageId: 0,
+            packageImages: [], 
             package: {
-                $ref: "" // Reference should be of type Reference
+                $ref: "" 
             },
             packageDescription: "",
             itineraryDetails: {
-                $id: "", // Add this if you need to include the $id field
+                $id: "",
                 $values: [
                     {
-                        $id: "", // Add this if you need to include the $id field
+                        $id: "",
                         itineraryDetailsId: 0,
                         packageDetailsId: 0,
                         packageDetails: {
-                            $ref: "" // Reference should be of type Reference
+                            $ref: "" 
                         },
                         itineraryTitle: "",
                         itineraryDescriptions: {
-                            $id: "", // Add this if you need to include the $id field
+                            $id: "",
                             $values: [
                                 {
-                                    $id: "", // Add this if you need to include the $id field
+                                    $id: "",
                                     itineraryDescriptionId: 0,
                                     itineraryDetailsId: 0,
                                     itineraryDetails: {
-                                        $ref: "" // Reference should be of type Reference
+                                        $ref: "" 
                                     },
-                                    itenaryPoints: ""
+                                    itenaryPoints: "" 
                                 }
                             ]
                         }
@@ -96,7 +98,6 @@ const CreatePackage: React.FC = () => {
             }
         }
     });
-
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.currentTarget;
@@ -618,7 +619,7 @@ const CreatePackage: React.FC = () => {
                                             type: "image/png",
                                             lastModified: Date.now(),
                                         });
-                                        packageImagesArray.push(resizedFile); 
+                                        packageImagesArray.push(resizedFile);
                                         resolve(); // Resolveing the promise after the file is processed
                                     } else {
                                         reject(new Error("Failed to create blob"));
