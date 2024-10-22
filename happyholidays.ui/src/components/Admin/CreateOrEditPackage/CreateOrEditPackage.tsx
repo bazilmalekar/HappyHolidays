@@ -99,8 +99,6 @@ const CreatePackage: React.FC = () => {
         }
     });
 
-
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.currentTarget;
         setFormData(prev => ({
