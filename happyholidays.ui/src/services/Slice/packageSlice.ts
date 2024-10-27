@@ -65,6 +65,8 @@ export const fetchPackageDetails = createAsyncThunk(
     async (id: string, { rejectWithValue }) => {
         try {
             const response = await axios.get(`https://localhost:7246/Package/details/${id}`);  
+            console.log("fetch", response.data);
+            
             return response.data;
         } catch (err) {
             if (axios.isAxiosError(err) && err.response) {

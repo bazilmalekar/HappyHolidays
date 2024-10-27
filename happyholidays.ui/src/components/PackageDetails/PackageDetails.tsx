@@ -124,10 +124,10 @@ const PackageDetails: React.FC = () => {
                                         <ul>
                                             {
                                                 elem.itineraryDescriptions?.$values
-                                                    .filter((points: any) => points.itineraryPoints) //used to filter out null or empty itineraryPoints
+                                                    .filter((points: any) => points.ItenaryPoints) //used to filter out null or empty ItenaryPoints 
                                                     .map((points: any) => (
                                                         <li key={points.$id}>
-                                                            {points.itineraryPoints}
+                                                            {points.ItenaryPoints}
                                                         </li>
                                                     ))
                                             }

@@ -24,6 +24,16 @@ namespace HappyHolidays.Infrastructure.implementations
             _context = context;
         }
 
+        public async Task<IEnumerable<Package>> GetAllPackages()
+        {
+            var allPackages = await _context.Packages
+                .Include(p => p.PackageDetails)
+                    .ThenInclude(pd => pd.ItineraryDetails)
+                    .ThenInclude(id => id.ItineraryDescriptions)
+                    .ToListAsync();
+            return allPackages;
+        }
+
         public async Task<IEnumerable<PackageGetVM>> GetIntPackages()
         {
             var internationalPackages = await _context.Packages.Where(p => p.PackageType == PackageTypes.International).ToListAsync();
@@ -105,6 +115,7 @@ namespace HappyHolidays.Infrastructure.implementations
             // Map to PackageDetailsGetVM
             var packageDetailsVM = new PackageDetailsGetVM
             {
+                PackageId = packageDetails.PackageId,
                 PackageName = packageDetails.PackageName,
                 PackageLocation = packageDetails.PackageLocation,
                 PackageType = packageDetails.PackageType,
@@ -127,7 +138,7 @@ namespace HappyHolidays.Infrastructure.implementations
                         ItineraryTitle = itinerary.ItineraryTitle,
                         ItineraryDescriptions = itinerary.ItineraryDescriptions?.Select(desc => new GetItineraryDescriptionVM
                         {
-                            ItineraryPoints = desc.ItenaryPoints
+                            ItenaryPoints = desc.ItenaryPoints
                         }).ToList()
                     }).ToList()
                 }
@@ -136,16 +147,15 @@ namespace HappyHolidays.Infrastructure.implementations
             return packageDetailsVM;
         }
 
-
-
-        public async Task<IEnumerable<Package>> GetAllPackages()
+        public async Task<Package> GetPackageDetailsForEdit(int packageId)
         {
-            var allPackages = await _context.Packages
+            var package = await _context.Packages
                 .Include(p => p.PackageDetails)
-                    .ThenInclude(pd => pd.ItineraryDetails)
-                    .ThenInclude(id => id.ItineraryDescriptions)
-                    .ToListAsync();
-            return allPackages;
+                .ThenInclude(id => id.ItineraryDetails)
+                .ThenInclude(ip => ip.ItineraryDescriptions)
+                .FirstOrDefaultAsync(s => s.PackageId == packageId);
+
+            return package;
         }
 
         public async Task<Package> AddPackage(PackageVM packagevm)
@@ -175,7 +185,7 @@ namespace HappyHolidays.Infrastructure.implementations
                         ItineraryTitle = itineraryDetailsVM.ItineraryTitle, // Maps "itineraryTitle"
                         ItineraryDescriptions = itineraryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
                         {
-                            ItenaryPoints = descVM.ItenaryPoints // Maps "itineraryPoints"
+                            ItenaryPoints = descVM.ItenaryPoints // Maps "ItenaryPoints"
                         }).ToList()
                     }).ToList()
                 };
@@ -219,8 +229,6 @@ namespace HappyHolidays.Infrastructure.implementations
             return package;
         }
 
-
-
         public async Task<bool> RemovePackage(int packageId)
         {
             try
@@ -242,7 +250,7 @@ namespace HappyHolidays.Infrastructure.implementations
             }
         }
 
-        public async Task EditPackage(PackageVM package)
+        public async Task EditPackage(Package package)
         {
             _context.Packages.Update(package);
             await Save();
