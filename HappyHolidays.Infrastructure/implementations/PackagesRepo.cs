@@ -24,6 +24,16 @@ namespace HappyHolidays.Infrastructure.implementations
             _context = context;
         }
 
+        public async Task<IEnumerable<Package>> GetAllPackages()
+        {
+            var allPackages = await _context.Packages
+                .Include(p => p.PackageDetails)
+                    .ThenInclude(pd => pd.ItineraryDetails)
+                    .ThenInclude(id => id.ItineraryDescriptions)
+                    .ToListAsync();
+            return allPackages;
+        }
+
         public async Task<IEnumerable<PackageGetVM>> GetIntPackages()
         {
             var internationalPackages = await _context.Packages.Where(p => p.PackageType == PackageTypes.International).ToListAsync();
@@ -91,61 +101,61 @@ namespace HappyHolidays.Infrastructure.implementations
         }
 
         public async Task<PackageDetailsGetVM> GetPackageDetails(int packageId)
-{
-    var packageDetails = await _context.Packages
-        .Include(p => p.PackageDetails)
-            .ThenInclude(pd => pd.ItineraryDetails)
-                .ThenInclude(id => id.ItineraryDescriptions)
-        .FirstOrDefaultAsync(s => s.PackageId == packageId);
-
-    // Check if packageDetails is null
-    if (packageDetails == null)
-        return null; // or handle it as you prefer
-
-    // Map to PackageDetailsGetVM
-    var packageDetailsVM = new PackageDetailsGetVM
-    {
-        PackageName = packageDetails.PackageName,
-        PackageLocation = packageDetails.PackageLocation,
-        PackageType = packageDetails.PackageType,
-        IsActive = packageDetails.IsActive,
-        OriginalPrice = packageDetails.OriginalPrice,
-        ActualPrice = packageDetails.ActualPrice,
-        Days = packageDetails.Days,
-        Nights = packageDetails.Nights,
-        IsFixedDeparture = packageDetails.IsFixedDeparture,
-        CardThumbNailImage = packageDetails.CardThumbNailImage != null
-            ? $"data:image/jpeg;base64,{Convert.ToBase64String(packageDetails.CardThumbNailImage)}"
-            : null,
-        PackageDetails = new GetPackageDetailsVM
         {
-            PackageDescription = packageDetails.PackageDetails?.PackageDescription,
-            PackageImages = packageDetails.PackageDetails?.PackageImages?.Select(img => 
-                $"data:image/jpeg;base64,{Convert.ToBase64String(img)}").ToList(),
-            ItineraryDetails = packageDetails.PackageDetails?.ItineraryDetails?.Select(itinerary => new GetItineraryDetailsVM
-            {
-                ItineraryTitle = itinerary.ItineraryTitle,
-                ItineraryDescriptions = itinerary.ItineraryDescriptions?.Select(desc => new GetItineraryDescriptionVM
-                {
-                    ItineraryPoints = desc.ItenaryPoints
-                }).ToList()
-            }).ToList()
-        }
-    };
-
-    return packageDetailsVM;
-}
-
-
-
-        public async Task<IEnumerable<Package>> GetAllPackages()
-        {
-            var allPackages = await _context.Packages
+            var packageDetails = await _context.Packages
                 .Include(p => p.PackageDetails)
                     .ThenInclude(pd => pd.ItineraryDetails)
-                    .ThenInclude(id => id.ItineraryDescriptions)
-                    .ToListAsync();
-            return allPackages;
+                        .ThenInclude(id => id.ItineraryDescriptions)
+                .FirstOrDefaultAsync(s => s.PackageId == packageId);
+
+            // Check if packageDetails is null
+            if (packageDetails == null)
+                return null; // or handle it as you prefer
+
+            // Map to PackageDetailsGetVM
+            var packageDetailsVM = new PackageDetailsGetVM
+            {
+                PackageId = packageDetails.PackageId,
+                PackageName = packageDetails.PackageName,
+                PackageLocation = packageDetails.PackageLocation,
+                PackageType = packageDetails.PackageType,
+                IsActive = packageDetails.IsActive,
+                OriginalPrice = packageDetails.OriginalPrice,
+                ActualPrice = packageDetails.ActualPrice,
+                Days = packageDetails.Days,
+                Nights = packageDetails.Nights,
+                IsFixedDeparture = packageDetails.IsFixedDeparture,
+                CardThumbNailImage = packageDetails.CardThumbNailImage != null
+                    ? $"data:image/jpeg;base64,{Convert.ToBase64String(packageDetails.CardThumbNailImage)}"
+                    : null,
+                PackageDetails = new GetPackageDetailsVM
+                {
+                    PackageDescription = packageDetails.PackageDetails?.PackageDescription,
+                    PackageImages = packageDetails.PackageDetails?.PackageImages?.Select(img =>
+                        $"data:image/jpeg;base64,{Convert.ToBase64String(img)}").ToList(),
+                    ItineraryDetails = packageDetails.PackageDetails?.ItineraryDetails?.Select(itinerary => new GetItineraryDetailsVM
+                    {
+                        ItineraryTitle = itinerary.ItineraryTitle,
+                        ItineraryDescriptions = itinerary.ItineraryDescriptions?.Select(desc => new GetItineraryDescriptionVM
+                        {
+                            ItenaryPoints = desc.ItenaryPoints
+                        }).ToList()
+                    }).ToList()
+                }
+            };
+
+            return packageDetailsVM;
+        }
+
+        public async Task<Package> GetPackageDetailsForEdit(int packageId)
+        {
+            var package = await _context.Packages
+                .Include(p => p.PackageDetails)
+                .ThenInclude(id => id.ItineraryDetails)
+                .ThenInclude(ip => ip.ItineraryDescriptions)
+                .FirstOrDefaultAsync(s => s.PackageId == packageId);
+
+            return package;
         }
 
         public async Task<Package> AddPackage(PackageVM packagevm)
@@ -175,7 +185,7 @@ namespace HappyHolidays.Infrastructure.implementations
                         ItineraryTitle = itineraryDetailsVM.ItineraryTitle, // Maps "itineraryTitle"
                         ItineraryDescriptions = itineraryDetailsVM.ItineraryDescriptions?.Select(descVM => new ItineraryDescription
                         {
-                            ItenaryPoints = descVM.ItenaryPoints // Maps "itineraryPoints"
+                            ItenaryPoints = descVM.ItenaryPoints // Maps "ItenaryPoints"
                         }).ToList()
                     }).ToList()
                 };
@@ -218,8 +228,6 @@ namespace HappyHolidays.Infrastructure.implementations
             await _context.SaveChangesAsync();
             return package;
         }
-
-
 
         public async Task<bool> RemovePackage(int packageId)
         {

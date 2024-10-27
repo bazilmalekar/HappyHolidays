@@ -14,9 +14,12 @@ const PackageDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const dispatch = useAppDispatch();
     const { packageDetails, packageDetailsStatus, packageDetailsError } = useAppSelector((state: any) => state.packageSlice);
-
+    
     useEffect(() => {
         if (id) {
+            window.scrollTo({
+                top: 0
+            })
             dispatch(fetchPackageDetails(id));
         }
     }, [id, dispatch]);
@@ -121,10 +124,10 @@ const PackageDetails: React.FC = () => {
                                         <ul>
                                             {
                                                 elem.itineraryDescriptions?.$values
-                                                    .filter((points: any) => points.itineraryPoints) //used to filter out null or empty itineraryPoints
+                                                    .filter((points: any) => points.ItenaryPoints) //used to filter out null or empty ItenaryPoints 
                                                     .map((points: any) => (
                                                         <li key={points.$id}>
-                                                            {points.itineraryPoints}
+                                                            {points.ItenaryPoints}
                                                         </li>
                                                     ))
                                             }

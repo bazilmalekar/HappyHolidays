@@ -1,4 +1,10 @@
 .dom_packages {
     @include defaultLandingSection;
-    background-color: $package_list_bg;    
+    background-color: $package_list_bg;
+
+    .packate_list_par {
+        .loading_wrapper {
+            @include loadingDiv;
+        }
+    }
 }

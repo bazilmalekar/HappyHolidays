@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ItineraryDetails, ItineraryPoint, PackageGet, PackagePost } from "./createOrEditPackageModels";
+import { ItineraryDetails, ItineraryPoint, PackageDetails, PackageEdit, PackageGet, PackagePost } from "./createOrEditPackageModels";
 import { createPackage, editPackage } from "./createOrEditPackagets";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { RootState } from "../../../services/store";
@@ -29,8 +29,10 @@ const CreatePackage: React.FC = () => {
         days: null,
         nights: null,
         isFixedDeparture: false,
+        cardThumbNailImage: null,
         packageDetails: {
             packageDescription: "",
+            packageImages: [],
             itineraryDetails: [
                 {
                     itineraryTitle: "",
@@ -45,7 +47,7 @@ const CreatePackage: React.FC = () => {
     });
 
     const [editFormData, setEditFormData] = useState<PackageGet>({
-        $id: "", // Add this if you need to include the $id field
+        $id: "",
         packageId: 0,
         packageName: "",
         packageLocation: "",
@@ -56,34 +58,39 @@ const CreatePackage: React.FC = () => {
         days: 0,
         nights: 0,
         isFixedDeparture: false,
+        cardThumbNailImage: "",
         packageDetails: {
-            $id: "", // Add this if you need to include the $id field
+            $id: "",
             packageDetailsId: 0,
             packageId: 0,
+            packageImages: {
+                $id: "",
+                $values: []
+            },
             package: {
-                $ref: "" // Reference should be of type Reference
+                $ref: ""
             },
             packageDescription: "",
             itineraryDetails: {
-                $id: "", // Add this if you need to include the $id field
+                $id: "",
                 $values: [
                     {
-                        $id: "", // Add this if you need to include the $id field
+                        $id: "",
                         itineraryDetailsId: 0,
                         packageDetailsId: 0,
                         packageDetails: {
-                            $ref: "" // Reference should be of type Reference
+                            $ref: ""
                         },
                         itineraryTitle: "",
                         itineraryDescriptions: {
-                            $id: "", // Add this if you need to include the $id field
+                            $id: "",
                             $values: [
                                 {
-                                    $id: "", // Add this if you need to include the $id field
+                                    $id: "",
                                     itineraryDescriptionId: 0,
                                     itineraryDetailsId: 0,
                                     itineraryDetails: {
-                                        $ref: "" // Reference should be of type Reference
+                                        $ref: ""
                                     },
                                     itenaryPoints: ""
                                 }
@@ -94,7 +101,6 @@ const CreatePackage: React.FC = () => {
             }
         }
     });
-
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.currentTarget;
@@ -522,17 +528,387 @@ const CreatePackage: React.FC = () => {
         });
     };
 
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            const imageName = file.name;
 
+            const reader = new FileReader();
+            reader.readAsDataURL(file); // Read file as Data URL (base64)
+
+            reader.onload = () => {
+                if (reader.result && typeof reader.result === "string") {
+                    const img = new Image();
+                    img.src = reader.result; // Set image src to the base64 string
+
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+
+                        // Seting desired resolution
+                        const targetWidth = 400;
+                        const targetHeight = 290;
+                        canvas.width = targetWidth;
+                        canvas.height = targetHeight;
+
+                        const ctx = canvas.getContext("2d");
+
+                        // Center the image on the canvas/ If you want to apply ratio
+                        //                     ctx?.drawImage(
+                        //                         img,
+                        //                         (maxSize - img.width) / 2,
+                        //                         (maxSize - img.height) / 2
+                        //                     );
+
+                        // Drawing the image with required dimention
+                        ctx?.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+                        //Converting canvas to blob
+                        canvas.toBlob(
+                            (blob) => {
+                                if (blob) {
+                                    const resizedFile = new File([blob], imageName, {
+                                        type: "image/png",
+                                        lastModified: Date.now(),
+                                    });
+
+                                    console.log(resizedFile);
+
+                                    // Update formData state with the new resized file
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        cardThumbNailImage: resizedFile,
+                                    }));
+                                }
+                            },
+                            "image/jpeg",
+                            0.8 // Quality of JPEG compression (0-1)
+                        );
+                    };
+                }
+            };
+        }
+    };
+
+    const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            const imageName = file.name;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file); // Read file as Data URL (base64)
+
+            reader.onload = () => {
+                if (reader.result && typeof reader.result === "string") {
+                    const img = new Image();
+                    img.src = reader.result; // Set image src to the base64 string
+
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+
+                        // Seting desired resolution
+                        const targetWidth = 400;
+                        const targetHeight = 290;
+                        canvas.width = targetWidth;
+                        canvas.height = targetHeight;
+
+                        const ctx = canvas.getContext("2d");
+
+                        // Center the image on the canvas/ If you want to apply ratio
+                        //                     ctx?.drawImage(
+                        //                         img,
+                        //                         (maxSize - img.width) / 2,
+                        //                         (maxSize - img.height) / 2
+                        //                     );
+
+                        // Drawing the image with required dimention
+                        ctx?.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+                        //Converting canvas to blob
+                        canvas.toBlob(
+                            (blob) => {
+                                if (blob) {
+                                    const resizedFile = new File([blob], imageName, {
+                                        type: "image/png",
+                                        lastModified: Date.now(),
+                                    });
+
+                                    console.log(resizedFile);
+
+                                    // Update formData state with the new resized file
+                                    setEditFormData((prev) => ({
+                                        ...prev,
+                                        cardThumbNailImage: resizedFile,
+                                    }));
+                                }
+                            },
+                            "image/jpeg",
+                            0.8 // Quality of JPEG compression (0-1)
+                        );
+                    };
+                }
+            };
+        }
+    };
+
+    const handlePackageImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const files = Array.from(e.target.files);
+            let packageImagesArray: File[] = [];
+
+            // Create an array of promises for each file
+            const fileProcessingPromises = files.map((file) => {
+                return new Promise<void>((resolve, reject) => {
+                    const imageName = file.name;
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.onload = () => {
+                        if (reader.result && typeof reader.result === "string") {
+                            const img = new Image();
+                            img.src = reader.result;
+
+                            img.onload = () => {
+                                const canvas = document.createElement("canvas");
+                                const targetWidth = 600;
+                                const targetHeight = 250;
+                                canvas.width = targetWidth;
+                                canvas.height = targetHeight;
+
+                                const ctx = canvas.getContext("2d");
+                                ctx?.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+                                canvas.toBlob((blob) => {
+                                    if (blob) {
+                                        const resizedFile = new File([blob], imageName, {
+                                            type: "image/png",
+                                            lastModified: Date.now(),
+                                        });
+                                        packageImagesArray.push(resizedFile);
+                                        resolve(); // Resolveing the promise after the file is processed
+                                    } else {
+                                        reject(new Error("Failed to create blob"));
+                                    }
+                                });
+                            };
+                        }
+                    };
+
+                    reader.onerror = () => {
+                        reject(new Error("File reading has failed."));
+                    };
+                });
+            });
+
+            // Waiting for all file processing to complete before updating the form data
+            Promise.all(fileProcessingPromises)
+                .then(() => {
+                    // All files have been processed
+                    console.log("All files have been processed!");
+
+                    // updating form data
+                    setFormData((prev) => {
+                        const updatedFormData = {
+                            ...prev,
+                            packageDetails: {
+                                ...prev.packageDetails,
+                                packageImages: [...prev.packageDetails.packageImages, ...packageImagesArray], // Append resized files
+                            },
+                        };
+                        return updatedFormData; // To return updated formdata to state
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error processing files:", error);
+                });
+            console.log("final", formData);
+
+        }
+    };
+
+    const handleEditPackageImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+        const files = Array.from(e.target.files);
+        let packageImagesArray: File[] = [];
+
+        const fileProcessingPromises = files.map((file) => {
+            return new Promise<void>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+
+                reader.onload = () => {
+                    if (reader.result && typeof reader.result === "string") {
+                        const img = new Image();
+                        img.src = reader.result;
+
+                        img.onload = () => {
+                            const canvas = document.createElement("canvas");
+                            const targetWidth = 600;
+                            const targetHeight = 250;
+                            canvas.width = targetWidth;
+                            canvas.height = targetHeight;
+
+                            const ctx = canvas.getContext("2d");
+                            ctx?.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+                            canvas.toBlob((blob) => {
+                                if (blob) {
+                                    const resizedFile = new File([blob], file.name, {
+                                        type: "image/png",
+                                        lastModified: Date.now(),
+                                    });
+                                    packageImagesArray.push(resizedFile);
+                                    resolve();
+                                } else {
+                                    reject(new Error("Failed to create blob"));
+                                }
+                            });
+                        };
+                    }
+                };
+
+                reader.onerror = () => {
+                    reject(new Error("File reading has failed."));
+                };
+            });
+        });
+
+        Promise.all(fileProcessingPromises)
+            .then(() => {
+                setEditFormData((prev) => {
+                    // Ensure currentImages is defined as an array, defaulting to an empty array if undefined
+                    const currentImages = prev.packageDetails.packageImages?.$values || [];
+                    
+                    // Proceed only if currentImages is an array
+                    const updatedImages = [
+                        ...(currentImages.filter((img) => typeof img === "object") as File[]),
+                        ...packageImagesArray,
+                    ];
+                
+                    const updatedFormData: PackageGet = {
+                        ...prev,
+                        packageDetails: {
+                            ...prev.packageDetails,
+                            packageImages: {
+                                ...prev.packageDetails.packageImages,
+                                $values: updatedImages,
+                            },
+                        },
+                    };
+                
+                    return updatedFormData;
+                });
+                
+            })
+            .catch((error) => {
+                console.error("Error processing files:", error);
+            });
+    }
+};
+
+    
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(createPackage(formData));
     };
 
-    const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+
+    //     // Transform itinerary details
+    //     const transformedItineraryDetails = editFormData?.packageDetails?.itineraryDetails?.$values.map(itinerary => ({
+    //         ...itinerary,
+    //         itineraryDescriptions: {
+    //             ...itinerary.itineraryDescriptions,
+    //             $values: itinerary.itineraryDescriptions?.$values?.map(desc => ({
+    //                 ...desc
+    //             })) || []
+    //         }
+    //     })) || [];
+
+    //     // Transform the entire form data based on your interfaces
+    //     const transformedEditFormData: PackageEdit = {
+    //         ...editFormData,
+    //         packageDetails: {
+    //             ...editFormData.packageDetails,
+    //             itineraryDetails: {
+    //                 $id: editFormData.packageDetails.itineraryDetails.$id,
+    //                 $values: transformedItineraryDetails, // Assign transformed itinerary details
+    //                 forEach: Array.prototype.forEach // Ensure forEach method is preserved
+    //             },
+    //             packageImages: editFormData.packageDetails.packageImages || [] // Ensure packageImages are included
+    //         },
+    //         cardThumbNailImage: editFormData.cardThumbNailImage || "", // Handle optional card thumbnail image
+    //         actualPrice: editFormData.actualPrice || 0, // Handle optional actualPrice
+    //         originalPrice: editFormData.originalPrice || 0, // Handle optional originalPrice
+    //         days: editFormData.days || 1, // Ensure valid default value for days
+    //         nights: editFormData.nights || 1 // Ensure valid default value for nights
+    //     };
+
+    //     console.log("Transformed Edit Form Data:", transformedEditFormData);
+
+    //     // Dispatch the transformed form data
+    //     dispatch(editPackage(transformedEditFormData));
+    // };
+
+    // const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     dispatch(editPackage(editFormData));
+    // }
+
+    const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(editPackage(editFormData));
+
+        // Transform itinerary details
+        const transformedItineraryDetails = editFormData?.packageDetails?.itineraryDetails?.$values.map(itinerary => ({
+            ...itinerary,
+            itineraryDescriptions: {
+                ...itinerary.itineraryDescriptions,
+                $values: itinerary.itineraryDescriptions?.$values?.map(desc => ({
+                    ...desc
+                })) || []
+            }
+        })) || [];
+
+        let transformedCardThumbNailImage: File | null = null;
+
+        // Type guard for cardThumbNailImage
+        if (typeof editFormData.cardThumbNailImage === 'string') {
+            // It's a URL, so no new file has been uploaded
+            transformedCardThumbNailImage = null;
+        } else if (editFormData.cardThumbNailImage && 'name' in editFormData.cardThumbNailImage) {
+            // Check if the object has a 'name' property, which is a characteristic of the File type
+            transformedCardThumbNailImage = editFormData.cardThumbNailImage;
+        }
+
+        // Transform the entire form data based on your interfaces
+        const transformedEditFormData: PackageEdit = {
+            ...editFormData,
+            packageDetails: {
+                ...editFormData.packageDetails,
+                itineraryDetails: {
+                    $id: editFormData.packageDetails.itineraryDetails.$id,
+                    $values: transformedItineraryDetails, // Assign transformed itinerary details
+                    forEach: Array.prototype.forEach // Ensure forEach method is preserved
+                },
+                packageImages: editFormData.packageDetails.packageImages || [] // Ensure packageImages are included
+            },
+            packageId: editFormData.packageId,
+            cardThumbNailImage: transformedCardThumbNailImage, // Handle the File or null value
+            actualPrice: editFormData.actualPrice || 0, // Handle optional actualPrice
+            originalPrice: editFormData.originalPrice || 0, // Handle optional originalPrice
+            days: editFormData.days || 1, // Ensure valid default value for days
+            nights: editFormData.nights || 1 // Ensure valid default value for nights
+        };
+
+        console.log("Transformed Edit Form Data:", transformedEditFormData);
+
+        // Dispatch the transformed form data
+        dispatch(editPackage(transformedEditFormData));
     };
+
+
+
 
     useEffect(() => {
         if (id) {
@@ -554,8 +930,10 @@ const CreatePackage: React.FC = () => {
                 days: null,
                 nights: null,
                 isFixedDeparture: false,
+                cardThumbNailImage: null,
                 packageDetails: {
                     packageDescription: "",
+                    packageImages: [],
                     itineraryDetails: [
                         {
                             itineraryTitle: "",
@@ -606,6 +984,8 @@ const CreatePackage: React.FC = () => {
                         handleEditItineraryPointChange={handleEditItineraryPointChange}
                         addEditItineraryDetail={addEditItineraryDetail}
                         addEditItineraryPoint={addEditItineraryPoint}
+                        handleEditImageUpload={handleEditImageUpload}
+                        handleEditPackageImageUpload={handleEditPackageImageUpload}
                     /> :
                     <CreateForm
                         formData={formData}
@@ -617,6 +997,8 @@ const CreatePackage: React.FC = () => {
                         handleItineraryPointChange={handleItineraryPointChange}
                         addItineraryDetail={addItineraryDetail}
                         addItineraryPoint={addItineraryPoint}
+                        handleImageUpload={handleImageUpload}
+                        handlePackageImageUpload={handlePackageImageUpload}
                     />
             }
         </section>

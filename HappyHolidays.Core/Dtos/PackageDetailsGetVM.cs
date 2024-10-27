@@ -9,6 +9,8 @@ namespace HappyHolidays.Core.Dtos
 {
     public class PackageDetailsGetVM
     {
+        public int PackageId { get; set; }
+
         [Required]
         [StringLength(100)]
         public string PackageName { get; set; }
@@ -41,6 +43,8 @@ namespace HappyHolidays.Core.Dtos
 
     public class GetPackageDetailsVM
     {
+        public int PackageDetailsId { get; set; }
+
         public string? PackageDescription { get; set; }
 
         public List<string>? PackageImages { get; set; }
@@ -50,6 +54,8 @@ namespace HappyHolidays.Core.Dtos
 
     public class GetItineraryDetailsVM
     {
+        public int ItineraryDetailsId { get; set; }
+
         public string? ItineraryTitle { get; set; }
 
         public List<GetItineraryDescriptionVM>? ItineraryDescriptions { get; set; }
@@ -57,6 +63,8 @@ namespace HappyHolidays.Core.Dtos
 
     public class GetItineraryDescriptionVM
     {
-        public string? ItineraryPoints { get; set; }
+        public int ItineraryDescriptionId { get; set; }
+
+        public string? ItenaryPoints { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace HappyHolidays.Infrastructure.interfaces
 
         public Task<PackageDetailsGetVM> GetPackageDetails(int packageId);
 
+        public Task<Package> GetPackageDetailsForEdit(int packageId);
+
         public Task<IEnumerable<Package>> GetAllPackages();
 
         public Task<Package> AddPackage(PackageVM packagevm);

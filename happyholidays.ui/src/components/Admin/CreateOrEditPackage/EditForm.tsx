@@ -11,6 +11,8 @@ interface Props {
     handleEditItineraryPointChange: (dayIndex: number, pointIndex: number, value: string) => void;
     addEditItineraryDetail: () => void;
     addEditItineraryPoint: (index: number) => void;
+    handleEditImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleEditPackageImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const EditForm: React.FC<Props> = ({
@@ -22,9 +24,10 @@ const EditForm: React.FC<Props> = ({
     handleEditDayTitleChange,
     handleEditItineraryPointChange,
     addEditItineraryDetail,
-    addEditItineraryPoint
+    addEditItineraryPoint,
+    handleEditImageUpload,
+    handleEditPackageImageUpload
 }) => {
-    console.log(editFormData);
     return (
         <form className="admin_create_package_form" onSubmit={handleEditSubmit}>
             <div className="form_group">
@@ -82,6 +85,25 @@ const EditForm: React.FC<Props> = ({
             </div>
 
             <div className="hr"></div>
+
+            <div className="image_uplaod">
+                <h2>Multimedia</h2>
+                <div className="form_group">
+                    <label className="form_label">Card Thumbnail Image</label>
+                    <input
+                        type="file"
+                        onChange={(e) => handleEditImageUpload(e)}
+                    />
+                </div>
+                <div className="form_group">
+                    <label className="form_label">Package Images</label>
+                    <input
+                        type="file"
+                        multiple={true}
+                        onChange={(e) => handleEditPackageImageUpload(e)}
+                    />
+                </div>
+            </div>
 
             <div className="form_group">
                 <h3>Itinerary Details</h3>

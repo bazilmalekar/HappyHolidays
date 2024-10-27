@@ -11,6 +11,8 @@ interface Props {
     handleItineraryPointChange: (dayIndex: number, pointIndex: number, value: string) => void;
     addItineraryDetail: () => void;
     addItineraryPoint: (index: number) => void;
+    handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handlePackageImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CreateForm: React.FC<Props> = ({
@@ -22,7 +24,9 @@ const CreateForm: React.FC<Props> = ({
     handleDayTitleChange,
     handleItineraryPointChange,
     addItineraryDetail,
-    addItineraryPoint
+    addItineraryPoint,
+    handleImageUpload,
+    handlePackageImageUpload
 }) => {
     return (
         <form className="admin_create_package_form" onSubmit={handleSubmit}>
@@ -78,6 +82,27 @@ const CreateForm: React.FC<Props> = ({
             <div className="form_group">
                 <label htmlFor="packageDescription" className="form_label">Package Description</label>
                 <textarea id="packageDescription" className="form_input" rows={4} onChange={handleTextareaChange} name="packageDescription" value={formData.packageDetails?.packageDescription} />
+            </div>
+
+            <div className="hr"></div>
+
+            <div className="image_uplaod">
+                <h2>Multimedia</h2>
+                <div className="form_group">
+                    <label className="form_label">Card Thumbnail Image</label>
+                    <input
+                        type="file"
+                        onChange={(e) => handleImageUpload(e)}
+                    />
+                </div>
+                <div className="form_group">
+                    <label className="form_label">Package Images</label>
+                    <input
+                        type="file"
+                        multiple={true}
+                        onChange={(e) => handlePackageImageUpload(e)}
+                    />
+                </div>
             </div>
 
             <div className="hr"></div>
