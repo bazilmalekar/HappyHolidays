@@ -2,7 +2,7 @@ import React from "react"
 
 const Services: React.FC = () => {
     return (
-        <section className="services">
+        <section id="services" className="services">
             <h1 className="service_header">Services</h1>
             <div className="service_container">
                 <div className="service_aside_image">

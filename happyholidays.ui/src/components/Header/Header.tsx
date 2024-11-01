@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { intHover, domHover, honHover } from "../../services/Slice/appSlice";
@@ -12,6 +12,62 @@ const Header: React.FC = () => {
     const intState = useAppSelector(state => state.appSlice.expandInt);
     const domState = useAppSelector(state => state.appSlice.expandDom);
     const honState = useAppSelector(state => state.appSlice.expandHon);
+    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState<string>();
+    console.log("activeTab", activeTab);
+
+    const handleScroll = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        e.preventDefault();
+        const targetId = e.currentTarget.getAttribute("data-link");
+        if (targetId) {
+            if (location.pathname !== "/") {
+                navigate("/", { replace: true });
+                setTimeout(() => {
+                    const section = document.getElementById(targetId);
+                    section?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+            } else {
+                const section = document.getElementById(targetId);
+                section?.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    };
+
+    // useEffect(() => {
+    //     const id = ["services", "contact_section"];
+    //     const sections = id.map((id) => document.getElementById(id)).filter((section) => section !== null);
+    //     console.log(sections);
+    //     // const serviceTarget = document.querySelector("#services");
+
+    //     const observe = new IntersectionObserver(
+    //         (entities) => {
+    //             entities.forEach((entity) => {
+    //                 if (entity.isIntersecting) {
+    //                     setActiveTab(entity.target.id);
+    //                     console.log("entity.target.id", entity.target.id);
+                        
+    //                 }else {
+    //                     setActiveTab("");
+    //                 }
+    //             });
+    //         },
+    //         { threshold: 0.1 }
+    //     );
+
+    //     sections.forEach((sections) => {
+    //         if (sections) {
+    //             observe.observe(sections);
+    //         }
+    //     });
+
+    //     return () => {
+    //         sections.forEach((sections) => {
+    //             if (sections) {
+    //                 observe.unobserve(sections)
+    //             }
+    //         });
+    //     }
+    // }, []);
 
     return (
         <Navbar expand="lg" className="custom_nav">
@@ -52,7 +108,7 @@ const Header: React.FC = () => {
                                 <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown>        
+                        </Dropdown>
                         <Dropdown show={honState}>
                             <Nav.Link as={NavLink} to="/honeymoon" className={location.pathname.startsWith("/honeymoon") ? "custom_link active" : "custom_link"}
                                 onMouseOver={() => dispatch(honHover(true))}
@@ -68,10 +124,10 @@ const Header: React.FC = () => {
                                 <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown>                  
-                        <Nav.Link as={NavLink} className={location.pathname.startsWith("/da") ? "custom_link active" : "custom_link"} to="/da">SERVICES</Nav.Link>
-                        <Nav.Link as={NavLink} className={location.pathname.startsWith("/dc") ? "custom_link active" : "custom_link"} to="/dc">CONTACT</Nav.Link>
-                        <Nav.Link as={NavLink} className={location.pathname.startsWith("/about-us") ? "custom_link active" : "custom_link"} to="/about-us">ABOUT US</Nav.Link>
+                        </Dropdown>
+                        <Nav.Link className={activeTab === "services" ? "custom_link active" : "custom_link"} data-link="services" onClick={handleScroll}>SERVICES</Nav.Link>
+                        <Nav.Link className={activeTab === "contact_section" ? "custom_link active" : "custom_link"} data-link="contact_section" onClick={handleScroll}>CONTACT</Nav.Link>
+                        <Nav.Link as={NavLink} className={location.pathname.startsWith("/about-us") ? "custom_link" : "custom_link"} to="/about-us">ABOUT US</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 <div className="underline_animation"></div>
@@ -81,3 +137,7 @@ const Header: React.FC = () => {
 }
 
 export default Header;
+
+function setActiveTab(id: string) {
+    throw new Error("Function not implemented.");
+}
