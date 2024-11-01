@@ -6,7 +6,7 @@ import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 const ContactUsSection: React.FC = () => {
     const formType = "contactSection";
     return (
-        <section className="contact_section">
+        <section className="contact_section" id="contact_section">
             {/* <h1>Contact Us</h1> */}
             <div className="contact_div_wrapper">
                 <div className="contact_div">

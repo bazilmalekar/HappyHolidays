@@ -1,4 +1,83 @@
 .about_us {
-    background-color: red;
     @include defaultLandingSection;
+
+    .aboutUs_hero {
+        width: 100%;
+        height: calc(30vh - 152px);
+        background-image: url("../../../src/assets/images/aboutushero.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        z-index: 1;
+        color: #fff;
+        padding: 0 15%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Times New Roman", "Sarif";
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.55);
+            z-index: -1;
+        }
+    }
+
+    .aboutUs_description {
+        width: 100%;
+        min-height: calc(70vh);
+        z-index: 1;
+        position: relative;
+        padding: 2rem 15%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 1rem;
+
+        --s: 15px;
+        /* control the size*/
+        --c1: #b09f79;
+        --c2: #476074;
+
+        --_g: #0000 83%, var(--c1) 85% 99%, #0000 101%;
+        background:
+            radial-gradient(27% 29% at right, var(--_g)) calc(var(--s)/ 2) var(--s),
+            radial-gradient(27% 29% at left, var(--_g)) calc(var(--s)/-2) var(--s),
+            radial-gradient(29% 27% at top, var(--_g)) 0 calc(var(--s)/ 2),
+            radial-gradient(29% 27% at bottom, var(--_g)) 0 calc(var(--s)/-2) var(--c2);
+        background-size: calc(2*var(--s)) calc(2*var(--s));
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+    }
 }
+
+// html {
+//     --s: 15px;
+//     /* control the size*/
+//     --c1: #b09f79;
+//     --c2: #476074;
+
+//     --_g: #0000 83%, var(--c1) 85% 99%, #0000 101%;
+//     background:
+//         radial-gradient(27% 29% at right, var(--_g)) calc(var(--s)/ 2) var(--s),
+//         radial-gradient(27% 29% at left, var(--_g)) calc(var(--s)/-2) var(--s),
+//         radial-gradient(29% 27% at top, var(--_g)) 0 calc(var(--s)/ 2),
+//         radial-gradient(29% 27% at bottom, var(--_g)) 0 calc(var(--s)/-2) var(--c2);
+//     background-size: calc(2*var(--s)) calc(2*var(--s));
+// }
