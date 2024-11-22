@@ -40,7 +40,7 @@ const CarouselSlider = () => {
             stopAutoPlayOnHover={false}
             animation="fade"
             interval={5000}
-            height="calc(83.3vh + 3.5rem)"
+            height="100%"
             onChange={handleChange}>
             {
                 items.map((item, i) => <Item key={i} item={item} />)

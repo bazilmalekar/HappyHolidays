@@ -45,7 +45,7 @@ const Header: React.FC = () => {
     //                 if (entity.isIntersecting) {
     //                     setActiveTab(entity.target.id);
     //                     console.log("entity.target.id", entity.target.id);
-                        
+
     //                 }else {
     //                     setActiveTab("");
     //                 }
@@ -72,7 +72,9 @@ const Header: React.FC = () => {
     return (
         <Navbar expand="lg" className="custom_nav">
             <div className="container-fluid custom_container">
-                <Navbar.Brand className="custom_link brand" href="#home">HappyHolidays</Navbar.Brand>
+                <Navbar.Brand className="custom_link brand" href="/">
+                    <img src="/src/assets/images/HHLogo.png" alt="Logo"/>
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="h-100">
                     <Nav className="ms-auto h-100 underline_animation">
