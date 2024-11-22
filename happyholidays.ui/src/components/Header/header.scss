@@ -10,6 +10,15 @@
 .custom_container {
     @include custom_container;
     height: 100%;
+
+    img {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+.custom_link.brand {
+    width: 20rem !important;
 }
 
 .custom_link {

@@ -19,6 +19,7 @@ import { useAppSelector } from "./services/hooks";
 import { RootState } from "./services/store";
 import ContactUsPopUpForm from "./components/ContactUsPopUpForm/ContactUsPopUpForm";
 import ContactUsPopUpFormIcon from "./components/ContactUsPopUpFormIcon/ContactUsPopUpFormIcon";
+import Auth from "./components/Auth/Auth";
 
 const App = () => {
   const { displayPopupForm } = useAppSelector((state: RootState) => state.appSlice);
@@ -29,6 +30,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Auth />} />
         <Route path="/international" element={<InternationalComp />} />
         <Route path="/domestic" element={<DomesticComp />} />
         <Route path="/honeymoon" element={<HoneymoonComp />} />
