@@ -3,9 +3,9 @@ import axios from "axios";
 
 export const getAllPackages = createAsyncThunk(
     "packageSlice/getAllPackages",
-    async (_, { rejectWithValue }) => {
+    async ({ axiosPrivate }: { axiosPrivate: any }, { rejectWithValue }) => {
         try {
-            const response = await axios.get("https://localhost:7246/Package/GetPackages");
+            const response = await axiosPrivate.get("/Package/GetPackages");
             return response.data.$values;
         } catch (err) {
             if (axios.isAxiosError(err) && err.response) {
@@ -21,10 +21,10 @@ export const getAllPackages = createAsyncThunk(
 
 export const deletePackage = createAsyncThunk(
     "packageSlice/deletePackage",
-    async (id: number, { rejectWithValue }) => {
+    async ({ id, axiosPrivate }: { id: number, axiosPrivate: any }, { rejectWithValue }) => {
         try {
-            const response = await axios.delete(`https://localhost:7246/Package/DeletePackage/${id}`);
-            return response.data; 
+            const response = await axiosPrivate.delete(`https://localhost:7246/Package/DeletePackage/${id}`);
+            return response.data;
         } catch (err) {
             if (axios.isAxiosError(err) && err.response) {
                 console.error(err.response.data || err.message);

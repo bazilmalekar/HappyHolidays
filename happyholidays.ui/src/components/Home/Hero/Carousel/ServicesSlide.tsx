@@ -1,8 +1,6 @@
 const ServicesSlide = () => {
     return (
-        <div className="defaule_slider services_slide">
-            {/* <h1>Services Slide</h1> */}
-        </div>
+        <div className="defaule_slider services_slide"></div>
     );
 }
 

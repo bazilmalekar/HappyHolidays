@@ -1,18 +1,23 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { fetchDomesticPackages } from "./domesticts";
 import { PackageGet } from "../Admin/CreateOrEditPackage/createOrEditPackageModels";
 import CarousalComp from "../CarousalComp/CarousalComp";
 import Search from "../Home/Packages/Search";
 import ContactUsSection from "../Home/ContactUsSection/ContactUsSection";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import PackageCard from "../PackageCard/PackageCard";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import { RootState } from "../../services/store";
+import { fetchDomesticPackages } from "../../services/Slice/packageSlice";
 
 const DomesticComp: React.FC = () => {
     const dispatch = useAppDispatch();
+    const axiosPrivate = useAxiosPrivate();
     const route = "domestic";
-    const { domesticPackages, domesticPackageStatus, domesticPackageError } = useAppSelector((state: any) => state.packageSlice);
+    const { domesticPackages, domesticPackageStatus, domesticPackageError } = useAppSelector((state: RootState) => state.packageSlice);
     const hasFixedPackages = domesticPackages?.some((elem: PackageGet) => elem.isFixedDeparture == true);
+
+    console.log("domesticPackages", domesticPackages);
 
     const items = [
         {
@@ -26,7 +31,7 @@ const DomesticComp: React.FC = () => {
     ]
 
     useEffect(() => {
-        dispatch(fetchDomesticPackages());
+        dispatch(fetchDomesticPackages({ axiosPrivate }));
     }, []);
     return (
         <section className="dom_packages">
@@ -39,7 +44,7 @@ const DomesticComp: React.FC = () => {
             <Search />
             <div className="packate_list_par">
                 {
-                    domesticPackages === "loading" ? (
+                    domesticPackageStatus === "loading" ? (
                         <div className="loading_wrapper">
                             <LoadingSpinner />
                         </div>
