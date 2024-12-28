@@ -20,6 +20,8 @@ import { RootState } from "./services/store";
 import ContactUsPopUpForm from "./components/ContactUsPopUpForm/ContactUsPopUpForm";
 import ContactUsPopUpFormIcon from "./components/ContactUsPopUpFormIcon/ContactUsPopUpFormIcon";
 import Auth from "./components/Auth/Auth";
+import Layout from "./components/Layout";
+import RequireAuth from "./components/RequireAuth";
 
 const App = () => {
   const { displayPopupForm } = useAppSelector((state: RootState) => state.appSlice);
@@ -29,22 +31,26 @@ const App = () => {
       <Topbar />
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Auth />} />
-        <Route path="/international" element={<InternationalComp />} />
-        <Route path="/domestic" element={<DomesticComp />} />
-        <Route path="/honeymoon" element={<HoneymoonComp />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/international/details/:id" element={<PackageDetails />} />
-        <Route path="/domestic/details/:id" element={<PackageDetails />} />
-        <Route path="/honeymoon/details/:id" element={<PackageDetails />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Auth />} />
+          <Route path="/international" element={<InternationalComp />} />
+          <Route path="/domestic" element={<DomesticComp />} />
+          <Route path="/honeymoon" element={<HoneymoonComp />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/international/details/:id" element={<PackageDetails />} />
+          <Route path="/domestic/details/:id" element={<PackageDetails />} />
+          <Route path="/honeymoon/details/:id" element={<PackageDetails />} />
 
-        {/* Put the below routes in private route */}
-        <Route path="/admin" element={<Admin />}>
-          <Route index element={<AllPackages />} />
-          <Route path="create-package" element={<CreatePackage />} />
-          <Route path="edit-package/:id" element={<CreatePackage />} />
-          <Route path="queries" element={<Queries />} />
+          {/* Put the below routes in private route */}
+          <Route element={<RequireAuth />}>
+            <Route path="/admin" element={<Admin />}>
+              <Route index element={<AllPackages />} />
+              <Route path="create-package" element={<CreatePackage />} />
+              <Route path="edit-package/:id" element={<CreatePackage />} />
+              <Route path="queries" element={<Queries />} />
+            </Route>
+          </Route>
         </Route>
       </Routes>
       {displayPopupForm && <ContactUsPopUpForm />}

@@ -48,7 +48,7 @@ namespace HappyHolidays.WebApi.Controllers
             var DomPackages = await _packagesRepo.GetDomPackages();
             if (DomPackages == null)
             {
-                return NotFound("No international packages found");
+                return NotFound("No domestic packages found");
             }
             return Ok(DomPackages);
         }
@@ -59,7 +59,7 @@ namespace HappyHolidays.WebApi.Controllers
             var honeymoonPackages = await _packagesRepo.GetHoneymoonPackages();
             if (honeymoonPackages == null)
             {
-                return NotFound("No international packages found");
+                return NotFound("No honeymoon packages found");
             }
             return Ok(honeymoonPackages);
         }

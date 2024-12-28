@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { fetchInternationalPackage } from "./internationalts";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { PackageGet } from "../Admin/CreateOrEditPackage/createOrEditPackageModels";
 import Search from "../Home/Packages/Search";
@@ -8,9 +7,12 @@ import { RootState } from "../../services/store";
 import CarousalComp from "../CarousalComp/CarousalComp";
 import ContactUsSection from "../Home/ContactUsSection/ContactUsSection";
 import PackageCard from "../PackageCard/PackageCard";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import { fetchInternationalPackage } from "../../services/Slice/packageSlice";
 
 const InternationalComp: React.FC = () => {
     const dispatch = useAppDispatch();
+    const axiosPrivate = useAxiosPrivate();
     const route = "international";
     const { internationalPackages, internationalPackageStatus, internationalPackageError } = useAppSelector((state: RootState) => state.packageSlice);
     const hasFixedPackages = internationalPackages?.some((elem: PackageGet) => elem.isFixedDeparture == true);
@@ -27,7 +29,7 @@ const InternationalComp: React.FC = () => {
     ]
 
     useEffect(() => {
-        dispatch(fetchInternationalPackage());
+        dispatch(fetchInternationalPackage({ axiosPrivate }));
     }, []);
     return (
         <section className="int_packages">

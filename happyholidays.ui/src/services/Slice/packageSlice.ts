@@ -1,7 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchInternationalPackage } from "../../components/International/internationalts";
-import { fetchDomesticPackages } from "../../components/Domestic/domesticts";
-import { fetchHoneymoonPackages } from "../../components/Honeymoon/honeymoonts";
 import { deletePackage, getAllPackages } from "../../components/Admin/AllPackages/allpackagests";
 import { createPackage, editPackage } from "../../components/Admin/CreateOrEditPackage/createOrEditPackagets";
 import { PackageGet, PackagePost } from "../../components/Admin/CreateOrEditPackage/createOrEditPackageModels";
@@ -60,13 +57,69 @@ const initialState: PackageState = {
     editPackageError: null
 }
 
+// get domestic packages
+export const fetchDomesticPackages = createAsyncThunk(
+    "packageSlice/fetchDomesticPackages",
+    async ({ axiosPrivate }: { axiosPrivate: any }, { rejectWithValue }) => {
+        try {
+            const response = await axiosPrivate.get("/Package/domestic");
+            return response.data;
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response) {
+                console.error(err.response.data || err.message);
+                return rejectWithValue(err.response?.data);
+            } else {
+                console.error('Unexpected error:', err);
+                return rejectWithValue('An unexpected error occurred');
+            }
+        }
+    },
+);
+
+// get international packages
+export const fetchInternationalPackage = createAsyncThunk(
+    "packageSlice/fetchInternationalPackage",
+    async ({ axiosPrivate }: { axiosPrivate: any }, { rejectWithValue }) => {
+        try {
+            const response = await axiosPrivate.get("https://localhost:7246/Package/international");
+            return response.data;
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response) {
+                console.error(err.response.data || err.message);
+                return rejectWithValue(err.response?.data);
+            }
+            else {
+                console.error('Unexpected error:', err);
+                return rejectWithValue('An unexpected error occurred');
+            }
+        }
+    }
+);
+
+// get honeymoon packages
+export const fetchHoneymoonPackages = createAsyncThunk(
+    "packageSlice/fetchHoneymoonPackages",
+    async ({ axiosPrivate }: { axiosPrivate: any }, { rejectWithValue }) => {
+        try {
+            const response = await axiosPrivate.get("https://localhost:7246/Package/honeymoon");
+            return response.data;
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response) {
+                console.error(err.response.data || err.message);
+                return rejectWithValue(err.response?.data);
+            } else {
+                console.error('Unexpected error:', err);
+                return rejectWithValue('An unexpected error occurred');
+            }
+        }
+    }
+);
+
 export const fetchPackageDetails = createAsyncThunk(
     "packageSlice/fetchPackageDetails",
     async (id: string, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://localhost:7246/Package/details/${id}`);  
-            console.log("fetch", response.data);
-            
+            const response = await axios.get(`https://localhost:7246/Package/details/${id}`);
             return response.data;
         } catch (err) {
             if (axios.isAxiosError(err) && err.response) {

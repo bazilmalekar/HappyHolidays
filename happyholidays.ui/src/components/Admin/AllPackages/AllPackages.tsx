@@ -8,6 +8,7 @@ import { PackageGet } from "../CreateOrEditPackage/createOrEditPackageModels";
 import { editPackage } from "../CreateOrEditPackage/createOrEditPackagets";
 import { handleIsActiveChange, resetEditPackageStatus } from "../../../services/Slice/packageSlice";
 import { toast } from "react-toastify";
+import { axiosPrivate } from "../../../services/Slice/Api/axios";
 
 const AllPackages: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -19,8 +20,8 @@ const AllPackages: React.FC = () => {
     const handleDelete = async (id: number) => {
         if (window.confirm("Are you sure you want to delete this package?")) {
             try {
-                await dispatch(deletePackage(id)).unwrap(); // Unwrap to handle result or error
-                await dispatch(getAllPackages()).unwrap(); // Unwrap to handle result or error
+                await dispatch(deletePackage({ id, axiosPrivate })).unwrap(); // Unwrap to handle result or error
+                await dispatch(getAllPackages({ axiosPrivate })).unwrap(); // Unwrap to handle result or error
             } catch (error) {
                 console.error('Error occurred:', error);
             }
@@ -44,7 +45,6 @@ const AllPackages: React.FC = () => {
                 position: "top-center"
             })
         } else if (editIsActive && editPackagePackageStatus === "failed") {
-            console.log(editPackageError);
             toast.error(`${editPackageError.title}`, {
                 position: "top-center"
             })
@@ -59,7 +59,7 @@ const AllPackages: React.FC = () => {
     }, [allPackages])
 
     useEffect(() => {
-        dispatch(getAllPackages());
+        dispatch(getAllPackages({ axiosPrivate }));
     }, [dispatch])
     return (
         <section className="allPackages">

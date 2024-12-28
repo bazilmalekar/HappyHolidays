@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { fetchHoneymoonPackages } from "./honeymoonts";
 import { PackageGet } from "../Admin/CreateOrEditPackage/createOrEditPackageModels";
 import Search from "../Home/Packages/Search";
 import CarousalComp from "../CarousalComp/CarousalComp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import PackageCard from "../PackageCard/PackageCard";
 import ContactUsSection from "../Home/ContactUsSection/ContactUsSection";
+import { fetchHoneymoonPackages } from "../../services/Slice/packageSlice";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 
 const HoneymoonComp: React.FC = () => {
     const dispatch = useAppDispatch();
+    const axiosPrivate = useAxiosPrivate();
     const route = "honeymoon";
     const { honeymoonPackages, honeymoonPackageStatus, honeymoonPackageError } = useAppSelector((state: any) => state.packageSlice);
     const hasFixedPackages = honeymoonPackages?.some((elem: PackageGet) => elem.isFixedDeparture == true);
@@ -26,7 +28,7 @@ const HoneymoonComp: React.FC = () => {
     ]
 
     useEffect(() => {
-        dispatch(fetchHoneymoonPackages());
+        dispatch(fetchHoneymoonPackages({ axiosPrivate }));
     }, []);
 
     return (

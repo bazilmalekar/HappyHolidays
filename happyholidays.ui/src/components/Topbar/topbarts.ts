@@ -11,7 +11,6 @@ export const handleCopyClick = (event: Event) => {
     try {
         const target = event.target as HTMLElement;
         navigator.clipboard.writeText(target.textContent || "");
-        console.log(target.textContent);
         toast.info("Text Coppied!", {
             position: "top-center",
             theme: "dark",
