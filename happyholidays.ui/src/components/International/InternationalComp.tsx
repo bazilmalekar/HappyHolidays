@@ -33,10 +33,10 @@ const InternationalComp: React.FC = () => {
     }, []);
     return (
         <section className="int_packages">
-            <div className="package_hero">
+            <div className="package_hero hero">
                 <CarousalComp items={items} />
-                <div className="package_hero_content">
-                    <h2 className="package_type">International Packages</h2>
+                <div className="hero_text_welcome">
+                    <h1 className="welcome_text welcome_package">International Packages</h1>
                 </div>
             </div>
             <Search />

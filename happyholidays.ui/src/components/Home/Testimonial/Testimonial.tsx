@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import useIntersectionObserver from "../../../Hooks/useIntersectionObserver";
 
 const cardContent = [
     {
@@ -8,7 +11,7 @@ const cardContent = [
         cardDescription: "Thank you for your good service..One of the best operator from Karnataka.If any one is looking for either national or International package..I 'll suggest Happy Holidayz.100% satisfied.The trip to Bangkok and Pattaya was organised very well.",
         imagedisc: "Card Icon"
     },
-    
+
     {
         id: 2,
         cardIcon: "/src/assets/testimonial/woman.png",
@@ -47,15 +50,27 @@ const cardContent = [
 ]
 
 const Testimonial: React.FC = () => {
+    // intersection observer hook
+    const [targetRef, isIntersecting] = useIntersectionObserver({
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1,
+    });
+    useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    }, []);
     return (
         <section className="user_testimonail">
-            <h1>Our Happy Customers !</h1>
+            <h1 ref={targetRef} className={`text_decoration ${isIntersecting && "active"}`}>Our Happy Customers !</h1>
             <div className="user_testimonal_card_par_wrapper">
                 {
                     cardContent.length &&
-                    cardContent.map((content) => {
+                    cardContent.map((content, i) => {
                         return (
-                            <div className="testimonal_card_wrapper" key={content.id}>
+                            <div className="testimonal_card_wrapper" key={content.id} data-aos="fade-up" data-aos-delay={`${(i * 1.5) * 100}`}>
                                 <div className="testimonal_card">
                                     <div className="testimonal_card_image_wrapper">
                                         <img src={`${content.cardIcon}`} alt={`${content.imagedisc}`} />
@@ -69,7 +84,7 @@ const Testimonial: React.FC = () => {
                     })
                 }
             </div>
-        </section>
+        </section >
     );
 }
 

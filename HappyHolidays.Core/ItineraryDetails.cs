@@ -20,5 +20,9 @@ namespace HappyHolidays.Core
         public string? ItineraryTitle { get; set; }
 
         public List<ItineraryDescription>? ItineraryDescriptions { get; set; }
+
+        public List<InclusionsDescription>? InclusionsDescriptions { get; set; }
+
+        public List<ExclusionsDescription>? ExclusionsDescriptions { get; set; }
     }
 }
