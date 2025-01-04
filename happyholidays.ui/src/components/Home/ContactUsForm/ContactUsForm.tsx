@@ -5,6 +5,8 @@ import { RootState } from "../../../services/store";
 import { postQuery } from "../../../services/Slice/contactSlice";
 import { popUpToggle } from "../../../services/Slice/appSlice";
 import { toast } from "react-toastify";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 interface Props {
     formType: string;
@@ -72,8 +74,14 @@ const ContactUsForm: React.FC<Props> = ({ formType, mountFlag, setMountFlag }) =
 
     }, [postContactDataStatus]);
 
+    useEffect(() => {
+        AOS.init({
+            duration: 1000,
+        });
+    }, []);
+
     return (
-        <form className="form_body" onSubmit={handleSubmit}>
+        <form className="form_body" onSubmit={handleSubmit} data-aos="fade-in" data-aos-duration="1000">
             <div className="contact_form_group">
                 {formType == "popup" && <label htmlFor="" className="contact_form_label required">Name</label>}
                 <input type="text" className="contact_form_input" onChange={handleChange} name="name" value={contactUsFormData.name} placeholder={formType === "popup" ? "Your Name" : "Name"} />
@@ -100,7 +108,7 @@ const ContactUsForm: React.FC<Props> = ({ formType, mountFlag, setMountFlag }) =
             </div>
             <div className="contact_form_group">
                 {formType == "popup" && <label htmlFor="" className="contact_form_label required">Message</label>}
-                <textarea rows={4} className="contact_form_input" onChange={handleChange} name="message" value={contactUsFormData.message} placeholder="Please add your message"/>
+                <textarea rows={4} className="contact_form_input" onChange={handleChange} name="message" value={contactUsFormData.message} placeholder="Please add your message" />
             </div>
             <button type="submit" className="custom_success_btn">Submit</button>
         </form>

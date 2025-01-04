@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { deletePackage, getAllPackages } from "./allpackagests";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useNavigate } from "react-router-dom";
 import Switch from '@mui/material/Switch';
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import { PackageGet } from "../CreateOrEditPackage/createOrEditPackageModels";
 import { editPackage } from "../CreateOrEditPackage/createOrEditPackagets";
-import { handleIsActiveChange, resetEditPackageStatus } from "../../../services/Slice/packageSlice";
+import { deletePackage, getAllPackages, handleIsActiveChange, resetEditPackageStatus } from "../../../services/Slice/packageSlice";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "../../../services/Slice/Api/axios";
+import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 
 const AllPackages: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const axiosPrivate = useAxiosPrivate();
     const { allPackages, allPackagesStatus, allPackagesError, editPackagePackageStatus, editPackageError } = useAppSelector((state: any) => state.packageSlice);
     const [editIsActive, setEditIsActive] = useState<boolean>(false);
     const [swithId, setSwitchId] = useState<number>();
@@ -32,9 +33,6 @@ const AllPackages: React.FC = () => {
         setEditIsActive(true);
         setSwitchId(packageId);
         dispatch(handleIsActiveChange({ id: packageId }));
-
-
-
     };
 
     useEffect(() => {

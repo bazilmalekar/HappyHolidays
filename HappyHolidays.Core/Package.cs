@@ -22,6 +22,10 @@ namespace HappyHolidays.Core
         public string PackageLocation { get; set; }
 
         [Required]
+        [StringLength(100)]
+        public string PrimaryLocation { get; set; }
+
+        [Required]
         public PackageTypes PackageType { get; set; }
 
         [Required]

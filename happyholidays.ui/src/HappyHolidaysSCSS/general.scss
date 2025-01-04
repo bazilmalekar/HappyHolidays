@@ -254,6 +254,7 @@
             font-family: 'Times New Roman', Times, serif;
             font-size: 4rem;
             position: relative;
+
             &::before {
                 content: "";
                 position: absolute;
@@ -343,3 +344,70 @@
         transform: scaleX(1);
     }
 }
+
+
+// Title Text decoration Start
+.text_decoration {
+    width: max-content;
+    margin: 0 auto 2rem auto !important;
+    position: relative;
+    font-family: "Times New Roman", "Sarif";
+    text-align: center;
+
+    p {
+        font-size: large;
+    }
+}
+
+.text_decoration.active {
+    &::before {
+        content: "";
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        bottom: -0.25rem;
+        left: 0;
+        background-color: black;
+        border-radius: 5px;
+        animation: animateBefore 0.75s ease-in forwards;
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    &::after {
+        content: "";
+        height: 2px;
+        width: 80%;
+        position: absolute;
+        bottom: -1.15rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: black;
+        border-radius: 5px;
+        animation: animateAfter 0.75s ease-in forwards;
+        transform: scaleX(0);
+        transform-origin: right;
+    }
+
+    @keyframes animateBefore {
+        0% {
+            transform: scaleX(0);
+        }
+
+        100% {
+            transform: scaleX(1);
+        }
+    }
+
+    @keyframes animateAfter {
+        0% {
+            transform: translateX(-50%) scaleX(0);
+        }
+
+        100% {
+            transform: translateX(-50%) scaleX(1);
+        }
+    }
+}
+
+// Title Text decoration End
