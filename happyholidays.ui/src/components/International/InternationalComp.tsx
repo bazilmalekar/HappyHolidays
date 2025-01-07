@@ -9,6 +9,7 @@ import ContactUsSection from "../Home/ContactUsSection/ContactUsSection";
 import PackageCard from "../PackageCard/PackageCard";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import { fetchInternationalPackage } from "../../services/Slice/packageSlice";
+import FilterComp from "../FilterComp/FilterComp";
 
 const InternationalComp: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -16,6 +17,8 @@ const InternationalComp: React.FC = () => {
     const route = "international";
     const { internationalPackages, internationalPackageStatus, internationalPackageError } = useAppSelector((state: RootState) => state.packageSlice);
     const hasFixedPackages = internationalPackages?.some((elem: PackageGet) => elem.isFixedDeparture == true);
+    console.log("internationalPackages", internationalPackages);
+
 
     const items = [
         {
@@ -39,8 +42,8 @@ const InternationalComp: React.FC = () => {
                     <h1 className="welcome_text welcome_package">International Packages</h1>
                 </div>
             </div>
-            <Search />
-            <div className="packate_list_par">
+            {/* <Search /> */}
+            {/* <div className="packate_list_par">
                 {
                     internationalPackageStatus === "loading" ? (
                         <div className="loading_wrapper">
@@ -80,6 +83,33 @@ const InternationalComp: React.FC = () => {
                         </>
                     )
                 }
+            </div> */}
+            <div className="packate_list_par">
+                <div className="filter_section">
+                    <FilterComp />
+                </div>
+                <div className="package_list">
+                    {
+                        internationalPackageStatus === "loading" ?
+                            (
+                                <div className="loading_wrapper">
+                                    <LoadingSpinner />
+                                </div>
+                            ) :
+                            (
+                                internationalPackages.length ?
+                                    (
+                                        <>Package available</>
+                                    ) :
+                                    (
+                                        <div className="no_packages">
+                                            <h3>Please visit us again soon.</h3>
+                                            <p>Sorry, no packages are available at the moment...</p>
+                                        </div>
+                                    )
+                            )
+                    }
+                </div>
             </div>
             <ContactUsSection />
         </section>

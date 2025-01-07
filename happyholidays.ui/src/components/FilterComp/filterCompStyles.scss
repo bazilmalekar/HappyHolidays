@@ -1,0 +1,43 @@
+.filter_comp * {
+    @include setZero;
+}
+
+.filter_comp {
+    width: 100%;
+    min-height: 4rem;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #e2e2e2;
+    position: sticky !important;
+    top: 5rem;
+
+    .comp_header {
+        width: 100%;
+        min-height: 2rem;
+        background-color: #f5a800;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        font-family: "Times New Roman", "Sarif";
+        padding: 0.5rem 0;
+    }
+
+    .filter_location_list {
+        width: 100%;
+        padding: 1rem;
+        background-color: #fff;
+        .individual_location {
+            background-color: transparent;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            color: #7a7a7a;
+            font-weight: 400;
+            margin-top: 0.5rem;
+            input {
+                cursor: pointer;
+            }
+        }
+    }
+}
