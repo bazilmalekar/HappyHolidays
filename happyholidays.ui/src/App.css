@@ -323,6 +323,24 @@
         .package_type_section .package_type_section_chi .international_div .v_cover .d2 {
           height: 50%;
           width: 100%; }
+      .package_type_section .package_type_section_chi .international_div .v_cover .d1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-family: "Times New Roman", "Sarif";
+        letter-spacing: 0.5rem; }
+      .package_type_section .package_type_section_chi .international_div .v_cover .d2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        position: relative; }
+        .package_type_section .package_type_section_chi .international_div .v_cover .d2 .custom_package_logo {
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          font-weight: 500; }
       .package_type_section .package_type_section_chi .international_div:hover {
         transform: translateY(-0.25rem);
         box-shadow: 0 5px 15px -1px #555555;
@@ -363,6 +381,27 @@
           .package_type_section .package_type_section_chi .reduced_div .honeymoon_div .v_cover .d2 {
             height: 50%;
             width: 100%; }
+        .package_type_section .package_type_section_chi .reduced_div .domestic_div .v_cover .d1,
+        .package_type_section .package_type_section_chi .reduced_div .honeymoon_div .v_cover .d1 {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+          font-family: "Times New Roman", "Sarif";
+          letter-spacing: 0.35rem; }
+        .package_type_section .package_type_section_chi .reduced_div .domestic_div .v_cover .d2,
+        .package_type_section .package_type_section_chi .reduced_div .honeymoon_div .v_cover .d2 {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+          position: relative; }
+          .package_type_section .package_type_section_chi .reduced_div .domestic_div .v_cover .d2 .custom_package_logo,
+          .package_type_section .package_type_section_chi .reduced_div .honeymoon_div .v_cover .d2 .custom_package_logo {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-weight: 500; }
         .package_type_section .package_type_section_chi .reduced_div .domestic_div:hover,
         .package_type_section .package_type_section_chi .reduced_div .honeymoon_div:hover {
           transform: translateY(-0.25rem);
@@ -432,7 +471,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 10rem; }
+    height: 100%; }
 
 .dom_packages {
   width: 100%;
@@ -443,7 +482,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 10rem; }
+    height: 100%; }
 
 .hon_package {
   width: 100%;
@@ -454,141 +493,27 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 10rem; }
+    height: 100%; }
 
 .packate_list_par {
-  padding: 0 15% 1rem;
   display: flex;
-  flex-flow: column wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 3.5rem; }
-  .packate_list_par .fixed_departure,
-  .packate_list_par .non_fixed_departure {
-    width: 100%; }
-    .packate_list_par .fixed_departure .package_container,
-    .packate_list_par .non_fixed_departure .package_container {
+  width: 100%;
+  min-height: 15rem; }
+  .packate_list_par .filter_section {
+    padding: 1rem;
+    flex: 0 0 20%;
+    border-right: 1px solid #e2e2e2; }
+  .packate_list_par .package_list {
+    flex: 0 0 80%; }
+    .packate_list_par .package_list .no_packages {
+      padding: 0;
+      margin: 0;
       display: flex;
-      flex-flow: row wrap;
-      align-items: flex-start;
-      justify-content: flex-start;
-      width: 100%; }
-      .packate_list_par .fixed_departure .package_container .card_par,
-      .packate_list_par .non_fixed_departure .package_container .card_par {
-        padding: 0.5rem;
-        width: calc(100% / 4);
-        margin-top: 0.5rem; }
-        .packate_list_par .fixed_departure .package_container .card_par .package_card *,
-        .packate_list_par .non_fixed_departure .package_container .card_par .package_card * {
-          padding: 0;
-          margin: 0; }
-        .packate_list_par .fixed_departure .package_container .card_par .package_card,
-        .packate_list_par .non_fixed_departure .package_container .card_par .package_card {
-          width: 100%;
-          border-radius: 5px;
-          overflow: hidden;
-          background-color: #fff;
-          box-shadow: 0 15px 25px -2px #c2c2c2;
-          pointer-events: auto;
-          position: relative; }
-          .packate_list_par .fixed_departure .package_container .card_par .package_card .card_image_container,
-          .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_image_container {
-            height: 13rem;
-            background-color: lightblue; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .card_image_container img,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_image_container img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              object-position: center; }
-          .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container,
-          .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container {
-            padding: 0.5rem 1rem; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container *,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container * {
-              margin-top: 0.1rem; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_location,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_location {
-              color: #919191;
-              font-size: 0.85rem; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_name,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_name {
-              font-size: 1.25rem;
-              font-weight: 500;
-              font-family: "Georgia", "serif"; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_duration,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_duration {
-              display: flex;
-              justify-content: flex-start;
-              align-items: center;
-              flex-direction: row;
-              flex-wrap: wrap;
-              gap: 0.35rem; }
-              .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_duration .package_duration_text,
-              .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_duration .package_duration_text {
-                color: #f88c24;
-                font-size: 0.95rem; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_cost,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_cost {
-              display: flex;
-              justify-content: flex-start;
-              gap: 1rem;
-              align-items: center; }
-              .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_cost .cost_text,
-              .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_cost .ap,
-              .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_cost .cost_text,
-              .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_cost .ap {
-                font-weight: 500; }
-              .packate_list_par .fixed_departure .package_container .card_par .package_card .card_details_container .package_cost .op,
-              .packate_list_par .non_fixed_departure .package_container .card_par .package_card .card_details_container .package_cost .op {
-                text-decoration: line-through;
-                letter-spacing: 0.5px; }
-          .packate_list_par .fixed_departure .package_container .card_par .package_card .replace_div,
-          .packate_list_par .non_fixed_departure .package_container .card_par .package_card .replace_div {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: all 0.20s ease-out; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .replace_div .trade_mark,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .replace_div .trade_mark {
-              background-color: transparent;
-              color: #fff !important;
-              position: absolute;
-              top: 5px;
-              left: 5px; }
-            .packate_list_par .fixed_departure .package_container .card_par .package_card .replace_div .card_btn,
-            .packate_list_par .non_fixed_departure .package_container .card_par .package_card .replace_div .card_btn {
-              outline: 2px solid #fff;
-              border: none;
-              background-color: transparent;
-              color: #fff;
-              padding: 0.5rem;
-              border-radius: 5px;
-              cursor: pointer;
-              text-transform: uppercase;
-              letter-spacing: 2px; }
-              .packate_list_par .fixed_departure .package_container .card_par .package_card .replace_div .card_btn:hover,
-              .packate_list_par .non_fixed_departure .package_container .card_par .package_card .replace_div .card_btn:hover {
-                color: #000;
-                outline: none;
-                font-weight: 500;
-                background-color: #f8c46c; }
-          .packate_list_par .fixed_departure .package_container .card_par .package_card:hover .replace_div,
-          .packate_list_par .non_fixed_departure .package_container .card_par .package_card:hover .replace_div {
-            top: 0; }
-  .packate_list_par .package_icon {
-    padding: 0;
-    margin: 0;
-    width: 1.25rem;
-    height: 1.25rem;
-    color: #919191; }
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%; }
 
 .custom_success_btn {
   width: 100%;
@@ -770,6 +695,22 @@
     transform: translateX(-50%) scaleX(0); }
   100% {
     transform: translateX(-50%) scaleX(1); } }
+.custom_view_btn {
+  outline: 2px solid #fff;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px; }
+  .custom_view_btn:hover {
+    color: #000;
+    outline: none;
+    font-weight: 500;
+    background-color: #f8c46c; }
+
 .package_details {
   width: 100%;
   min-height: calc(100vh - 152px);
@@ -1801,5 +1742,41 @@
 @media only screen and (max-width: 480px) {
   .login_container {
     width: 90% !important; } }
+.filter_comp * {
+  padding: 0;
+  margin: 0; }
+
+.filter_comp {
+  width: 100%;
+  min-height: 4rem;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #e2e2e2;
+  position: sticky !important;
+  top: 5rem; }
+  .filter_comp .comp_header {
+    width: 100%;
+    min-height: 2rem;
+    background-color: #f5a800;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    font-family: "Times New Roman", "Sarif";
+    padding: 0.5rem 0; }
+  .filter_comp .filter_location_list {
+    width: 100%;
+    padding: 1rem;
+    background-color: #fff; }
+    .filter_comp .filter_location_list .individual_location {
+      background-color: transparent;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      gap: 0.75rem;
+      color: #7a7a7a;
+      font-weight: 400;
+      margin-top: 0.5rem; }
+      .filter_comp .filter_location_list .individual_location input {
+        cursor: pointer; }
 
 /*# sourceMappingURL=App.css.map */

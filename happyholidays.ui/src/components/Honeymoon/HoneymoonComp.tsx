@@ -8,6 +8,7 @@ import PackageCard from "../PackageCard/PackageCard";
 import ContactUsSection from "../Home/ContactUsSection/ContactUsSection";
 import { fetchHoneymoonPackages } from "../../services/Slice/packageSlice";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import FilterComp from "../FilterComp/FilterComp";
 
 const HoneymoonComp: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -39,8 +40,8 @@ const HoneymoonComp: React.FC = () => {
                     <h1 className="welcome_text welcome_package">Honeymoon Packages</h1>
                 </div>
             </div>
-            <Search />
-            <div className="packate_list_par">
+            {/* <Search /> */}
+            {/* <div className="packate_list_par">
                 {
                     honeymoonPackages === "loading" ? (
                         <div className="loading_wrapper">
@@ -80,6 +81,33 @@ const HoneymoonComp: React.FC = () => {
                         </>
                     )
                 }
+            </div> */}
+            <div className="packate_list_par">
+                <div className="filter_section">
+                    <FilterComp />
+                </div>
+                <div className="package_list">
+                    {
+                        honeymoonPackageStatus === "loading" ?
+                            (
+                                <div className="loading_wrapper">
+                                    <LoadingSpinner />
+                                </div>
+                            ) :
+                            (
+                                honeymoonPackages.length ?
+                                    (
+                                        <>Package available</>
+                                    ) :
+                                    (
+                                        <div className="no_packages">
+                                            <h3>Please visit us again soon.</h3>
+                                            <p>Sorry, no packages are available at the moment...</p>
+                                        </div>
+                                    )
+                            )
+                    }
+                </div>
             </div>
             <ContactUsSection />
         </section>
